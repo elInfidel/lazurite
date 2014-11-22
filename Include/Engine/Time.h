@@ -7,21 +7,24 @@
 #ifndef _TIME_H_
 #define _TIME_H_
 
-class Time
+namespace lazurite
 {
-public:
-	Time();
-	~Time();
-
-	void Update();
-
-	static double GetDeltaTime();
-	static double GetCurrentTime();
-
-private:
-	static double currentTime;
-	static double previousTime;
-	static double deltaTime;
-};
+	class Time
+	{
+	public:
+		Time();
+		~Time();
+	
+		static void Update();
+	
+		static double GetDeltaTime();
+		static double GetCurrentTime();
+	
+	private:
+		static double currentTime;
+		static double previousTime;
+		static double deltaTime;
+	};
+}
 
 #endif //_TIME_H_

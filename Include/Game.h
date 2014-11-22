@@ -9,7 +9,7 @@
 
 #include "Engine/Application.h"
 
-class Game : public Application
+class Game : public lazurite::Application
 {
 public:
 	Game();

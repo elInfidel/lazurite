@@ -6,140 +6,151 @@
 // ---------------------------------------------------------------------------
 
 #include "Engine/Application.h"
+#include "Engine/Sprite.h"
 #include "Engine/Time.h"
 #include "GL/glew.h"
 #include "GL/glfw3.h"
 #include <iostream>
 
-/////////////////////////////////////////
-//
-// CONSTRUCTORS
-//
-/////////////////////////////////////////
-Application::Application()
+namespace lazurite
 {
 
-}
-
-/////////////////////////////////////////
-//
-// MEMBER FUNCTIONS
-//
-/////////////////////////////////////////
-bool Application::Initialize(int width, int height)
-{
-	if(!glfwInit())
+	//////////////////////////////////////////
+	//
+	// CONSTRUCTORS
+	//
+	/////////////////////////////////////////
+	Application::Application()
 	{
-		fprintf(stderr, "ERROR: GLFW failed to start up!");
-		return false;
+		time = new Time();
 	}
-
-	window = glfwCreateWindow(width, height, "Lazurite Engine", NULL, NULL);
-
-	if(window == nullptr)
+	
+	/////////////////////////////////////////
+	//
+	// MEMBER FUNCTIONS
+	//
+	/////////////////////////////////////////
+	bool Application::LazuriteInit(int width, int height)
 	{
-		return false;
+		if(!glfwInit())
+		{
+			fprintf(stderr, "ERROR: GLFW failed to start up!");
+			return false;
+		}
+	
+		window = glfwCreateWindow(width, height, "Lazurite Engine", NULL, NULL);
+	
+		if(window == nullptr)
+		{
+			return false;
+		}
+	
+		glfwMakeContextCurrent(window);
+	
+		if(glewInit() != GLEW_OK)
+		{
+			return false;
+		}
+	
+		return true;
 	}
-
-	glfwMakeContextCurrent(window);
-
-	if(glewInit() != GLEW_OK)
+	
+	bool Application::LazuriteInit(int width, int height, const char* name)
 	{
-		return false;
-	}
-
-	return true;
-}
-
-bool Application::Initialize(int width, int height, const char* name)
-{
-	if(!glfwInit())
-	{
-		fprintf(stderr, "ERROR: GLFW failed to start up!");
-		return false;
-	}
-
-	window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-	if(window == nullptr)
-	{
-		return false;
-	}
-
-	glfwMakeContextCurrent(window);
-
-	if(glewInit() != GLEW_OK)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool Application::Initialize(int width, int height, const char* name, bool fullScreen)
-{
-	if(!glfwInit())
-	{
-		fprintf(stderr, "ERROR: GLFW failed to start up!");
-		return false;
-	}
-
-	if(fullScreen)
-		window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
-	else
+		if(!glfwInit())
+		{
+			fprintf(stderr, "ERROR: GLFW failed to start up!");
+			return false;
+		}
+	
 		window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-	if(window == nullptr)
-	{
-		return false;
+	
+		if(window == nullptr)
+		{
+			return false;
+		}
+	
+		glfwMakeContextCurrent(window);
+	
+		if(glewInit() != GLEW_OK)
+		{
+			return false;
+		}
+	
+		return true;
 	}
-
-	glfwMakeContextCurrent(window);
-
-	if(glewInit() != GLEW_OK)
+	
+	bool Application::LazuriteInit(int width, int height, const char* name, bool fullScreen)
 	{
-		return false;
+		if(!glfwInit())
+		{
+			fprintf(stderr, "ERROR: GLFW failed to start up!");
+			return false;
+		}
+	
+		if(fullScreen)
+			window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
+		else
+			window = glfwCreateWindow(width, height, name, NULL, NULL);
+	
+		if(window == nullptr)
+		{
+			return false;
+		}
+	
+		glfwMakeContextCurrent(window);
+	
+		if(glewInit() != GLEW_OK)
+		{
+			return false;
+		}
+	
+		return true;
 	}
-
-	time = new Time();
-
-	return true;
-}
-
-void Application::Run()
-{
-	do
+	
+	void Application::Run()
 	{
-		glfwPollEvents();
+		//Testing sprite functionality
+		Sprite sprite;
+		int width, height, bpp;
+		sprite.loadTexture("Content/test_texture.png", width, height, bpp);
 
-		time->Update();
-
-		Update();
-		Draw();
-
-		glfwSwapBuffers(window);
+		//Main game loop
+		do
+		{
+			time->Update();
+			glfwPollEvents();
+	
+			ClearScreen();
+	
+			sprite.Draw();
+			Update();
+			Draw();
+	
+			glfwSwapBuffers(window);
+		}
+		while(!glfwWindowShouldClose(window));
 	}
-	while(!glfwWindowShouldClose(window));
-}
-
-void Application::ClearScreen()
-{
-	glClearColor(0.4f, 0.4f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void Application::LazuriteTerminate()
-{
-	delete time;
-	glfwTerminate();
-}
-
-/////////////////////////////////////////
-//
-// DESTRUCTORS
-//
-/////////////////////////////////////////
-Application::~Application()
-{
-
+	
+	void Application::ClearScreen()
+	{
+		glClearColor(0.4f, 0.4f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+	
+	void Application::LazuriteTerminate()
+	{
+		glfwTerminate();
+		delete time;
+	}
+	
+	/////////////////////////////////////////
+	//
+	// DESTRUCTORS
+	//
+	/////////////////////////////////////////
+	Application::~Application()
+	{
+	
+	}
 }

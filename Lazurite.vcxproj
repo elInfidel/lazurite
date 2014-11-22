@@ -79,12 +79,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Engine\Color.h" />
     <ClInclude Include="Include\Game.h" />
     <ClInclude Include="Include\Engine\Application.h" />
     <ClInclude Include="Include\Engine\Time.h" />
     <ClInclude Include="Include\Engine\Sprite.h" />
+    <ClInclude Include="Include\Engine\ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Engine\Color.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Engine\Application.cpp" />
     <ClCompile Include="Source\Engine\Time.cpp" />

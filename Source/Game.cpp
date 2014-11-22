@@ -7,23 +7,13 @@
 #include "Game.h"
 #include "Engine/Application.h"
 
-/////////////////////////////////////////
-//
-// CONSTRUCTORS
-//
-/////////////////////////////////////////
 Game::Game()
 {
 }
 
-/////////////////////////////////////////
-//
-// MEMBER FUNCTIONS
-//
-/////////////////////////////////////////
 bool Game::Load()
 {
-	return Initialize(1024, 768, "Lazurite Engine", false);
+	return LazuriteInit(1000, 900, "Lazurite Engine", false);
 }
 
 void Game::Unload()
@@ -38,15 +28,9 @@ void Game::Update()
 
 void Game::Draw()
 {
-	ClearScreen();
-
+	
 }
 
-/////////////////////////////////////////
-//
-// DESTRUCTORS
-//
-/////////////////////////////////////////
 Game::~Game()
 {
 }
@@ -56,7 +40,7 @@ Game::~Game()
 // PROGRAM ENTRY POINT
 //
 /////////////////////////////////////////
-int main()
+int main(int argc,char *argv[])
 {
 	Game *game = new Game();
 
