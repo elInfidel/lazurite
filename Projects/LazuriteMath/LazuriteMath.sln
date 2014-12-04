@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lazurite", "Lazurite.vcxproj", "{EEB42327-3ADE-44D7-A6EE-6091060FB162}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LazuriteMath", "Projects\LazuriteMath\LazuriteMath.vcxproj", "{B36AB815-D7D7-4B01-8F22-5B25861FD8C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LazuriteMath", "LazuriteMath.vcxproj", "{B36AB815-D7D7-4B01-8F22-5B25861FD8C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +9,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EEB42327-3ADE-44D7-A6EE-6091060FB162}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EEB42327-3ADE-44D7-A6EE-6091060FB162}.Debug|Win32.Build.0 = Debug|Win32
-		{EEB42327-3ADE-44D7-A6EE-6091060FB162}.Release|Win32.ActiveCfg = Release|Win32
-		{EEB42327-3ADE-44D7-A6EE-6091060FB162}.Release|Win32.Build.0 = Release|Win32
 		{B36AB815-D7D7-4B01-8F22-5B25861FD8C6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B36AB815-D7D7-4B01-8F22-5B25861FD8C6}.Debug|Win32.Build.0 = Debug|Win32
 		{B36AB815-D7D7-4B01-8F22-5B25861FD8C6}.Release|Win32.ActiveCfg = Release|Win32
