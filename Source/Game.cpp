@@ -6,19 +6,18 @@
 // ---------------------------------------------------------------------------
 #include "Game.h"
 #include "Engine/Application.h"
+#include "Engine/Sprite.h"
+
+using namespace lazurite;
 
 Game::Game()
 {
+	
 }
 
 bool Game::Load()
 {
 	return LazuriteInit(1000, 900, "Lazurite Engine", false);
-}
-
-void Game::Unload()
-{
-	LazuriteTerminate();
 }
 
 void Game::Update()
@@ -28,7 +27,17 @@ void Game::Update()
 
 void Game::Draw()
 {
-	
+	//Testing sprite functionality
+	Sprite sprite;
+	int width, height, bpp;
+	sprite.loadTexture("Content/test_texture.png", width, height, bpp);
+
+	sprite.Draw();
+}
+
+void Game::Unload()
+{
+	LazuriteTerminate();
 }
 
 Game::~Game()

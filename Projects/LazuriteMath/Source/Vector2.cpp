@@ -45,9 +45,9 @@ namespace lazmath
 		return (lhs.x * rhs.x) + (lhs.y * rhs.y);
 	}
 
-	float Vector2::Cross(Vector2 lhs, Vector2 rhs)
+	float AngleBetween(Vector2 lhs, Vector2 rhs)
 	{
-		return (lhs.x * rhs.y) - (lhs.y * rhs.x);
+		//TODO
 	}
 
 	Vector2 Vector2::operator+(Vector2 &rhs)

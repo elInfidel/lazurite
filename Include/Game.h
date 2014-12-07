@@ -16,10 +16,11 @@ public:
 	virtual ~Game();
 
 	virtual bool Load();
-	virtual void Unload();
 
 	virtual void Update();
 	virtual void Draw();
+
+	virtual void Unload();
 };
 
 #endif // _GAME_H_

@@ -110,10 +110,6 @@ namespace lazurite
 	
 	void Application::Run()
 	{
-		//Testing sprite functionality
-		Sprite sprite;
-		int width, height, bpp;
-		sprite.loadTexture("Content/test_texture.png", width, height, bpp);
 
 		//Main game loop
 		do
@@ -123,7 +119,6 @@ namespace lazurite
 	
 			ClearScreen();
 	
-			sprite.Draw();
 			Update();
 			Draw();
 	

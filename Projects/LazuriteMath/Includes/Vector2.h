@@ -22,7 +22,7 @@ namespace lazmath
 		Vector2 GetNormal();
 
 		static float Dot(Vector2 lhs, Vector2 rhs);
-		static float Cross(Vector2 lhs, Vector2 rhs);
+		static float AngleBetween(Vector2 lhs, Vector2 rhs);
 		
 		Vector2 operator+(Vector2 &rhs);
 		Vector2 operator-(Vector2 &rhs);
