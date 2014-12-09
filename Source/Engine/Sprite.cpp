@@ -58,13 +58,26 @@ namespace lazurite
 	
 		//Create IDs for VBO
 		glGenBuffers(1, &vbo);
-	
+
+		//Making sure the VBO has been generated
 		if(vbo != 0)
 		{
 			//Bind the VBO
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
 			//Allocate space for verts on GPU
 			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*4, quad, GL_STATIC_DRAW);
+
+			//Set up Shader attribute pointer information
+			glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float)*4));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float)*8));
+			
+			//Enable shader required shader attribute pointers
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
+
 			//Unbind the buffer
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
@@ -86,15 +99,6 @@ namespace lazurite
 	
 		//Bind the vbo
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	
-		//Enable vertex array states for shader (AttribArray and AttribPointer)
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-	
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float)*4));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float)*8));
 	
 		//Draw elements
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
