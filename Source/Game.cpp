@@ -3,6 +3,7 @@
 // The base for TinyTanks to be run off of the engine.
 //
 // Original author: <Liam Parker>
+// Date Created: 10/11/2014
 // ---------------------------------------------------------------------------
 #include "Game.h"
 #include "Engine/Application.h"
@@ -17,22 +18,17 @@ Game::Game()
 
 bool Game::Load()
 {
-	return LazuriteInit(1000, 900, "Lazurite Engine", false);
+	return LazuriteInit(1024, 768, "Lazurite Engine", false);
 }
 
 void Game::Update()
 {
-
+	
 }
 
 void Game::Draw()
 {
-	//Testing sprite functionality
-	Sprite sprite;
-	int width, height, bpp;
-	sprite.loadTexture("Content/test_texture.png", width, height, bpp);
-
-	sprite.Draw();
+	
 }
 
 void Game::Unload()

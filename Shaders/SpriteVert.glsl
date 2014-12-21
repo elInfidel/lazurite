@@ -14,7 +14,7 @@ void main()
 	vertColour = colour;
     UV = vertexUV;
 
-    vec4 scaledPosition = MVP * position;
+    vec4 finalPosition = MVP * position;
 
-	gl_Position = position;
+	gl_Position = finalPosition;
 }

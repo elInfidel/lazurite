@@ -42,7 +42,7 @@ namespace lazurite
 			}
 			shaderStream.close();
 		}
-	
+		
 		//convert to cstring
 		char const *szShaderSourcePointer = strShaderCode.c_str();
 		

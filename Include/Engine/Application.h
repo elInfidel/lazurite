@@ -35,6 +35,8 @@ namespace lazurite
 	
 	private:
 		void ClearScreen();
+		bool InitGLFW();
+		bool InitGLEW();
 		GLFWwindow *window;
 		Time *time;
 	};

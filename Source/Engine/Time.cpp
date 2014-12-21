@@ -3,6 +3,7 @@
 // A class for keeping track of time.
 //
 // Original author: <Liam Parker>
+// Date created: 3/11/2014
 // ---------------------------------------------------------------------------
 #include "Engine/Time.h"
 #include "GL/glfw3.h"
