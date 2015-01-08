@@ -10,15 +10,17 @@
 
 namespace lazurite
 {
-	double Time::currentTime = 0;
-	double Time::previousTime = 0;
-	double Time::deltaTime = 0;
-	
+	double Time::currentTime = 0.0f;
+	double Time::previousTime = 0.0f;
+	double Time::deltaTime = 0.0f;
+
 	Time::Time()
 	{
-		currentTime = 0.0f;
-		previousTime = 0.0f;
-		deltaTime = 0.0f;
+	}
+
+	Time::~Time()
+	{
+	
 	}
 
 	void Time::Update()
@@ -29,18 +31,13 @@ namespace lazurite
 		previousTime = currentTime;
 	}
 
-	double Time::GetDeltaTime()
-	{
-		return deltaTime;
-	}
-	
-	double Time::GetCurrentTime()
-	{
-		return currentTime;
+	double Time::GetDeltaTime() 
+	{ 
+		return deltaTime; 
 	}
 
-	Time::~Time()
-	{
-	
+    double Time::GetCurrentTime() 
+	{ 
+		return currentTime; 
 	}
 }

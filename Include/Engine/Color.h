@@ -19,7 +19,6 @@ namespace lazurite
 	
 		~Color();
 	
-	private:
 		float r, g, b, a;
 	};
 }

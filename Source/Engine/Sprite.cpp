@@ -17,25 +17,39 @@
 
 namespace lazurite
 {
+	GLuint Sprite::vao = 0;
+	GLuint Sprite::vbo = 0;
+	GLuint Sprite::ibo = 0;
+	GLuint Sprite::instances = 0;
+
 	Sprite::Sprite()
 	{
+		++instances;
+
 		// Creating a shader program
 		shaderProgram = new ShaderProgram();
 		// Creating a transform for this sprite
 		transform = Transform();
 
+		// Temp shader creation functionality
+		shaderProgram->CreateProgram("Shaders/BasicVert.glsl", "Shaders/SpriteTexFrag.glsl");
+		uniformLocation = glGetUniformLocation(shaderProgram->GetProgramID(), "MVP");
+
+		if(instances > 1)
+			return;
+
 		// Creating a quad
-		VertPosColorUV* quad = new VertPosColorUV[4];
+		VertPosColorUV quad[4];
 	
 		// Setting verts X Y coords
-		quad[0].positions[0] = -100.0f;
-		quad[0].positions[1] = 100.0f;
-		quad[1].positions[0] = -100.0f;
-		quad[1].positions[1] = -100.0f;
-		quad[2].positions[0] = 100.0f;
-		quad[2].positions[1] = 100.0f;
-		quad[3].positions[0] = 100.0f;
-		quad[3].positions[1] = -100.0f;
+		quad[0].positions[0] = -50.0f;
+		quad[0].positions[1] = 50.0f;
+		quad[1].positions[0] = -50.0f;
+		quad[1].positions[1] = -50.0f;
+		quad[2].positions[0] = 50.0f;
+		quad[2].positions[1] = 50.0f;
+		quad[3].positions[0] = 50.0f;
+		quad[3].positions[1] = -50.0f;
 	
 		for(int i = 0; i < 4; ++i)
 		{
@@ -59,12 +73,18 @@ namespace lazurite
 		quad[2].uv[1] = 1.0f;
 		quad[3].uv[0] = 1.0f;
 		quad[3].uv[1] = 0.0f;
-	
+		
+		// Creating index array
+
+		GLuint indexArray[] = {0, 1, 2, 1, 3, 2};
+
+		// Create Vertex object to store buffers
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
-		// Create IDs for VBO
+		// Generate buffer objects
 		glGenBuffers(1, &vbo);
+		glGenBuffers(1, &ibo);
 
 		// Making sure the VBO has been generated
 		if(vbo != 0)
@@ -85,19 +105,20 @@ namespace lazurite
 			glEnableVertexAttribArray(1);
 			glEnableVertexAttribArray(2);
 
-			// Unbind the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
-	
-		//Unbinding vertex array
-		glBindVertexArray(0);
-
-		// We don't need the quad data in RAM anymore now it's been moved to the GPU.
-		delete[4] quad;
 		
-		// Temp shader creation functionality
-		shaderProgram->CreateProgram("Shaders/SpriteVert.glsl", "Shaders/SpriteTexFrag.glsl");
-		uniformLocation = glGetUniformLocation(shaderProgram->GetProgramID(), "MVP");
+		if(ibo != 0)
+		{
+			// Bind the IBO
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexArray), indexArray, GL_STATIC_DRAW);
+		}
+
+		//Unbinding vertex array and buffers
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	
 	Sprite::~Sprite()
@@ -105,15 +126,21 @@ namespace lazurite
 		// Deleting the IBO data
 		glDeleteBuffers(1, &vbo);
 		delete shaderProgram;
+		--instances;
 	}
 
 	void Sprite::Draw()
 	{
+		// Setting filtering mode
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 		// Use shader program
 		shaderProgram->UseProgram();
 		
 		// Passing matrix transformation into shader
-		Matrix4x4 projection = lazmath::Matrix4x4::Ortho(0, 1024,0 , 768, 0.0f, 100.0f);
+		// We calculate the MVP on the CPU instead of doing it in the shader
+		Matrix4x4 projection = lazmath::Matrix4x4::Ortho(0, 1920,0 , 1080, 0.0f, 100.0f);
 		Matrix4x4 model = transform.GetTransformation();
 		Matrix4x4 mvp = projection * model;
 		glUniformMatrix4fv(uniformLocation, 1, GL_TRUE, &mvp.m_matrix[0][0]);
@@ -122,18 +149,18 @@ namespace lazurite
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	
 		glBindVertexArray(vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
 		// Draw elements
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	
 		// Unbind buffers
 		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	
 	// temp function
-	void Sprite::loadTexture(const char* a_pFilename, int & a_iWidth, int & a_iHeight, int & a_iBPP)
+	void Sprite::SetTexture(const char* a_pFilename, int & a_iWidth, int & a_iHeight, int & a_iBPP)
 	{
 		unsigned int uiTextureID = 0;
 		// Check file exists
@@ -147,7 +174,7 @@ namespace lazurite
 			{
 				// Create opengl texture handle
 				uiTextureID = SOIL_create_OGL_texture(pImageData, a_iWidth, a_iHeight, a_iBPP,
-					SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS| SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+					SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS| SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB);
 				// Clear what was read in from file now that it is stored in the handle
 				SOIL_free_image_data(pImageData);
 			}

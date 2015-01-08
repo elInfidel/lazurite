@@ -3,6 +3,7 @@
 // Main framework for an application
 //
 // Original author: <Liam Parker>
+// Date created: 14/10/2014
 // ---------------------------------------------------------------------------
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
@@ -25,20 +26,18 @@ namespace lazurite
 		virtual void Unload() = 0;
 	
 		virtual void Update() = 0;
-		virtual void Draw() = 0;
+		virtual void Render() = 0;
 	
-		bool LazuriteInit(int width, int height);
 		bool LazuriteInit(int width, int height, const char* name);
 		bool LazuriteInit(int width, int height, const char* name, bool fullScreen);
 
 		void LazuriteTerminate();
-	
+
 	private:
-		void ClearScreen();
 		bool InitGLFW();
 		bool InitGLEW();
+		Time time;
 		GLFWwindow *window;
-		Time *time;
 	};
 }
 

@@ -26,7 +26,7 @@ namespace lazmath
 		Matrix3x3(const Matrix3x3& mat);
 
 		// Returns a new identity matrix
-		static Matrix3x3 Identity();
+		static const Matrix3x3 Identity;
 		// Returns a new rotation matrix
 		static Matrix3x3 Rotate(float radians);
 		// Returns a new scale matrix built from a Vector2

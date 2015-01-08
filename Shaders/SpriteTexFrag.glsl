@@ -10,4 +10,8 @@ uniform sampler2D myTextureSampler;
 void main()
 {
 	outputColour = texture2D(myTextureSampler, UV).rgba * vertColour;
+
+	//Simple alternative to transparency
+	if(texture2D(myTextureSampler, UV).a < 1.0f)
+		discard;
 }

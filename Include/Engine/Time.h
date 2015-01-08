@@ -13,11 +13,13 @@ namespace lazurite
 	class Time
 	{
 	public:
+		//Creates a Timer with all components set to 0.0f
 		Time();
 		~Time();
-	
-		static void Update();
-	
+		
+		void Update();
+		
+		// Getters
 		static double GetDeltaTime();
 		static double GetCurrentTime();
 	

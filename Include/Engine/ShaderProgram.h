@@ -17,7 +17,7 @@ namespace lazurite
 		ShaderProgram();
 	
 		void UseProgram();
-		GLuint GetProgramID();
+		inline GLuint GetProgramID() { return programID; }
 	
 		void CreateProgram(const char *a_vertex, const char *a_frag);
 	

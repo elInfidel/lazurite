@@ -7,5 +7,4 @@ out vec4 outputColour;
 void main()
 {
 	outputColour = vertColour;
-	outputColour = vec4(1, 1, 1, 1);
 }

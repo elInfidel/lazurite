@@ -22,11 +22,6 @@ namespace lazurite
 			glUseProgram(programID);
 	}
 	
-	GLuint ShaderProgram::GetProgramID()
-	{
-		return programID;
-	}
-	
 	GLuint ShaderProgram::CreateShader(GLenum a_eShaderType, const char *a_strShaderFile)
 	{
 		std::string strShaderCode;
