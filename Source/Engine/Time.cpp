@@ -16,6 +16,7 @@ namespace lazurite
 
 	Time::Time()
 	{
+
 	}
 
 	Time::~Time()

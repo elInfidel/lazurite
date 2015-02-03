@@ -7,10 +7,11 @@
 // ---------------------------------------------------------------------------
 #ifndef _TRANSFORM_H_
 #define _TRANSFORM_H_
-#include "Math/Vector3.h"
-#include "Math/Matrix4x4.h"
+#include "GLM/vec3.hpp"
+#include "GLM/mat4x4.hpp"
 
-using namespace lazmath;
+using glm::mat4;
+using glm::vec3;
 
 namespace lazurite
 {
@@ -22,16 +23,18 @@ namespace lazurite
 		~Transform();
 
 		// Translates the transform by the vector
-		void Translate(Vector3& vector);
+		void Translate(vec3& vector);
 		void Translate(float x, float y, float z);
 		// Rotates the transform by the vector
-		void Rotate(Vector3& vector);
+		void Rotate(vec3& vector);
 		void Rotate(float x, float y, float z);
 		// Scales the transform by the vector
-		void Scale(Vector3& vector);
+		void Scale(vec3& vector);
 		void Scale(float x, float y, float z);
 		// Returns the transformation matrix associated with this transform
-		Matrix4x4 GetTransformation();
+		mat4 GetTransformation();
+		// Returns the inverse of the camera matrix
+		mat4 Inverse();
 		// Returns whether or not the transform is dirty
 		inline bool GetDirty() { return isDirty; }
 
@@ -40,10 +43,10 @@ namespace lazurite
 		bool isDirty;
 
 		// Transformation data
-		Matrix4x4 transformation;
-		Vector3 position;
-		Vector3 rotation;
-		Vector3 scale;
+		mat4 transformation;
+		vec3 translation;
+		vec3 rotation;
+		vec3 scale;
 
 		void GenerateMatrix();
 

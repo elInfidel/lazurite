@@ -6,40 +6,37 @@
 // Date created: 21/12/2014
 // ---------------------------------------------------------------------------
 #include "Engine/Transform.h"
-
-//DEBUGGING
-#include <iostream>
+#include "GLM/gtc/matrix_transform.hpp"
 
 namespace lazurite
 {
 	Transform::Transform()
 	{
 		isDirty = false;
-		position = Vector3(0.0f, 0.0f, 0.0f);
-		rotation = Vector3(0.0f, 0.0f, 0.0f);
-		scale = Vector3(1.0f, 1.0f, 1.0f);
+		translation = vec3(0.0f, 0.0f, 0.0f);
+		rotation = vec3(0.0f, 0.0f, 0.0f);
+		scale = vec3(10.0f, 10.0f, 10.0f);
 		GenerateMatrix();
 	}
-	
 	
 	Transform::~Transform()
 	{
 
 	}
 
-	void Transform::Translate(Vector3& vector)
+	void Transform::Translate(vec3& vector)
 	{
-		position = vector;
+		translation += vector;
 		isDirty = true;
 	}
 
 	void Transform::Translate(float x, float y, float z)
 	{
-		position = Vector3(x, y, z);
+		translation += vec3(x, y, z);
 		isDirty = true;
 	}
 
-	void Transform::Rotate(Vector3& vector)
+	void Transform::Rotate(vec3& vector)
 	{
 		rotation = vector;
 		isDirty = true;
@@ -47,11 +44,11 @@ namespace lazurite
 
 	void Transform::Rotate(float x, float y, float z)
 	{
-		rotation = Vector3(x, y, z);
+		rotation = vec3(x, y, z);
 		isDirty = true;
 	}
 
-	void Transform::Scale(Vector3& vector)
+	void Transform::Scale(vec3& vector)
 	{
 		scale = vector;
 		isDirty = true;
@@ -59,11 +56,11 @@ namespace lazurite
 
 	void Transform::Scale(float x, float y, float z)
 	{
-		scale = Vector3(x, y, z);
+		scale = vec3(x, y, z);
 		isDirty = true;
 	}
 
-	Matrix4x4 Transform::GetTransformation()
+	mat4 Transform::GetTransformation()
 	{
 		if(isDirty)
 			GenerateMatrix();
@@ -71,10 +68,18 @@ namespace lazurite
 		return transformation;
 	}
 
+	mat4 Transform::Inverse()
+	{
+		if (isDirty)
+			GenerateMatrix();
+
+		return glm::inverse(transformation);
+	}
+
 	void Transform::GenerateMatrix()
 	{
 		// RST (Rotation on self origin)
-		transformation = Matrix4x4::Translate(position) * Matrix4x4::Scale(scale) * Matrix4x4::Rotate(rotation.x, rotation.y, rotation.z);
+		transformation = glm::translate(mat4(1.0f), translation) * glm::scale(mat4(1.0f), scale) * glm::rotate(mat4(1.0f), rotation.z, vec3(0, 0, 1));
 
 		isDirty = false;
 	}

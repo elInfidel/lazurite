@@ -7,7 +7,8 @@
 #include "Engine/Sprite.h"
 #include <iostream>
 #include "Engine/ShaderProgram.h"
-#include "Math/Matrix4x4.h"
+#include "GLM/mat4x4.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
 #include "GL/glfw3.h"
 #include "Engine/Vertex.h"
 
@@ -42,14 +43,14 @@ namespace lazurite
 		VertPosColorUV quad[4];
 	
 		// Setting verts X Y coords
-		quad[0].positions[0] = -50.0f;
-		quad[0].positions[1] = 50.0f;
-		quad[1].positions[0] = -50.0f;
-		quad[1].positions[1] = -50.0f;
-		quad[2].positions[0] = 50.0f;
-		quad[2].positions[1] = 50.0f;
-		quad[3].positions[0] = 50.0f;
-		quad[3].positions[1] = -50.0f;
+		quad[0].positions[0] = -1.0f;
+		quad[0].positions[1] = 1.0f;
+		quad[1].positions[0] = -1.0f;
+		quad[1].positions[1] = -1.0f;
+		quad[2].positions[0] = 1.0f;
+		quad[2].positions[1] = 1.0f;
+		quad[3].positions[0] = 1.0f;
+		quad[3].positions[1] = -1.0f;
 	
 		for(int i = 0; i < 4; ++i)
 		{
@@ -140,10 +141,10 @@ namespace lazurite
 		
 		// Passing matrix transformation into shader
 		// We calculate the MVP on the CPU instead of doing it in the shader
-		Matrix4x4 projection = lazmath::Matrix4x4::Ortho(0, 1920,0 , 1080, 0.0f, 100.0f);
-		Matrix4x4 model = transform.GetTransformation();
-		Matrix4x4 mvp = projection * model;
-		glUniformMatrix4fv(uniformLocation, 1, GL_TRUE, &mvp.m_matrix[0][0]);
+		mat4 projection = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f, 0.0f, 100.0f);
+		mat4 model = transform.GetTransformation();
+		mat4 mvp = projection * model;
+		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, &mvp[0][0]);
 
 		// Bind the texture
 		glBindTexture(GL_TEXTURE_2D, textureID);
