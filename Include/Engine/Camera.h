@@ -35,18 +35,19 @@ namespace lazurite
 		// Returns the view matrix for this camera
 		mat4 GetView();
 		// Returns the projection matrix for this camera
-		mat4 GetProjection();
+		mat4& GetProjection();
 		// Set the camera to orthographic mode
 		void SetOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 		// Set the camera to perspective mode
 		void SetPerspective(float fov, float aspect, float zNear, float zFar);
-
+		// Transformation holding position/rotation/scale data related to camera
 		Transform transform;
 
 	private:
-		mat4 projection;
-		ProjectionType type;
-
+		// The current projection matrix
+		mat4 projection;     // 64 bytes
+		// The projection type of the camera
+		ProjectionType type; //  4 bytes
 	};
 }
 

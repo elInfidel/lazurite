@@ -20,7 +20,7 @@ namespace lazurite
 {
 	GLuint Sprite::vao = 0;
 	GLuint Sprite::vbo = 0;
-	GLuint Sprite::ibo = 0;
+	GLuint Sprite::ebo = 0;
 	GLuint Sprite::instances = 0;
 
 	Sprite::Sprite()
@@ -29,8 +29,6 @@ namespace lazurite
 
 		// Creating a shader program
 		shaderProgram = new ShaderProgram();
-		// Creating a transform for this sprite
-		transform = Transform();
 
 		// Temp shader creation functionality
 		shaderProgram->CreateProgram("Shaders/BasicVert.glsl", "Shaders/SpriteTexFrag.glsl");
@@ -43,14 +41,14 @@ namespace lazurite
 		VertPosColorUV quad[4];
 	
 		// Setting verts X Y coords
-		quad[0].positions[0] = -1.0f;
-		quad[0].positions[1] = 1.0f;
-		quad[1].positions[0] = -1.0f;
-		quad[1].positions[1] = -1.0f;
-		quad[2].positions[0] = 1.0f;
-		quad[2].positions[1] = 1.0f;
-		quad[3].positions[0] = 1.0f;
-		quad[3].positions[1] = -1.0f;
+		quad[0].positions[0] = -100.0f;
+		quad[0].positions[1] = 100.0f;
+		quad[1].positions[0] = -100.0f;
+		quad[1].positions[1] = -100.0f;
+		quad[2].positions[0] = 100.0f;
+		quad[2].positions[1] = 100.0f;
+		quad[3].positions[0] = 100.0f;
+		quad[3].positions[1] = -100.0f;
 	
 		for(int i = 0; i < 4; ++i)
 		{
@@ -85,7 +83,7 @@ namespace lazurite
 
 		// Generate buffer objects
 		glGenBuffers(1, &vbo);
-		glGenBuffers(1, &ibo);
+		glGenBuffers(1, &ebo);
 
 		// Making sure the VBO has been generated
 		if(vbo != 0)
@@ -98,8 +96,8 @@ namespace lazurite
 
 			// Set up Shader attribute pointer information
 			glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(VertPosColorUV), (void*)0);
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(VertPosColorUV), (void*)(sizeof(float)*4));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertPosColorUV), (void*)(sizeof(float)*8));
+			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(VertPosColorUV), (void*)(sizeof(float) * 4));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertPosColorUV), (void*)(sizeof(float) * 8));
 			
 			// Enable shader required shader attribute pointers
 			glEnableVertexAttribArray(0);
@@ -108,11 +106,10 @@ namespace lazurite
 
 		}
 		
-		if(ibo != 0)
+		if (ebo != 0)
 		{
 			// Bind the IBO
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexArray), indexArray, GL_STATIC_DRAW);
 		}
 
@@ -121,16 +118,17 @@ namespace lazurite
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-	
+
 	Sprite::~Sprite()
 	{
 		// Deleting the IBO data
 		glDeleteBuffers(1, &vbo);
+		glDeleteBuffers(1, &ebo);
 		delete shaderProgram;
 		--instances;
 	}
 
-	void Sprite::Draw()
+	void Sprite::Draw(Camera* camera)
 	{
 		// Setting filtering mode
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -141,21 +139,22 @@ namespace lazurite
 		
 		// Passing matrix transformation into shader
 		// We calculate the MVP on the CPU instead of doing it in the shader
-		mat4 projection = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f, 0.0f, 100.0f);
+		mat4 projection = camera->GetProjection();
+		mat4 view = camera->GetView();
 		mat4 model = transform.GetTransformation();
-		mat4 mvp = projection * model;
+		mat4 mvp = projection * view * model;
+
 		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, &mvp[0][0]);
 
-		// Bind the texture
+		// Bind data
 		glBindTexture(GL_TEXTURE_2D, textureID);
-	
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 		// Draw elements
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	
-		// Unbind buffers
+		// Unbind data
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}

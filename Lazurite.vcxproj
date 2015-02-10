@@ -87,8 +87,10 @@
     <ClInclude Include="Include\Engine\Sprite.h" />
     <ClInclude Include="Include\Engine\ShaderProgram.h" />
     <ClInclude Include="Include\Engine\Transform.h" />
+    <ClInclude Include="Include\Engine\Input\Input.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Engine\Camera.cpp" />
     <ClCompile Include="Source\Engine\ShaderProgram.cpp" />

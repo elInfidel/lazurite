@@ -60,6 +60,16 @@ namespace lazurite
 		isDirty = true;
 	}
 
+	void Transform::SetPosition(vec3& vector)
+	{
+		translation = vector;
+	}
+
+	void Transform::SetPosition(float x, float y, float z)
+	{
+		translation = vec3(x, y, z);
+	}
+
 	mat4 Transform::GetTransformation()
 	{
 		if(isDirty)

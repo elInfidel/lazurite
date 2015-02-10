@@ -8,6 +8,7 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 #include "Time.h"
+#include "Input/Input.h"
 
 //Forward Declarations
 struct GLFWwindow;
@@ -22,22 +23,20 @@ namespace lazurite
 		void Run();
 	
 	protected:
-		virtual bool Load() = 0;
-		virtual void Unload() = 0;
-	
 		virtual void Update() = 0;
 		virtual void Render() = 0;
-	
+		
 		bool LazuriteInit(int width, int height, const char* name);
 		bool LazuriteInit(int width, int height, const char* name, bool fullScreen);
 
 		void LazuriteTerminate();
 
 	private:
+		// Handle to application window
+		GLFWwindow *window;
+
 		bool InitGLFW();
 		bool InitGLEW();
-		Time time;
-		GLFWwindow *window;
 	};
 }
 

@@ -41,7 +41,10 @@ namespace lazurite
 		if(!InitGLEW())
 			return false;
 
+		// Initializing Subsystems
+
 		glEnable(GL_DEPTH_TEST);
+		glViewport(0, 0, width, height);
 		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
 
 		return true;
@@ -52,9 +55,9 @@ namespace lazurite
 		//Main game loop
 		do
 		{
+			Time::Update();
 			glClearColor( 0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			time.Update();
 
 			if(glfwGetKey(window, GLFW_KEY_ESCAPE ) == GLFW_PRESS)
 				break;
@@ -76,6 +79,8 @@ namespace lazurite
 	
 	void Application::LazuriteTerminate()
 	{
+		// Shutting down subsystems
+
 		glfwTerminate();
 	}
 	
@@ -91,7 +96,7 @@ namespace lazurite
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // Targeting OpenGL 3.3
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // MacOS compatibility
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); // SOIL compatibility
 
 		// DISABLED - SOIL DOESN'T SUPPORT LATEST CONTEXTS
 		// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

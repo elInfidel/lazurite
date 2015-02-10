@@ -17,7 +17,7 @@ namespace lazurite
 	
 	Camera::~Camera()
 	{
-
+		
 	}
 
 	ProjectionType Camera::GetType()
@@ -30,7 +30,7 @@ namespace lazurite
 		return transform.Inverse();
 	}
 
-	mat4 Camera::GetProjection()
+	mat4& Camera::GetProjection()
 	{
 		return projection;
 	}

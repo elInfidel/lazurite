@@ -9,6 +9,8 @@
 #include "GL/glew.h"
 #include "ShaderProgram.h"
 #include "Transform.h"
+#include "Engine/Camera.h"
+
 namespace lazurite
 {
 	class Sprite
@@ -17,7 +19,7 @@ namespace lazurite
 		Sprite();
 		~Sprite();
 		
-		void Draw();
+		void Draw(Camera* camera);
 	
 		void SetTexture(const char* a_pFilename, int& a_iWidth, int& a_iHeight, int& a_iBPP);
 
@@ -26,12 +28,12 @@ namespace lazurite
 	private:
 		static GLuint vao;
 		static GLuint vbo;
-		static GLuint ibo;
+		static GLuint ebo;
 		static GLuint instances;
 		GLuint textureID;
+		GLuint uniformLocation;
 
 		ShaderProgram* shaderProgram;
-		GLuint uniformLocation;
 	
 	};
 }

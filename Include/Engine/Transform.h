@@ -31,6 +31,9 @@ namespace lazurite
 		// Scales the transform by the vector
 		void Scale(vec3& vector);
 		void Scale(float x, float y, float z);
+		// Sets the position of the transform in 3D space
+		void SetPosition(vec3& vector);
+		void SetPosition(float x, float y, float z);
 		// Returns the transformation matrix associated with this transform
 		mat4 GetTransformation();
 		// Returns the inverse of the camera matrix
