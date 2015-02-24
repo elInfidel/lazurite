@@ -71,12 +71,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Include\aie\Gizmos.cpp" />
+    <ClCompile Include="Include\loadgen\gl_core_4_4.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\aie\Gizmos.h" />
     <ClInclude Include="Include\glfw\glfw3.h" />
     <ClInclude Include="Include\glfw\glfw3native.h" />
+    <ClInclude Include="Include\loadgen\gl_core_4_4.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libraries\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
