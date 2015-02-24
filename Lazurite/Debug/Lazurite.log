@@ -1,0 +1,12 @@
+﻿Build started 24/02/2015 8:18:52 PM.
+     1>Project "F:\Projects\Lazurite\Lazurite\Lazurite.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./Include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Include\aie\Gizmos.cpp
+         Gizmos.cpp
+     1>f:\projects\lazurite\lazurite\include\glm\gtx\scalar_multiplication.hpp(85): error C2719: 'rh': formal parameter with __declspec(align('16')) won't be aligned
+     1>f:\projects\lazurite\lazurite\include\glm\gtx\scalar_multiplication.hpp(85): error C2719: 'lh': formal parameter with __declspec(align('16')) won't be aligned
+     1>Done Building Project "F:\Projects\Lazurite\Lazurite\Lazurite.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.30
