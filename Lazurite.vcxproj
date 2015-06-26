@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{28470AA9-CFEC-4485-B223-2ECEE31AC846}</ProjectGuid>
+    <RootNamespace>Lazurite</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;FBXLoader_d.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;FBXLoader.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Material.cpp" />
+    <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\RenderTexture.cpp" />
+    <ClCompile Include="Source\Plane.cpp" />
+    <ClCompile Include="Source\GPUParticleEmitter.cpp" />
+    <ClCompile Include="Source\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\ProceduralMesh.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
+    <ClCompile Include="Source\Light\DirectionalLight.cpp" />
+    <ClCompile Include="Source\Light\Light.cpp" />
+    <ClCompile Include="Source\FileIO.cpp" />
+    <ClCompile Include="Source\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\FlyCamera.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Include\aie\Gizmos.cpp" />
+    <ClCompile Include="Include\loadgen\gl_core_4_4.c" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
+    <ClCompile Include="Source\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Material.h" />
+    <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\RenderTexture.h" />
+    <ClInclude Include="Source\Plane.h" />
+    <ClInclude Include="Source\GPUParticleEmitter.h" />
+    <ClInclude Include="Include\tweakbar\AntTweakBar.h" />
+    <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="Source\ProceduralMesh.h" />
+    <ClInclude Include="Source\Input.h" />
+    <ClInclude Include="Source\Light\DirectionalLight.h" />
+    <ClInclude Include="Include\fbx\FBXFile.h" />
+    <ClInclude Include="Source\Light\Light.h" />
+    <ClInclude Include="Source\FileIO.h" />
+    <ClInclude Include="Source\ShaderProgram.h" />
+    <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\FlyCamera.h" />
+    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Include\aie\Gizmos.h" />
+    <ClInclude Include="Include\glfw\glfw3.h" />
+    <ClInclude Include="Include\glfw\glfw3native.h" />
+    <ClInclude Include="Include\loadgen\gl_core_4_4.h" />
+    <ClInclude Include="Source\Transform.h" />
+    <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\Texture.h" />
+    <ClInclude Include="Source\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libraries\AntTweakBar.lib" />
+    <Library Include="Libraries\AntTweakBar64.lib" />
+    <Library Include="Libraries\assimp.lib" />
+    <Library Include="Libraries\assimpd.lib" />
+    <Library Include="Libraries\FBXLoader.lib" />
+    <Library Include="Libraries\FBXLoader_d.lib" />
+    <Library Include="Libraries\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\assimp.dll" />
+    <None Include="Libraries\assimp.exp" />
+    <None Include="Libraries\assimpd.dll" />
+    <None Include="Libraries\assimpd.exp" />
+    <None Include="Libraries\assimpd.ilk" />
+    <None Include="Libraries\assimpd.pdb" />
+    <None Include="Resources\Models\cylinder.fbx" />
+    <None Include="Resources\Models\soulspear\soulspear.fbx" />
+    <None Include="Resources\Models\sphere\sphere.fbx" />
+    <None Include="Resources\Models\SponzaSimple.fbx" />
+    <None Include="Resources\Shaders\BRDFFrag.glsl" />
+    <None Include="Resources\Shaders\BRDFVert.glsl" />
+    <None Include="Resources\Shaders\DefaultFrag.glsl" />
+    <None Include="Resources\Shaders\DefaultVert.glsl" />
+    <None Include="Resources\Shaders\Particle\CPUPartFrag.glsl" />
+    <None Include="Resources\Shaders\Particle\CPUPartVert.glsl" />
+    <None Include="Resources\Shaders\Particle\GPUPartFrag.glsl" />
+    <None Include="Resources\Shaders\Particle\GPUPartGeom.glsl" />
+    <None Include="Resources\Shaders\Particle\GPUPartUpdate.glsl" />
+    <None Include="Resources\Shaders\Particle\GPUPartVert.glsl" />
+    <None Include="Resources\Shaders\PhongFrag.glsl" />
+    <None Include="Resources\Shaders\PhongVert.glsl" />
+    <None Include="Resources\Shaders\ProcTerrainFrag.glsl" />
+    <None Include="Resources\Shaders\ProcTerrainVert.glsl" />
+    <None Include="Resources\Shaders\SpecularFrag.glsl" />
+    <None Include="Resources\Shaders\SpecularVert.glsl" />
+    <None Include="Resources\Shaders\Terrain\CPU\ProceduralFrag.glsl" />
+    <None Include="Resources\Shaders\Terrain\CPU\ProceduralVert.glsl" />
+    <None Include="Resources\Shaders\Terrain\GPU\ProceduralFrag.glsl" />
+    <None Include="Resources\Shaders\Terrain\GPU\ProceduralGeom.glsl" />
+    <None Include="Resources\Shaders\Terrain\GPU\ProceduralVert.glsl" />
+    <None Include="Resources\Shaders\TextureFrag.glsl" />
+    <None Include="Resources\Shaders\TextureVert.glsl" />
+    <None Include="Resources\Shaders\Water\WaterFrag.glsl" />
+    <None Include="Resources\Shaders\Water\WaterVert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Grass.png" />
+    <Image Include="Resources\GrassOld.jpg" />
+    <Image Include="Resources\Models\soulspear\soulspear_diffuse.tga" />
+    <Image Include="Resources\Models\soulspear\soulspear_normal.tga" />
+    <Image Include="Resources\Models\soulspear\soulspear_specular.tga" />
+    <Image Include="Resources\Rock.png" />
+    <Image Include="Resources\Snow.png" />
+    <Image Include="Resources\testTexture.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
