@@ -167,8 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\glfw3.lib" />
-    <Library Include="Libraries\FBXLoader.lib" />
-    <Library Include="Libraries\FBXLoader_d.lib" />
     <Library Include="Libraries\AntTweakBar64.lib" />
     <Library Include="Libraries\AntTweakBar.lib" />
     <Library Include="Libraries\assimp.lib" />
