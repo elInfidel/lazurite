@@ -106,7 +106,6 @@
     <ClInclude Include="Source\ProceduralMesh.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Light\DirectionalLight.h" />
-    <ClInclude Include="Include\fbx\FBXFile.h" />
     <ClInclude Include="Source\Light\Light.h" />
     <ClInclude Include="Source\FileIO.h" />
     <ClInclude Include="Source\ShaderProgram.h" />

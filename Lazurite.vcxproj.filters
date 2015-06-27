@@ -113,9 +113,6 @@
     <ClInclude Include="Source\FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\fbx\FBXFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
