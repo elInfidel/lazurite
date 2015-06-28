@@ -76,8 +76,8 @@ void Input::OnChar(GLFWwindow* window, unsigned int character)
 
 void Input::OnMousePos(GLFWwindow* window, double x, double y)
 {
-	mouseDelta.x = x - mousePosition.x;
-	mouseDelta.y = mousePosition.y - y;
+	mouseDelta.x = (float)x - mousePosition.x;
+	mouseDelta.y = mousePosition.y - (float)y;
 
 	mousePosition = vec2(x,y);
 	TwEventMousePosGLFW((int)x, (int)y);

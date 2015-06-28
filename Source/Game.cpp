@@ -16,7 +16,7 @@ void Game::Load()
 	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 10000.0f);
 	camera->transform->Translate(0, 1, -5);
 
-	model = new Model("Resources/Models/sponza/sponza.obj");
+	model = new Model("Resources/Models/nanosuit/nanosuit2.obj");
 
 	modelMat = new ShaderProgram();
 	modelMat->CompileShader("Resources/Shaders/BRDFVert.glsl", OpenGLShader::VERTEX);
@@ -27,9 +27,6 @@ void Game::Load()
 	// Setting up tweak bar
 	bar = TwNewBar("Debug Console");
 	TwAddVarRO(bar, "FPS", TW_TYPE_FLOAT, &fps, "group=Performance");
-	//TwAddVarRW(bar, "Light Dir", TW_TYPE_DIR3F, &model->lightDir, "group=Environment");
-	//TwAddVarRW(bar, "Fresnel", TW_TYPE_FLOAT, &model->fresnelScale, "min=0 max=1 step=0.01 group=Environment");
-	//TwAddVarRW(bar, "Roughness", TW_TYPE_FLOAT, &model->roughness, "min=0 max=1 step=0.01 group=Environment");
 }
 
 void Game::Update(float deltaTime)

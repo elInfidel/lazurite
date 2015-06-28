@@ -29,7 +29,7 @@ bool Application::Initialize()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create a new OpenGL window
-	window = glfwCreateWindow(videoMode->width / 1.2f, videoMode->height / 1.2f, "Lazurite Framework", nullptr, nullptr);
+	window = glfwCreateWindow((int)(videoMode->width / 1.2f), (int)(videoMode->height / 1.2f), "Lazurite Framework", nullptr, nullptr);
 
 	// Terminate if glfw fails to create a window
 	if (window == nullptr)
@@ -67,7 +67,7 @@ bool Application::Initialize()
 
 	// TEMP INIT TW
 	TwInit(TW_OPENGL_CORE, nullptr);
-	TwWindowSize(videoMode->width / 1.2f, videoMode->height / 1.2f);
+	TwWindowSize((int)(videoMode->width / 1.2f), (int)(videoMode->height / 1.2f));
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
 
 	// Print system data

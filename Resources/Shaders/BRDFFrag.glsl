@@ -89,6 +89,5 @@ vec4 BRDF()
 
 void main()
 {
-  //fragColor = texture(diffuse, vertexData.texCoord) * BRDF();
-  fragColor = BRDF();
+  fragColor = texture(diffuse, vertexData.texCoord) * BRDF();
 }

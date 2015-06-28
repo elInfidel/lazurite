@@ -119,10 +119,16 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	}
 
 	// TODO: Load material data into some material class
-	//if (mesh->mMaterialIndex >= 0)
-	//{
-	//	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	//}
+	if (mesh->mMaterialIndex >= 0)
+	{
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		vector<Texture> diffuseMaps = this->LoadMaterialTextures(material,
+			aiTextureType_DIFFUSE, "texture_diffuse");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		vector<Texture> specularMaps = this->LoadMaterialTextures(material,
+			aiTextureType_SPECULAR, "texture_specular");
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	}
 
 	return Mesh(vertices, indices, textures);
 }
@@ -131,6 +137,18 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 {
 	// TODO: May move this to some material class
 	vector<Texture> textures;
+
+	for (int i = 0; i < mat->GetTextureCount(type); ++i)
+	{
+		aiString string;
+		mat->GetTexture(type, i, &string);
+
+		Texture texture;
+		texture.LoadTexture(string.C_Str());
+		texture.typeName = typeName;
+		textures.push_back(texture);
+	}
+
 	return textures;
 }
 

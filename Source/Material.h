@@ -1,6 +1,9 @@
 #pragma once
 #include "glm/glm.hpp"
+#include "Texture.h"
+#include <vector>
 
+using namespace std;
 using glm::vec3;
 
 class Material
@@ -14,8 +17,11 @@ public:
 		vec3 ambient;
 		vec3 diffuse;
 		vec3 specular;
-		float shininess;
+		float roughness;
+		float fresnel;
 	} properties;
+
+	vector<Texture> textures;
 
 };
 

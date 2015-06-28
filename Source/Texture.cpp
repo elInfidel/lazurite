@@ -2,7 +2,6 @@
 #include "loadgen/gl_core_4_4.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
-#include <iostream>
 
 Texture::Texture() : width(0), height(0), depth(0), imageFormat(0)
 {

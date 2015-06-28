@@ -40,7 +40,7 @@ void ParticleEmitter::Initialize(unsigned int maxParticles, float emitRate, floa
 
 	// Create particle arrays
 	particles = new CPUParticle::Particle[maxParticles];
-	firstDead = 0.0f;
+	firstDead = 0;
 	vertexData = new CPUParticleVertex[maxParticles * 4];
 
 	// Creating index buffers

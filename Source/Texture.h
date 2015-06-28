@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 class Texture
 {
 public:
@@ -21,6 +19,9 @@ public:
 	int GetWidth()  const;
 	int GetHeight() const;
 	int GetDepth()  const;
+
+	// Temp
+	std::string typeName;
 
 protected:
 	void LoadOpenGLData(unsigned char* data);
