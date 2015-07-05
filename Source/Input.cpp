@@ -2,23 +2,29 @@
 #include <iostream>
 #include "tweakbar/AntTweakBar.h"
 
-vec2 Input::mousePosition = vec2(0);
-vec2 Input::mouseDelta = vec2(0);
-map<int,int>  Input::keys = map<int, int>();
-bool Input::mouseLocked = false;
+// Static data
+Input* Input::singleton;
 
-void Input::Initialize()
+Input::Input() : mousePosition(vec2(0, 0)), mouseDelta(vec2(0, 0)), mouseLocked(false)
 {
-	glfwSetKeyCallback(glfwGetCurrentContext(), OnKey);
-	glfwSetCharCallback(glfwGetCurrentContext(), OnChar);
-	glfwSetCursorPosCallback(glfwGetCurrentContext(), OnMousePos);
-	glfwSetMouseButtonCallback(glfwGetCurrentContext(), OnMouseButton);
-	glfwSetScrollCallback(glfwGetCurrentContext(), OnMouseScroll);
+	GLFWwindow* window = glfwGetCurrentContext();
+	glfwSetKeyCallback(window, OnKey);
+	glfwSetCharCallback(window, OnChar);
+	glfwSetCursorPosCallback(window, OnMousePos);
+	glfwSetMouseButtonCallback(window, OnMouseButton);
+	glfwSetScrollCallback(window, OnMouseScroll);
 }
 
-void Input::ShutDown()
+Input::~Input()
 {
+	delete singleton;
+}
 
+Input* Input::GetInstance()
+{
+	if (singleton == nullptr)
+		singleton = new Input();
+	return singleton;
 }
 
 bool Input::GetKey(int key)
@@ -63,9 +69,24 @@ void Input::GetMouseDelta(float &x, float &y)
 	y = mouseDelta.y;
 }
 
+void Input::Update(float deltaTime)
+{
+	// Clean up key events
+	for (int i = 0; i < MAX_KEYS; ++i)
+	{
+		if (keys[i] == GLFW_PRESS)
+			keys[i] = GLFW_REPEAT;
+		else if (keys[i] == GLFW_RELEASE)
+			keys[i] = -1;
+	}
+
+	// Fix mouseDelta bug
+	mouseDelta = vec2(0,0);
+}
+
 void Input::OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	keys[key] = action;
+	singleton->keys[key] = action;
 	TwEventKeyGLFW(key, action);
 }
 
@@ -76,10 +97,10 @@ void Input::OnChar(GLFWwindow* window, unsigned int character)
 
 void Input::OnMousePos(GLFWwindow* window, double x, double y)
 {
-	mouseDelta.x = (float)x - mousePosition.x;
-	mouseDelta.y = mousePosition.y - (float)y;
+	singleton->mouseDelta.x = (float)x - singleton->mousePosition.x;
+	singleton->mouseDelta.y = singleton->mousePosition.y - (float)y;
 
-	mousePosition = vec2(x,y);
+	singleton->mousePosition = vec2(x, y);
 	TwEventMousePosGLFW((int)x, (int)y);
 }
 

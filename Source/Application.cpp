@@ -63,7 +63,7 @@ bool Application::Initialize()
 	deltaTime = 1.0f / 60.0f; // Assuming a starting deltaTime of 60fps (16.667ms)
 
 	// Initializing engine subsystems
-	Input::Initialize();
+	// TODO
 
 	// TEMP INIT TW
 	TwInit(TW_OPENGL_CORE, nullptr);
@@ -100,20 +100,20 @@ void Application::Run()
 		glfwPollEvents();
 
 		// TODO: TEMP
-		if (Input::GetKeyPressed(GLFW_KEY_F9))
+		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F9))
 		{
 			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			Input::mouseLocked = true;
+			Input::GetInstance()->mouseLocked = true;
 		}
-		else if (Input::GetKeyPressed(GLFW_KEY_F10))
+		else if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F10))
 		{
 			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			Input::mouseLocked = false;
+			Input::GetInstance()->mouseLocked = false;
 		}
 
 		// TODO: TEMP
-		if (Input::GetKeyPressed(GLFW_KEY_F1))
-			wireFrame = (!wireFrame); // BUG - Toggle flickers, input class needs loads of work
+		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
+			wireFrame = (!wireFrame);
 
 		// Calling functions of Game class
 		Update(deltaTime);
@@ -130,6 +130,7 @@ void Application::Run()
 		TwDraw();
 
 		glfwSwapBuffers(window);
+		Input::GetInstance()->Update(deltaTime);
 
 		// Calculating deltaTime
 		endTime = glfwGetTime();

@@ -14,7 +14,7 @@ void Game::Load()
 	// Initialize camera
 	camera = new FlyCamera();
 	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 10000.0f);
-	camera->transform->Translate(0, 1, -5);
+	camera->transform->Translate(0, 1, 5);
 
 	model = new Model("Resources/Models/nanosuit/nanosuit2.obj");
 
@@ -34,8 +34,8 @@ void Game::Update(float deltaTime)
 	camera->Update(deltaTime);
 	fps = 1.0f / deltaTime;
 
-	if (Input::GetKeyPressed(GLFW_KEY_SPACE))
-		modelMat->Reload();
+	//if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F5))
+	//	modelMat->Reload();
 }
 
 void Game::Draw(float deltaTime)

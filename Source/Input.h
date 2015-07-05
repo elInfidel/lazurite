@@ -1,42 +1,41 @@
 #pragma once
 #include "glfw/glfw3.h"
 #include "glm/vec2.hpp"
-#include <map>
 
-using std::map;
 using glm::vec2;
-
 
 class Input
 {
 public:
-	static void Initialize();
-	static void ShutDown();
+	static Input* GetInstance();   // Returns singleton
+								   
+	bool GetKey(int key);          // Returns true if key is down
+	bool GetKeyPressed(int key);   // Returns true if key is pressed for the first time
+	bool GetKeyDown(int key);      // Returns true if key is repeating
+	bool GetKeyReleased(int key);  // Returns true if key has been released
+	
+	vec2 GetMousePos();                      // Returns a vec2 containing current mouse coordinates
+	void GetMousePos(float &x, float &y);    // Sets variable references to current mouse coordinates
+	vec2 GetMouseDelta();                    // Returns a vec2 containing current mouse delta
+	void GetMouseDelta(float &x, float &y);  // Sets variable references to current mouse delta
 
-	static bool GetKey(int key);          // Returns true if key is down
-	static bool GetKeyPressed(int key);   // Returns true if key is pressed for the first time
-	static bool GetKeyDown(int key);      // Returns true if key is repeating
-	static bool GetKeyReleased(int key);  // Returns true if key has been released
-	 
-	static vec2 GetMousePos();
-	static void GetMousePos(float &x, float &y);
-	static vec2 GetMouseDelta();
-	static void GetMouseDelta(float &x, float &y);
+	bool mouseLocked;            // Temp bool for storing whether or not GLFW is locking cursor // TODO: Move somewhere else!
 
-
-	// TEMP
-	static bool mouseLocked;
+	void Update(float deltaTime);            // Should only be called by application // TODO: Find a better way to do this!
 
 private:
 	Input();
 	~Input();
 
 	// Input state data
-	static vec2 mousePosition;
-	static vec2 mouseDelta;
-	static map<int, int> keys;
+	static Input* singleton;
+	static const int MAX_KEYS = 512;
 
-	// GLFW Callbacks
+	vec2  mousePosition;         // The current position of the mouse in screen space
+	vec2  mouseDelta;            // Changes in mouse position represented as a delta value
+	signed char  keys[MAX_KEYS]; // Stores GLFW key definitions from events
+
+	// GLFW Callbacks - TODO: move tweakbar calls elsewhere? maybe subscription
 	static void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods); // Called on key state change
 	static void OnChar(GLFWwindow* window, unsigned int character);                     // Called on character state change
 	static void OnMousePos(GLFWwindow* window, double x, double y);                     // Called on mouse position change

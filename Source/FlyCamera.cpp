@@ -17,7 +17,7 @@ void FlyCamera::Update(float deltaTime)
 {
 	CalculateMovement(deltaTime);
 
-	if (!Input::mouseLocked)
+	if (!Input::GetInstance()->mouseLocked)
 		return;
 
 	CalculateRotation(deltaTime);
@@ -26,15 +26,15 @@ void FlyCamera::Update(float deltaTime)
 void FlyCamera::CalculateRotation(float deltaTime)
 {
 	static vec2 lastOffset;
-	if (Input::GetMouseDelta() == lastOffset)
+	if (Input::GetInstance()->GetMouseDelta() == lastOffset)
 	{
 		yaw += 0.0f;
 		pitch += 0.0f;
 	}
 	else
 	{
-		yaw += Input::GetMouseDelta().x * sensitivity;
-		pitch += Input::GetMouseDelta().y * sensitivity;
+		yaw += Input::GetInstance()->GetMouseDelta().x * sensitivity;
+		pitch += Input::GetInstance()->GetMouseDelta().y * sensitivity;
 	}
 
 	if (pitch > 89.0f)
@@ -48,7 +48,7 @@ void FlyCamera::CalculateRotation(float deltaTime)
 	transform->SetRight(glm::normalize(glm::cross(transform->GetForward(), vec3(0, 1, 0)))); // Temp - world up
 	transform->SetUp(glm::normalize(glm::cross(transform->GetRight(), transform->GetForward())));
 
-	lastOffset = Input::GetMouseDelta();
+	lastOffset = Input::GetInstance()->GetMouseDelta();
 }
 
 void FlyCamera::CalculateMovement(float deltaTime)
@@ -56,16 +56,16 @@ void FlyCamera::CalculateMovement(float deltaTime)
 	// Translation
 	// TODO: Wrap key enumeration in Input class instead of using GLFW directly
 	float finalSpeed = movementSpeed * deltaTime;
-	if (Input::GetKey(GLFW_KEY_W))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_W))
 		transform->Translate(transform->GetForward() * finalSpeed);
-	if (Input::GetKey(GLFW_KEY_S))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_S))
 		transform->Translate(-transform->GetForward() * finalSpeed);
-	if (Input::GetKey(GLFW_KEY_A))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_A))
 		transform->Translate(-transform->GetRight() * finalSpeed);
-	if (Input::GetKey(GLFW_KEY_D))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_D))
 		transform->Translate(transform->GetRight() * finalSpeed);
-	if (Input::GetKey(GLFW_KEY_SPACE))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_SPACE))
 		transform->Translate(transform->GetUp() * finalSpeed);
-	if (Input::GetKey(GLFW_KEY_LEFT_SHIFT))
+	if (Input::GetInstance()->GetKey(GLFW_KEY_LEFT_SHIFT))
 		transform->Translate(-transform->GetUp() * finalSpeed);
 }
