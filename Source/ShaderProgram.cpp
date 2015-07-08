@@ -152,7 +152,7 @@ void ShaderProgram::Link()
 	}
 	else
 	{
-		uniformLocations.clear();
+		//uniformLocations.clear();
 		linked = true;
 	}
 
@@ -234,12 +234,12 @@ bool ShaderProgram::IsLinked() const
 	return linked;
 }
 
-void ShaderProgram::BindAttribLocation(GLuint loc, const char* attribName)
+void ShaderProgram::BindAttribLocation(GLuint loc, const char* attribName) const
 {
 	glBindAttribLocation(handle, loc, attribName);
 }
 
-void ShaderProgram::BindFragDataLocation(GLuint loc, const char* name)
+void ShaderProgram::BindFragDataLocation(GLuint loc, const char* name) const
 {
 	glBindFragDataLocation(handle, loc, name);
 }
@@ -249,73 +249,73 @@ void ShaderProgram::SetTransformFeedbackVaryings(unsigned int count, const char*
 	glTransformFeedbackVaryings(handle, count, varyings, bufferMode);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const vec2& data)
+void ShaderProgram::SetUniform(const char* uniformName, const vec2& data) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform2fv(location, 1, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const vec3& data)
+void ShaderProgram::SetUniform(const char* uniformName, const vec3& data) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform3fv(location, 1, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const vec4& data)
+void ShaderProgram::SetUniform(const char* uniformName, const vec4& data) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform4fv(location, 1, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const mat3& data)
+void ShaderProgram::SetUniform(const char* uniformName, const mat3& data) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const mat4& data)
+void ShaderProgram::SetUniform(const char* uniformName, const mat4& data) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const bool value)
+void ShaderProgram::SetUniform(const char* uniformName, const bool value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1i(location, value);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const int value)
+void ShaderProgram::SetUniform(const char* uniformName, const int value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1i(location, value);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const unsigned int value)
+void ShaderProgram::SetUniform(const char* uniformName, const unsigned int value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1ui(location, value);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const float value)
+void ShaderProgram::SetUniform(const char* uniformName, const float value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1f(location, value);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const double value)
+void ShaderProgram::SetUniform(const char* uniformName, const double value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1d(location, value);
 }
 
-int ShaderProgram::getUniformLocation(const char* uniformName)
+int ShaderProgram::getUniformLocation(const char* uniformName) const
 {
-	std::map<string, int>::iterator pos;
-	pos = uniformLocations.find(uniformName);
+	//std::map<string, int>::iterator pos;
+	//pos = uniformLocations.find(uniformName);
 
-	if (pos == uniformLocations.end())
-		uniformLocations[uniformName] = glGetUniformLocation(handle, uniformName);
+	//if (pos == uniformLocations.end())
+	int	uniformLocation= glGetUniformLocation(handle, uniformName);
 
-	return uniformLocations[uniformName];
+	return uniformLocation;
 }

@@ -21,7 +21,17 @@ const float pi = 3.14159f;
 // Texture samplers
 uniform sampler2D diffuse;
 uniform sampler2D specular;
+uniform sampler2D ambient;
+uniform sampler2D emissive;
+uniform sampler2D height;
 uniform sampler2D normal;
+uniform sampler2D shininess;
+uniform sampler2D opacity;
+uniform sampler2D displacement;
+uniform sampler2D lightmap;
+uniform sampler2D reflection;
+uniform sampler2D unknown;
+
 
 in struct vData
 {
@@ -34,20 +44,21 @@ in struct vData
 
 out vec4 fragColor;
 
-vec4 BRDF()
+vec3 BRDF()
 {
   // surface-to-eye vector
   vec3 E = normalize( cameraPos - vertexData.position.xyz );
   // Vertex normal
   mat3 TBN = mat3(normalize(vertexData.tangent), normalize(vertexData.bitangent), normalize(vertexData.normal));
   vec3 N = normalize(TBN * (texture(normal, vertexData.texCoord).rgb * 2 - 1));
+  //vec3 N = normalize(vertexData.normal);
   // Light direction Vector
   vec3 L = -lightDir;
   // Half Vector
   vec3 H = normalize(L + E);
 
   // AMBIENT TERM
-	vec3 Ambient = matA.rgb * lightA.rgb; // ambient light
+	vec3 Ambient = matA.rgb * lightA.rgb * texture(ambient, vertexData.texCoord).rgb; // ambient light
 
   // DIFFUSE TERM
   float NdL = max( 0.0f, dot( N, L ) );
@@ -66,7 +77,7 @@ vec4 BRDF()
   float DX = alpha * beta;
   // Calculate Oren-Nayar diffuse
   float OrenNayar = NdL * (A + B * CX * DX);
-  vec3 Diffuse = matD.rgb * lightD * OrenNayar;
+  vec3 Diffuse = matD.rgb * lightD * texture(diffuse, vertexData.texCoord).rgb * OrenNayar;
 
   // SPECULAR TERM
   // Beckman's Distribution Function D
@@ -82,12 +93,13 @@ vec4 BRDF()
   float G = min(1, min(X * NdE, X * NdL));
   // Calculate Cook-Torrance
   float CookTorrance = max( (D*G*F) / (NdE * pi), 0.0f );
-  vec3 Specular = matS.rgb * lightS * CookTorrance * texture(specular, vertexData.texCoord).rgb;
+  vec3 Specular = matS.rgb * lightS * texture(specular, vertexData.texCoord).rgb * CookTorrance;
 
-	return vec4(Ambient + Diffuse + Specular, 1);
+	return vec3(Ambient + Diffuse + Specular);
 }
 
 void main()
 {
-  fragColor = texture(diffuse, vertexData.texCoord) * BRDF();
+  //fragColor = vec4(BRDF(), 1);
+  fragColor = vec4(texture(specular, vertexData.texCoord).rgb, 1);
 }

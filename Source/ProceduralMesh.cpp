@@ -54,9 +54,9 @@ void ProceduralMesh::GenerateHeightMap()
 void ProceduralMesh::GenerateTextures()
 {
 	//if (dimensions == 0) return;
-	grass = new Texture("./Resources/Grass.jpg");
-	rock =  new Texture("./Resources/Rock.jpg");
-	snow =  new Texture("./Resources/Snow.jpg");
+	//grass = new Texture("./Resources/Grass.jpg");
+	//rock =  new Texture("./Resources/Rock.jpg");
+	//snow =  new Texture("./Resources/Snow.jpg");
 }
 
 void ProceduralMesh::Draw(ShaderProgram* shaderProgram, Camera* camera)

@@ -13,10 +13,10 @@ void Game::Load()
 {
 	// Initialize camera
 	camera = new FlyCamera();
-	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 10000.0f);
+	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 1.0f, 10000.0f);
 	camera->transform->Translate(0, 1, 5);
 
-	model = new Model("Resources/Models/nanosuit/nanosuit2.obj");
+	model = new Model("Resources/Models/stanford/Dragon.fbx");
 
 	modelMat = new ShaderProgram();
 	modelMat->CompileShader("Resources/Shaders/BRDFVert.glsl", OpenGLShader::VERTEX);
@@ -26,7 +26,9 @@ void Game::Load()
 
 	// Setting up tweak bar
 	bar = TwNewBar("Debug Console");
-	TwAddVarRO(bar, "FPS", TW_TYPE_FLOAT, &fps, "group=Performance");
+	TwAddVarRO(bar, "FPS",   TW_TYPE_FLOAT, &fps, "group=Performance");
+	lightDir = vec3(0,1,0);
+	TwAddVarRW(bar, "Light", TW_TYPE_DIR3F, &lightDir[0], "group=Lighting");
 }
 
 void Game::Update(float deltaTime)
@@ -34,8 +36,8 @@ void Game::Update(float deltaTime)
 	camera->Update(deltaTime);
 	fps = 1.0f / deltaTime;
 
-	//if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F5))
-	//	modelMat->Reload();
+	if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F5))
+		modelMat->Reload();
 }
 
 void Game::Draw(float deltaTime)
@@ -43,6 +45,7 @@ void Game::Draw(float deltaTime)
 	modelMat->Use();
 	modelMat->SetUniform("viewProjection", camera->GetProjectionView());
 	modelMat->SetUniform("cameraPos", camera->transform->GetPosition());
+	modelMat->SetUniform("lightDir", lightDir);
 	model->Draw(*modelMat);
 }
 

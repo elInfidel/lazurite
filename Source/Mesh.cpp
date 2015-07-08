@@ -1,8 +1,8 @@
 #include "Mesh.h"
+#include <iostream>
 
-
-Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures) 
-	: vertices(vertices), indices(indices), textures(textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, Material material) 
+	: vertices(vertices), indices(indices), material(material)
 {
 	this->SetupMesh();
 }
@@ -10,6 +10,7 @@ Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> text
 
 Mesh::~Mesh()
 {
+
 }
 
 void Mesh::SetupMesh()
@@ -28,11 +29,11 @@ void Mesh::SetupMesh()
 	glEnableVertexAttribArray(0); // Vertex position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::PositionOffset);
 	glEnableVertexAttribArray(1); // Vertex color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)VertexOffset::ColorOffset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::ColorOffset);
 	glEnableVertexAttribArray(2); // Vertex normal
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)VertexOffset::NormalOffset);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::NormalOffset);
 	glEnableVertexAttribArray(3); // Vertex tangent
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)VertexOffset::TangentOffset);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::TangentOffset);
 	glEnableVertexAttribArray(4); // Vertex bitangent
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::BiTangentOffset);
 	glEnableVertexAttribArray(5); // Vertex indices
@@ -49,7 +50,26 @@ void Mesh::SetupMesh()
 
 void Mesh::Draw(const ShaderProgram& shaderProgram) const
 {
-	// TODO: Texture Load code
+	//int maxTex = 0;
+	//glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTex);
+	//
+	//for (int i = 0; i < maxTex - 1; ++i)
+	//{
+	//	glActiveTexture(GL_TEXTURE0 + i); 
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//}
+
+	//shaderProgram.SetUniform("ambient",   material.properties.ambient);
+	//shaderProgram.SetUniform("diffuse",   material.properties.diffuse);
+	//shaderProgram.SetUniform("specular",  material.properties.specular);
+
+	for (size_t i = 0; i < material.textures.size(); ++i)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		shaderProgram.SetUniform(TextureType::strings[material.textures[i].type], i);
+		glBindTexture(GL_TEXTURE_2D, material.textures[i].GetID());
+	}
+	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);

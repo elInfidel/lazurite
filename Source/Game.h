@@ -22,6 +22,9 @@ protected:
 	Model* model;
 	ShaderProgram* modelMat;
 
+	// Tweak bar vars
 	float fps = 0.0f;
+	vec3 lightDir;
+
 };
 

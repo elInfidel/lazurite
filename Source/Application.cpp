@@ -49,13 +49,15 @@ bool Application::Initialize()
 	}
 
 	// Setting up some OpenGL functionality
-	SetClearColor(vec4(0.3f, 0.3f, 0.3f, 1.0f));
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
 	// Disable backface culling temp
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	// Instantiating time variables
 	beginTime = glfwGetTime(); // Priming beginTime with value of high resolution system clock

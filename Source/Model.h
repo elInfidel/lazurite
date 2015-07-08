@@ -4,6 +4,7 @@
 #include "assimp/postprocess.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
+#include "Material.h"
 #include <vector>
 #include <string>
 
@@ -23,6 +24,7 @@ private:
 	void LoadModel(string path);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	Material LoadMaterial(aiMaterial* mat);
+	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 };
 

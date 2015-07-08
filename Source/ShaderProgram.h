@@ -44,32 +44,32 @@ public:
 	int GetHandle() const;
 	bool IsLinked() const;
 
-	void BindAttribLocation(GLuint loc, const char* attribName);
-	void BindFragDataLocation(GLuint loc, const char* name);
+	void BindAttribLocation(GLuint loc, const char* attribName) const;
+	void BindFragDataLocation(GLuint loc, const char* name)     const;
 
 	// Set transform feedback varyings
 	// NOTE: This must be called prior to linking the shader program
 	void SetTransformFeedbackVaryings(unsigned int count, const char* varyings[], GLenum bufferMode);
 	
 	// Set uniform data in shader
-	void SetUniform(const char* uniformName, const vec2& data);
-	void SetUniform(const char* uniformName, const vec3& data);
-	void SetUniform(const char* uniformName, const vec4& data);
-	void SetUniform(const char* uniformName, const mat3& data);
-	void SetUniform(const char* uniformName, const mat4& data);
-	void SetUniform(const char* uniformName, const bool value);
-	void SetUniform(const char* uniformName, const int value);
-	void SetUniform(const char* uniformName, const unsigned int value);
-	void SetUniform(const char* uniformName, const float value);
-	void SetUniform(const char* uniformName, const double value);
+	void SetUniform(const char* uniformName, const vec2& data)         const;
+	void SetUniform(const char* uniformName, const vec3& data)         const;
+	void SetUniform(const char* uniformName, const vec4& data)         const;
+	void SetUniform(const char* uniformName, const mat3& data)         const;
+	void SetUniform(const char* uniformName, const mat4& data)         const;
+	void SetUniform(const char* uniformName, const bool value)         const;
+	void SetUniform(const char* uniformName, const int value)          const;
+	void SetUniform(const char* uniformName, const unsigned int value) const;
+	void SetUniform(const char* uniformName, const float value)        const;
+	void SetUniform(const char* uniformName, const double value)       const;
 
 private:
 	int handle;
 	bool linked;
 	map<string, OpenGLShader::OpenGLShaderType> shaderFiles;
-	map<string, int> uniformLocations;
+	//map<string, int> uniformLocations;
 
 	//Returns the handle to a specified uniform location in the program
-	int getUniformLocation(const char* uniformName);
+	int getUniformLocation(const char* uniformName) const;
 };
 
