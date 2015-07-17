@@ -50,26 +50,21 @@ void Mesh::SetupMesh()
 
 void Mesh::Draw(const ShaderProgram& shaderProgram) const
 {
-	//int maxTex = 0;
-	//glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTex);
-	//
-	//for (int i = 0; i < maxTex - 1; ++i)
-	//{
-	//	glActiveTexture(GL_TEXTURE0 + i); 
-	//	glBindTexture(GL_TEXTURE_2D, 0);
-	//}
-
-	//shaderProgram.SetUniform("ambient",   material.properties.ambient);
-	//shaderProgram.SetUniform("diffuse",   material.properties.diffuse);
-	//shaderProgram.SetUniform("specular",  material.properties.specular);
+	shaderProgram.SetUniform("ambient",   material.properties.ambient);
+	shaderProgram.SetUniform("diffuse",   material.properties.diffuse);
+	shaderProgram.SetUniform("specular",  material.properties.specular);
 
 	for (size_t i = 0; i < material.textures.size(); ++i)
 	{
+		if (material.textures[i].GetType() == TextureType::Opacity)
+			shaderProgram.SetUniform("alphaTested", true);
+		else
+			shaderProgram.SetUniform("alphaTested", false);
+
 		glActiveTexture(GL_TEXTURE0 + i);
-		shaderProgram.SetUniform(TextureType::strings[material.textures[i].type], i);
+		shaderProgram.SetUniform(TextureType::strings[material.textures[i].GetType()], i);
 		glBindTexture(GL_TEXTURE_2D, material.textures[i].GetID());
 	}
-	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);

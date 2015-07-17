@@ -7,19 +7,19 @@ namespace TextureType
 {
 	enum Type : int
 	{
-		Diffuse          = 0,
-		Specular         = 1,
-		Ambient          = 2,
-		Emissive         = 3,
-		Height           = 4,
-		Normal           = 5,
-		Shininess        = 6,
-		Opacity          = 7,
-		Displacement     = 8,
-		Lightmap         = 9,
-		Reflection       = 10,
-		Unknown          = 11,
-		TextureCount     = 12
+		Diffuse = 0,
+		Specular = 1,
+		Ambient = 2,
+		Emissive = 3,
+		Height = 4,
+		Normal = 5,
+		Shininess = 6,
+		Opacity = 7,
+		Displacement = 8,
+		Lightmap = 9,
+		Reflection = 10,
+		Unknown = 11,
+		TextureCount = 12
 	};
 
 	// Stores string representation of each type.
@@ -48,7 +48,7 @@ public:
 	Texture(string directory, const char* filePath);
 	virtual ~Texture();
 
-	void LoadTexture(string directory, const char* filePath);
+	void LoadTexture(string directory, const char* filePath, TextureType::Type type);
 
 	bool Is1D() const;
 	bool Is2D() const;
@@ -60,11 +60,12 @@ public:
 	int GetHeight() const;
 	int GetDepth()  const;
 
-	// Temp
-	TextureType::Type type;
+	TextureType::Type GetType() const;
 
 protected:
 	void LoadOpenGLData(unsigned char* data);
+
+	TextureType::Type type;
 
 	unsigned int textureID;
 	int width, height, depth;

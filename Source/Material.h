@@ -22,6 +22,5 @@ public:
 	} properties;
 
 	vector<Texture> textures;
-
 };
 

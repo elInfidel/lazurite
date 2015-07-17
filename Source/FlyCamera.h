@@ -10,7 +10,7 @@ public:
 	virtual void Update(float deltaTime);
 
 private:
-	const float movementSpeed = 40.0f;
+	const float movementSpeed = 80.0f;
 	const float sensitivity = 0.05f;
 
 	float yaw, pitch;

@@ -16,7 +16,7 @@ void Game::Load()
 	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 1.0f, 10000.0f);
 	camera->transform->Translate(0, 1, 5);
 
-	model = new Model("Resources/Models/stanford/Dragon.fbx");
+	model = new Model("Resources/Models/nanosuit/nanosuit.obj");
 
 	modelMat = new ShaderProgram();
 	modelMat->CompileShader("Resources/Shaders/BRDFVert.glsl", OpenGLShader::VERTEX);
@@ -26,9 +26,9 @@ void Game::Load()
 
 	// Setting up tweak bar
 	bar = TwNewBar("Debug Console");
-	TwAddVarRO(bar, "FPS",   TW_TYPE_FLOAT, &fps, "group=Performance");
+	TwAddVarRO(bar, "FPS", TW_TYPE_FLOAT, &fps, "group=Performance");
 	lightDir = vec3(0,1,0);
-	TwAddVarRW(bar, "Light", TW_TYPE_DIR3F, &lightDir[0], "group=Lighting");
+	TwAddVarRW(bar, "Sun Direction", TW_TYPE_DIR3F, &lightDir, "group=Lighting");
 }
 
 void Game::Update(float deltaTime)

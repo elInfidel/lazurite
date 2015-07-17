@@ -7,7 +7,7 @@ Transform::Transform()
 	isDirty = true;
 	modelMatrix = mat4(1);
 	position = vec3(0);
-	rotation = vec3(0);
+	rotation = quat();
 	scale = vec3(1);
 }
 
@@ -42,13 +42,13 @@ void Transform::Scale(float x, float y, float z)
 
 void Transform::Rotate(vec3 eular)
 {
-	rotation = eular;
+	rotation *= quat(eular);
 	isDirty = true;
 }
 
 void Transform::Rotate(float x, float y, float z)
 {
-	rotation = vec3(x, y, z);
+	rotation *= quat(vec3(x, y, z));
 	isDirty = true;
 }
 
@@ -66,7 +66,13 @@ void Transform::SetScale(vec3 newScale)
 
 void Transform::SetRotation(vec3 newRot)
 {
-	rotation = newRot;
+	rotation = quat(newRot);
+	isDirty = true;
+}
+
+void Transform::SetRotation(quat quaternion)
+{
+	rotation = quaternion;
 	isDirty = true;
 }
 
@@ -80,7 +86,7 @@ vec3 Transform::GetScale()
 	return scale;
 }
 
-vec3 Transform::GetRotation()
+quat Transform::GetRotation()
 {
 	return rotation;
 }
@@ -128,11 +134,7 @@ mat4 Transform::GetModelMatrix()
 {
 	if (isDirty)
 	{
-		mat4 rot = glm::rotate(glm::radians(rotation.z), vec3(0, 0, 1)) *
-				   glm::rotate(glm::radians(rotation.y), vec3(0, 1, 0)) *
-				   glm::rotate(glm::radians(rotation.x), vec3(1, 0, 0));
-
-		modelMatrix = glm::translate(position) * rot * glm::scale(scale);
+		modelMatrix = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 
 		isDirty = false;
 	}

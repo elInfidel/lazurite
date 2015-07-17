@@ -11,7 +11,7 @@ Texture::Texture() : width(0), height(0), depth(0), imageFormat(0)
 
 Texture::Texture(string directory, const char* filePath) : width(0), height(0), depth(0), imageFormat(0)
 {
-	LoadTexture(directory, filePath);
+	LoadTexture(directory, filePath, TextureType::Unknown);
 }
 
 Texture::~Texture()
@@ -19,20 +19,26 @@ Texture::~Texture()
 
 }
 
-void Texture::LoadTexture(string directory, const char* filePath)
+void Texture::LoadTexture(string directory, const char* filePath, TextureType::Type type)
 {
 	string path = string(filePath);
 	path = directory + "/" + path;
-	LoadOpenGLData(stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_default));
+	this->type = type;
+
+	LoadOpenGLData(stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_rgb_alpha));
 }
 
 void Texture::LoadOpenGLData(unsigned char* data)
 {
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
 
+	if (type == TextureType::Diffuse) // If texture is diffuse we use SRGB color space
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	else
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -75,4 +81,9 @@ int Texture::GetHeight() const
 int Texture::GetDepth() const
 {
 	return depth;
+}
+
+TextureType::Type Texture::GetType() const
+{
+	return type;
 }

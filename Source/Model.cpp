@@ -15,8 +15,8 @@ Model::~Model()
 void Model::LoadModel(string path)
 {
 	Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
-
+	//const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_FlipUVs); // TEST
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		// TODO: Setup Logger class
@@ -256,14 +256,13 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	// TODO: May move this to some material class
 	vector<Texture> textures;
 
-	for (int i = 0; i < mat->GetTextureCount(type); ++i)
+	for (size_t i = 0; i < mat->GetTextureCount(type); ++i)
 	{
 		aiString string;
 		mat->GetTexture(type, i, &string);
 
 		Texture texture;
-		texture.LoadTexture(this->directory, string.C_Str());
-		texture.type = typeName;
+		texture.LoadTexture(this->directory, string.C_Str(), typeName);
 		textures.push_back(texture);
 	}
 

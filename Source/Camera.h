@@ -24,6 +24,8 @@ public:
 	// Called once per update passing accessing to current deltaTime
 	virtual void Update(float deltaTime) = 0;
 
+	Transform* transform;
+
 private:
 	// Camera view projection data
 	mat4 view;
@@ -32,8 +34,5 @@ private:
 
 	// Regenerates the current ProjectionView
 	void UpdateProjectionView();
-
-public:
-	Transform* transform;
 };
 

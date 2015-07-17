@@ -9,6 +9,8 @@ layout(location=7) in vec2 TexCoord;
 uniform mat4 model = mat4(1);
 uniform mat4 viewProjection;
 
+uniform sampler2D height;
+
 out struct vData
 {
   vec3 position;

@@ -1,6 +1,8 @@
 #pragma once
 #include "glm/glm.hpp"
+#include <glm/gtx/quaternion.hpp>
 
+using glm::quat;
 using glm::mat4;
 using glm::vec4;
 using glm::vec3;
@@ -22,11 +24,12 @@ public:
 
 	void SetPosition(vec3 newPos);
 	void SetScale(vec3 newScale);
-	void SetRotation(vec3 newRot);
+	void SetRotation(vec3 eular);
+	void SetRotation(quat quaternion);
 
 	vec3 GetPosition();
 	vec3 GetScale();
-	vec3 GetRotation();
+	quat GetRotation();
 
 	void SetUp(vec3 newUp);
 	void SetRight(vec3 newRight);
@@ -43,7 +46,7 @@ private:
 	mat4 modelMatrix;
 	vec3 position;
 	vec3 scale;
-	vec3 rotation;
+	quat rotation;
 	bool isDirty;
 };
 

@@ -24,6 +24,7 @@ private:
 	void LoadModel(string path);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+
 	Material LoadMaterial(aiMaterial* mat);
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 };
