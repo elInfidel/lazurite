@@ -15,7 +15,7 @@ uniform float roughness = 0.0f;
 uniform vec3 lightDir;
 uniform vec3 cameraPos;
 
-uniform bool alphaTested = false;
+//uniform bool alphaTested = false;
 
 const float e = 2.71828f;
 const float pi = 3.14159f;
@@ -25,7 +25,6 @@ uniform sampler2D diffuse;
 uniform sampler2D specular;
 uniform sampler2D ambient;
 uniform sampler2D normal;
-uniform sampler2D opacity;
 
 in struct vData
 {
@@ -94,12 +93,5 @@ vec3 BRDF()
 
 void main()
 {
-  //float alpha = 1.0f;
-
-  //if(alphaTested)
-  //{
-  //  // TODO
-  //}
-
-  fragColor = vec4(BRDF(), 1);
+    fragColor = vec4(BRDF(), 1);
 }

@@ -70,6 +70,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Resource.cpp" />
+    <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
@@ -92,9 +94,10 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
-    <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Resource.h" />
+    <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\Mesh.h" />
@@ -120,7 +123,6 @@
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\Texture.h" />
-    <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\AntTweakBar.lib" />

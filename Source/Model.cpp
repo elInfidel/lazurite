@@ -17,6 +17,7 @@ void Model::LoadModel(string path)
 	Importer importer;
 	//const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 	const aiScene* scene = importer.ReadFile(path, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_FlipUVs); // TEST
+	//const aiScene* scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_Quality); Full optimization
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		// TODO: Setup Logger class

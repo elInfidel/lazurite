@@ -4,7 +4,7 @@
 #include "ProceduralMesh.h"
 #include "Plane.h"
 #include "tweakbar/AntTweakBar.h"
-#include "GPUParticleEmitter.h"
+#include "ParticleEmitter.h"
 
 class FlyCamera;
 
@@ -21,6 +21,9 @@ protected:
 
 	Model* model;
 	ShaderProgram* modelMat;
+	ShaderProgram* partMat;
+	//Test
+	ParticleEmitter* emitter;
 
 	// Tweak bar vars
 	float fps = 0.0f;
