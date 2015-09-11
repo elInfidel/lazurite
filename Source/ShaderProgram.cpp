@@ -63,7 +63,7 @@ void ShaderProgram::CompileShader(const char* filePath, OpenGLShader::OpenGLShad
 	string shaderCode;
 
 	// TODO: LOG ERROR
-	if (!FileIO::SyncRead(filePath, &shaderCode))
+	if (!FileIO::Read(filePath, shaderCode))
 	{
 		std::cout << "ERROR - Failed to load shader source code!\n";
 		return;

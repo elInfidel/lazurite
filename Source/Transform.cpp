@@ -36,7 +36,7 @@ void Transform::Scale(vec3 scale)
 
 void Transform::Scale(float x, float y, float z)
 {
-	this->scale = vec3(x,y,z);
+	this->scale += vec3(x,y,z);
 	isDirty = true;
 }
 

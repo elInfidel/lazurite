@@ -14,24 +14,15 @@ void Game::Load()
 	// Initialize camera
 	camera = new FlyCamera();
 	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 1.0f, 10000.0f);
-	camera->transform->Translate(0, 1, 5);
 
-	//model = new Model("Resources/Models/Sponza/sponza.obj");
-	//
-	//modelMat = new ShaderProgram();
-	//modelMat->CompileShader("Resources/Shaders/BRDFVert.glsl", OpenGLShader::VERTEX);
-	//modelMat->CompileShader("Resources/Shaders/BRDFFrag.glsl", OpenGLShader::FRAGMENT);
-	//modelMat->Link();
-	//modelMat->Validate();
+	shaderProgram = new ShaderProgram();
+	shaderProgram->CompileShader("Resources/Shaders/CubemapVert.glsl", OpenGLShader::VERTEX);
+	shaderProgram->CompileShader("Resources/Shaders/CubemapFrag.glsl", OpenGLShader::FRAGMENT);
+	shaderProgram->Link();
+	shaderProgram->Validate();
 
-	emitter = new ParticleEmitter();
-	emitter->Initialize(10000, 100.0f, 10.0f, 10.0f, 1.0f, 10.0f, 1.0f, 2.0f, vec4(0, 255, 0, 255), vec4(0, 0, 255, 255));
-
-	partMat = new ShaderProgram();
-	partMat->CompileShader("Resources/Shaders/Particle/CPUPartVert.glsl", OpenGLShader::VERTEX);
-	partMat->CompileShader("Resources/Shaders/Particle/CPUPartFrag.glsl", OpenGLShader::FRAGMENT);
-	partMat->Link();
-	partMat->Validate();
+	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Colosseum/negz.jpg", "Resources/Textures/Cubemaps/Colosseum/posz.jpg", "Resources/Textures/Cubemaps/Colosseum/posy.jpg",
+						  "Resources/Textures/Cubemaps/Colosseum/negy.jpg", "Resources/Textures/Cubemaps/Colosseum/negx.jpg", "Resources/Textures/Cubemaps/Colosseum/posx.jpg");
 
 	// Setting up tweak bar
 	bar = TwNewBar("Debug Console");
@@ -44,27 +35,16 @@ void Game::Update(float deltaTime)
 {
 	camera->Update(deltaTime);
 	fps = 1.0f / deltaTime;
-
-	//if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F5))
-	//	modelMat->Reload();
-
-	emitter->Update(deltaTime, camera);
 }
 
 void Game::Draw(float deltaTime)
 {
-	//modelMat->Use();
-	//modelMat->SetUniform("viewProjection", camera->GetProjectionView());
-	//modelMat->SetUniform("cameraPos", camera->transform->GetPosition());
-	//modelMat->SetUniform("lightDir", lightDir);
-	//model->Draw(*modelMat);
-
-	emitter->Draw(partMat, camera);
+	cubeMap->Draw(*shaderProgram, camera);
 }
 
 void Game::Unload()
 {
 	delete camera;
-	delete model;
-	delete modelMat;
+	delete cubeMap;
+	delete shaderProgram;
 }

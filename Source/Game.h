@@ -1,10 +1,10 @@
 #pragma once
 #include "Application.h"
 #include "Model.h"
-#include "ProceduralMesh.h"
 #include "Plane.h"
 #include "tweakbar/AntTweakBar.h"
 #include "ParticleEmitter.h"
+#include "Cubemap.h"
 
 class FlyCamera;
 
@@ -19,11 +19,8 @@ protected:
 	FlyCamera* camera;
 	TwBar* bar;
 
-	Model* model;
-	ShaderProgram* modelMat;
-	ShaderProgram* partMat;
-	//Test
-	ParticleEmitter* emitter;
+	ShaderProgram* shaderProgram;
+	Cubemap* cubeMap;
 
 	// Tweak bar vars
 	float fps = 0.0f;
