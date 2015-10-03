@@ -66,13 +66,10 @@
     <ClCompile Include="Source\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dependencies\aie\Gizmos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\loadgen\gl_core_4_4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Cubemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\loadgen\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,31 +125,27 @@
     <ClInclude Include="Source\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dependencies\aie\Gizmos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\glfw\glfw3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\glfw\glfw3native.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\loadgen\gl_core_4_4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\tweakbar\AntTweakBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Cubemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\tweakbar\AntTweakBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\glfw\glfw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\glfw\glfw3native.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\loadgen\gl_core_4_4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Libraries\assimp\assimpd.lib" />
-    <Library Include="Libraries\assimp\assimp.lib" />
     <Library Include="Libraries\antTweakBar\AntTweakBar64.lib" />
     <Library Include="Libraries\antTweakBar\AntTweakBar.lib" />
-    <Library Include="Libraries\glfw\glfw3.lib" />
+    <Library Include="Libraries\assimp\assimp_32.lib" />
+    <Library Include="Libraries\assimp\d_assimp_32.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Models\soulspear\soulspear.fbx" />
@@ -178,12 +171,14 @@
     <None Include="Resources\Models\sphere\sphere.fbx" />
     <None Include="Libraries\assimpd.ilk" />
     <None Include="Libraries\assimpd.pdb" />
-    <None Include="Libraries\assimp\assimp.dll" />
-    <None Include="Libraries\assimp\assimp.exp" />
-    <None Include="Libraries\assimp\assimpd.dll" />
-    <None Include="Libraries\assimp\assimpd.exp" />
     <None Include="Resources\Shaders\CubemapFrag.glsl" />
     <None Include="Resources\Shaders\CubemapVert.glsl" />
+    <None Include="Libraries\assimp\assimp_32.dll" />
+    <None Include="Libraries\assimp\assimp_32.exp" />
+    <None Include="Libraries\assimp\d_assimp_32.dll" />
+    <None Include="Libraries\assimp\d_assimp_32.exp" />
+    <None Include="Libraries\assimp\d_assimp_32.ilk" />
+    <None Include="Libraries\assimp\d_assimp_32.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Models\soulspear\soulspear_diffuse.tga" />

@@ -22,6 +22,9 @@ protected:
 	ShaderProgram* shaderProgram;
 	Cubemap* cubeMap;
 
+	ShaderProgram* modelShader;
+	Model* model;
+
 	// Tweak bar vars
 	float fps = 0.0f;
 	vec3 lightDir;

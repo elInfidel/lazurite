@@ -14,6 +14,7 @@ void Game::Load()
 	// Initialize camera
 	camera = new FlyCamera();
 	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 1.0f, 10000.0f);
+	camera->transform->SetPosition(vec3(0,0,0));
 
 	shaderProgram = new ShaderProgram();
 	shaderProgram->CompileShader("Resources/Shaders/CubemapVert.glsl", OpenGLShader::VERTEX);
@@ -21,8 +22,16 @@ void Game::Load()
 	shaderProgram->Link();
 	shaderProgram->Validate();
 
-	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Colosseum/negz.jpg", "Resources/Textures/Cubemaps/Colosseum/posz.jpg", "Resources/Textures/Cubemaps/Colosseum/posy.jpg",
-						  "Resources/Textures/Cubemaps/Colosseum/negy.jpg", "Resources/Textures/Cubemaps/Colosseum/negx.jpg", "Resources/Textures/Cubemaps/Colosseum/posx.jpg");
+	modelShader = new ShaderProgram();
+	modelShader->CompileShader("Resources/Shaders/BRDFVert.glsl", OpenGLShader::VERTEX);
+	modelShader->CompileShader("Resources/Shaders/BRDFFrag.glsl", OpenGLShader::FRAGMENT);
+	modelShader->Link();
+	modelShader->Validate();
+
+	model = new Model("Resources/Models/nanosuit/nanosuit.obj");
+
+	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Yokohama/negz.jpg", "Resources/Textures/Cubemaps/Yokohama/posz.jpg", "Resources/Textures/Cubemaps/Yokohama/posy.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/negy.jpg", "Resources/Textures/Cubemaps/Yokohama/negx.jpg", "Resources/Textures/Cubemaps/Yokohama/posx.jpg");
 
 	// Setting up tweak bar
 	bar = TwNewBar("Debug Console");
@@ -40,10 +49,16 @@ void Game::Update(float deltaTime)
 void Game::Draw(float deltaTime)
 {
 	cubeMap->Draw(*shaderProgram, camera);
+
+	modelShader->Use();
+	modelShader->SetUniform("viewProjection", camera->GetProjectionView());
+	model->Draw(*modelShader);
 }
 
 void Game::Unload()
 {
+	delete model;
+	delete modelShader;
 	delete camera;
 	delete cubeMap;
 	delete shaderProgram;

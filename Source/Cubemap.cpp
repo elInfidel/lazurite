@@ -1,6 +1,7 @@
 #include "Cubemap.h"
 #include "loadgen/gl_core_4_4.h"
 #include "stb/stb_image.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 Cubemap::Cubemap(const char* front, const char* back, const char* top, const char* bottom,
 				 const char* left, const char* right)
@@ -55,7 +56,8 @@ Cubemap::Cubemap(const char* front, const char* back, const char* top, const cha
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 	CreateCubemap(front, back, top, bottom, left, right, &texHandle);
@@ -102,7 +104,7 @@ void Cubemap::CreateCubemap(const char* front, const char* back, const char* top
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
-bool Cubemap::LoadCubemapFace(unsigned int texHandle, GLenum faceTarget, const char* fileName)
+bool Cubemap::LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* fileName)
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texHandle);
 
@@ -118,4 +120,20 @@ bool Cubemap::LoadCubemapFace(unsigned int texHandle, GLenum faceTarget, const c
 	// non-power-of-2 dimensions check
 	if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0)
 		fprintf(stderr, "WARNING: image %s is not power-of-2 dimensions\n", fileName); // TODO:(Liam) Replace with framework logging tools
+
+	// copy image data into 'target' side of cube map
+	glTexImage2D(
+		faceTarget,
+		0,
+		GL_RGBA,
+		x,
+		y,
+		0,
+		GL_RGBA,
+		GL_UNSIGNED_BYTE,
+		image_data
+		);
+
+	free(image_data);
+	return true;
 }
