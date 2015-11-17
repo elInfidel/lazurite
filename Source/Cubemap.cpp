@@ -7,47 +7,47 @@ Cubemap::Cubemap(const char* front, const char* back, const char* top, const cha
 				 const char* left, const char* right)
 {
 	float points[] = {
-		-10.0f, 10.0f, -10.0f,
-		-10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f, 10.0f, -10.0f,
-		-10.0f, 10.0f, -10.0f,
+		-100.0f, 100.0f, -100.0f,
+		-100.0f, -100.0f, -100.0f,
+		100.0f, -100.0f, -100.0f,
+		100.0f, -100.0f, -100.0f,
+		100.0f, 100.0f, -100.0f,
+		-100.0f, 100.0f, -100.0f,
 
-		-10.0f, -10.0f, 10.0f,
-		-10.0f, -10.0f, -10.0f,
-		-10.0f, 10.0f, -10.0f,
-		-10.0f, 10.0f, -10.0f,
-		-10.0f, 10.0f, 10.0f,
-		-10.0f, -10.0f, 10.0f,
+		-100.0f, -100.0f, 100.0f,
+		-100.0f, -100.0f, -100.0f,
+		-100.0f, 100.0f, -100.0f,
+		-100.0f, 100.0f, -100.0f,
+		-100.0f, 100.0f, 100.0f,
+		-100.0f, -100.0f, 100.0f,
 
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, 10.0f,
-		10.0f, 10.0f, 10.0f,
-		10.0f, 10.0f, 10.0f,
-		10.0f, 10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
+		100.0f, -100.0f, -100.0f,
+		100.0f, -100.0f, 100.0f,
+		100.0f, 100.0f, 100.0f,
+		100.0f, 100.0f, 100.0f,
+		100.0f, 100.0f, -100.0f,
+		100.0f, -100.0f, -100.0f,
 
-		-10.0f, -10.0f, 10.0f,
-		-10.0f, 10.0f, 10.0f,
-		10.0f, 10.0f, 10.0f,
-		10.0f, 10.0f, 10.0f,
-		10.0f, -10.0f, 10.0f,
-		-10.0f, -10.0f, 10.0f,
+		-100.0f, -100.0f, 100.0f,
+		-100.0f, 100.0f, 100.0f,
+		100.0f, 100.0f, 100.0f,
+		100.0f, 100.0f, 100.0f,
+		100.0f, -100.0f, 100.0f,
+		-100.0f, -100.0f, 100.0f,
 
-		-10.0f, 10.0f, -10.0f,
-		10.0f, 10.0f, -10.0f,
-		10.0f, 10.0f, 10.0f,
-		10.0f, 10.0f, 10.0f,
-		-10.0f, 10.0f, 10.0f,
-		-10.0f, 10.0f, -10.0f,
+		-100.0f, 100.0f, -100.0f,
+		100.0f, 100.0f, -100.0f,
+		100.0f, 100.0f, 100.0f,
+		100.0f, 100.0f, 100.0f,
+		-100.0f, 100.0f, 100.0f,
+		-100.0f, 100.0f, -100.0f,
 
-		-10.0f, -10.0f, -10.0f,
-		-10.0f, -10.0f, 10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		-10.0f, -10.0f, 10.0f,
-		10.0f, -10.0f, 10.0f
+		-100.0f, -100.0f, -100.0f,
+		-100.0f, -100.0f, 100.0f,
+		100.0f, -100.0f, -100.0f,
+		100.0f, -100.0f, -100.0f,
+		-100.0f, -100.0f, 100.0f,
+		100.0f, -100.0f, 100.0f
 	};
 
 	glGenBuffers(1, &vbo);
@@ -74,7 +74,7 @@ void Cubemap::Draw(const ShaderProgram& shaderProgram, const Camera* camera)
 	glDepthMask(GL_FALSE);
 	glUseProgram(shaderProgram.GetHandle());
 	shaderProgram.SetUniform("P", camera->GetProjection());
-	shaderProgram.SetUniform("V", camera->GetView());
+	shaderProgram.SetUniform("V", glm::mat4(glm::mat3(camera->GetView())));
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texHandle);
 	glBindVertexArray(vao);

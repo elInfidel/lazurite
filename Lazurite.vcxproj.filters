@@ -72,6 +72,15 @@
     <ClCompile Include="Includes\loadgen\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utility\Thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\AComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
@@ -140,6 +149,15 @@
     <ClInclude Include="Includes\loadgen\gl_core_4_4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utility\Thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\AComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\antTweakBar\AntTweakBar64.lib" />
@@ -179,6 +197,8 @@
     <None Include="Libraries\assimp\d_assimp_32.exp" />
     <None Include="Libraries\assimp\d_assimp_32.ilk" />
     <None Include="Libraries\assimp\d_assimp_32.pdb" />
+    <None Include="Resources\Shaders\DefaultFrag.glsl" />
+    <None Include="Resources\Shaders\DefaultVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Models\soulspear\soulspear_diffuse.tga" />

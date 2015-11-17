@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "glm/gtc/type_ptr.hpp"
 
-Application::Application() : wireFrame(false), clearColor(vec3(192.0f / 255.0f, 192.0f / 255.0f, 192.0f / 255.0f))
+Application::Application() : wireFrame(false), clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f))
 {
 
 }
@@ -23,6 +23,7 @@ bool Application::Initialize()
 	videoMode = glfwGetVideoMode(monitor);
 
 	// Window hints for window creation
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

@@ -13,7 +13,7 @@ void Game::Load()
 {
 	// Initialize camera
 	camera = new FlyCamera();
-	camera->SetPerspective(glm::pi<float>() * 0.25f, 16 / 9.f, 1.0f, 10000.0f);
+	camera->SetPerspective(70.0f, 16 / 9.f, 1.0f, 10000.0f);
 	camera->transform->SetPosition(vec3(0,0,0));
 
 	shaderProgram = new ShaderProgram();
@@ -28,7 +28,7 @@ void Game::Load()
 	modelShader->Link();
 	modelShader->Validate();
 
-	model = new Model("Resources/Models/nanosuit/nanosuit.obj");
+	model = new Model("Resources/Models/jc_body/JC_Cygirl.fbx");
 
 	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Yokohama/negz.jpg", "Resources/Textures/Cubemaps/Yokohama/posz.jpg", "Resources/Textures/Cubemaps/Yokohama/posy.jpg",
 						  "Resources/Textures/Cubemaps/Yokohama/negy.jpg", "Resources/Textures/Cubemaps/Yokohama/negx.jpg", "Resources/Textures/Cubemaps/Yokohama/posx.jpg");
@@ -52,6 +52,7 @@ void Game::Draw(float deltaTime)
 
 	modelShader->Use();
 	modelShader->SetUniform("viewProjection", camera->GetProjectionView());
+	modelShader->SetUniform("lightDir", glm::normalize(lightDir));
 	model->Draw(*modelShader);
 }
 
