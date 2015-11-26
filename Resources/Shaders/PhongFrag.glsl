@@ -2,9 +2,9 @@
 
 in struct vData
 {
-  vec3 n;
-  vec3 l;
-  vec3 v;
+	vec3 n;
+	vec3 l;
+	vec3 v;
 } vertexData;
 
 // Material Descriptions
@@ -18,7 +18,12 @@ uniform vec3 lightS = vec3(1.0);
 
 uniform float specPow = 128.0f;
 
+uniform vec3 rimColor;
+uniform float rimPower;
+
 out vec4 fragColor;
+
+vec3 calculateRim(vec3 n, vec3 v);
 
 void main()
 {
@@ -31,6 +36,18 @@ void main()
 	vec3 diffuse = max(dot(n, -l), 0.0) * matD;
 	vec3 specular = pow(max(dot(r, v), 0.0), specPow) * matS;
 
+	vec3 rim = calculateRim(n, v);
 
-    fragColor = vec4(matA + diffuse + specular, 1.0f);
+    fragColor = vec4(matA + diffuse + specular + rim, 1.0f);
+}
+
+vec3 calculateRim(vec3 n, vec3 v)
+{
+	float f = 1.0f - dot(n, v);
+
+	f = smoothstep(0.0f, 1.0f, f);
+
+	f = pow(f, rimPower);
+
+	return f * rimColor;
 }

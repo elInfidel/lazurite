@@ -1,7 +1,6 @@
 #include "Application.h"
 #include <iostream>
 #include "Input.h"
-#include "glm/gtc/type_ptr.hpp"
 
 Application::Application() : wireFrame(false), clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f))
 {
@@ -57,8 +56,8 @@ bool Application::Initialize()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Instantiating time variables
 	beginTime = glfwGetTime(); // Priming beginTime with value of high resolution system clock

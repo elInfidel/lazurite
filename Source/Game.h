@@ -25,9 +25,11 @@ protected:
 	float fps = 0.0f;
 	vec3 lightDir;
 
-	vec3 matA = vec3(10.0f);
-	vec3 matD = vec3(0.0f, 50.0f, 200.0f);
-	vec3 matS = vec3(255.0f);
-	float specularPower = 280.0f;
+	vec3 matA;
+	vec3 matD;
+	vec3 matS;
+	float specularPower;
+	vec3 rimCol;
+	float rimPow;
 };
 
