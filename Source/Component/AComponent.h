@@ -9,6 +9,6 @@ public:
 	virtual ~AComponent();
 
 protected:
-	virtual void update() = 0;
+	virtual void update(float deltaTime);
 };
 

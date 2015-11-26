@@ -7,6 +7,7 @@
 #include "Material.h"
 #include <vector>
 #include <string>
+#include "Transform.h"
 
 class Model
 {
@@ -16,6 +17,7 @@ public:
 
 	void Draw(const ShaderProgram& shaderProgram) const;
 
+	Transform transform;
 private:
 
 	vector<Mesh> meshes;

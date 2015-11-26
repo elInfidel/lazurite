@@ -70,14 +70,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AObservable.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Cubemap.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Source\RenderTexture.cpp" />
-    <ClCompile Include="Source\Plane.cpp" />
     <ClCompile Include="Source\GPUParticleEmitter.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -94,14 +93,14 @@
     <ClCompile Include="Source\Utility\Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AObservable.h" />
+    <ClInclude Include="Source\IObserver.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Cubemap.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\RenderTexture.h" />
-    <ClInclude Include="Source\Plane.h" />
     <ClInclude Include="Source\GPUParticleEmitter.h" />
     <ClInclude Include="Includes\tweakbar\AntTweakBar.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
@@ -143,8 +142,8 @@
     <None Include="Resources\Shaders\BRDFVert.glsl" />
     <None Include="Resources\Shaders\CubemapFrag.glsl" />
     <None Include="Resources\Shaders\CubemapVert.glsl" />
-    <None Include="Resources\Shaders\DefaultFrag.glsl" />
-    <None Include="Resources\Shaders\DefaultVert.glsl" />
+    <None Include="Resources\Shaders\PhongFrag.glsl" />
+    <None Include="Resources\Shaders\PhongVert.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartFrag.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartVert.glsl" />
     <None Include="Resources\Shaders\Particle\GPUPartFrag.glsl" />

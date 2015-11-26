@@ -10,7 +10,7 @@ namespace VertexOffset
 	enum Offsets
 	{
 		PositionOffset = 0,
-		ColorOffset = PositionOffset + sizeof(glm::vec3),
+		ColorOffset = PositionOffset + sizeof(glm::vec4),
 		NormalOffset = ColorOffset + sizeof(glm::vec3),
 		TangentOffset = NormalOffset + sizeof(glm::vec3),
 		BiTangentOffset = TangentOffset + sizeof(glm::vec3),
@@ -23,7 +23,7 @@ namespace VertexOffset
 
 struct Vertex
 {
-	vec3 position;
+	vec4 position = vec4(1.0);
 	vec3 color;
 	vec3 normal;
 	vec3 tangent;

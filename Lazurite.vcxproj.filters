@@ -48,13 +48,7 @@
     <ClCompile Include="Source\GPUParticleEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Plane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RenderTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh.cpp">
@@ -79,6 +73,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AObservable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,13 +113,7 @@
     <ClInclude Include="Source\GPUParticleEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RenderTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh.h">
@@ -156,6 +147,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AObservable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,8 +194,8 @@
     <None Include="Libraries\assimp\d_assimp_32.exp" />
     <None Include="Libraries\assimp\d_assimp_32.ilk" />
     <None Include="Libraries\assimp\d_assimp_32.pdb" />
-    <None Include="Resources\Shaders\DefaultFrag.glsl" />
-    <None Include="Resources\Shaders\DefaultVert.glsl" />
+    <None Include="Resources\Shaders\PhongVert.glsl" />
+    <None Include="Resources\Shaders\PhongFrag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Models\soulspear\soulspear_diffuse.tga" />

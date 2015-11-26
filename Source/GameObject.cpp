@@ -15,10 +15,46 @@ void GameObject::AddComponent(AComponent* newComponent)
 	components.push_back(newComponent);
 }
 
-void GameObject::Update()
+void GameObject::Update(float deltaTime)
 {
-	for (AComponent* component : components)
+	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
 	{
-		component->update();
+		(*component)->update(deltaTime);
+	}
+}
+
+template<class T>
+void GameObject::RemoveComponent(T remove)
+{
+	if (dynamic_cast<AComponent*>(T) == nullptr)
+		return;
+
+	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
+	{
+		T* c = dynamic_cast<T*>((*component));
+
+		if (c != nullptr)
+		{
+			components.erase(component);
+			delete c;
+			return;
+		}
+	}
+}
+
+template<class T>
+T* GameObject::GetComponent(T get)
+{
+	if (dynamic_cast<AComponent*>(T) == nullptr)
+		return;
+
+	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
+	{
+		T* c = dynamic_cast<T*>((*component));
+
+		if (c != nullptr)
+		{
+			return c;
+		}
 	}
 }
