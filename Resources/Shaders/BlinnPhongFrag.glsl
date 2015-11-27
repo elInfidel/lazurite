@@ -31,10 +31,10 @@ void main()
 	vec3 l = normalize(vertexData.l);
 	vec3 v = normalize(vertexData.v);
 
-	vec3 r = reflect(l, n);
+	vec3 h = normalize(-l + v);
 
 	vec3 diffuse = max(dot(n, -l), 0.0) * matD;
-	vec3 specular = pow(max(dot(r, v), 0.0), specPow) * matS;
+	vec3 specular = pow(max(dot(n, h), 0.0), specPow) * matS;
 
 	vec3 rim = calculateRim(n, v);
 

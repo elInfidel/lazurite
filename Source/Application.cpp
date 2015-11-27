@@ -59,6 +59,8 @@ bool Application::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glEnable(GL_MULTISAMPLE);
+
 	// Instantiating time variables
 	beginTime = glfwGetTime(); // Priming beginTime with value of high resolution system clock
 	endTime = 0.0;
