@@ -17,8 +17,8 @@ void Game::Load()
 	camera->transform->SetPosition(vec3(0,0,0));
 
 	modelShader = new ShaderProgram();
-	modelShader->CompileShader("Resources/Shaders/PhongVert.glsl", OpenGLShader::VERTEX);
-	modelShader->CompileShader("Resources/Shaders/PhongFrag.glsl", OpenGLShader::FRAGMENT);
+	modelShader->CompileShader("Resources/Shaders/BlinnPhongVert.glsl", OpenGLShader::VERTEX);
+	modelShader->CompileShader("Resources/Shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
 

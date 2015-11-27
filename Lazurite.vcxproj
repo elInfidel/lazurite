@@ -142,8 +142,8 @@
     <None Include="Resources\Shaders\BRDFVert.glsl" />
     <None Include="Resources\Shaders\CubemapFrag.glsl" />
     <None Include="Resources\Shaders\CubemapVert.glsl" />
-    <None Include="Resources\Shaders\PhongFrag.glsl" />
-    <None Include="Resources\Shaders\PhongVert.glsl" />
+    <None Include="Resources\Shaders\BlinnPhongFrag.glsl" />
+    <None Include="Resources\Shaders\BlinnPhongVert.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartFrag.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartVert.glsl" />
     <None Include="Resources\Shaders\Particle\GPUPartFrag.glsl" />

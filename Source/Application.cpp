@@ -52,14 +52,19 @@ bool Application::Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	// Disable backface culling temp
+	// Enable backface culling
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
+	// Enable color blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	// Enable anti-aliasing
 	glEnable(GL_MULTISAMPLE);
+
+	// Enable gamma correction
+	glEnable(GL_FRAMEBUFFER_SRGB);
 
 	// Instantiating time variables
 	beginTime = glfwGetTime(); // Priming beginTime with value of high resolution system clock

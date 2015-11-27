@@ -194,8 +194,8 @@
     <None Include="Libraries\assimp\d_assimp_32.exp" />
     <None Include="Libraries\assimp\d_assimp_32.ilk" />
     <None Include="Libraries\assimp\d_assimp_32.pdb" />
-    <None Include="Resources\Shaders\PhongVert.glsl" />
-    <None Include="Resources\Shaders\PhongFrag.glsl" />
+    <None Include="Resources\Shaders\BlinnPhongFrag.glsl" />
+    <None Include="Resources\Shaders\BlinnPhongVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Models\soulspear\soulspear_diffuse.tga" />
