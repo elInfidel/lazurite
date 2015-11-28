@@ -43,10 +43,7 @@ void FlyCamera::CalculateRotation(float deltaTime)
 		pitch = -89.0f;
 
 	// We also recalculate our direction vectors // TODO: Move this to transform class?
-	transform->SetForward(vec3(cos(glm::radians(pitch)) * cos(glm::radians(yaw)), sin(glm::radians(pitch)), cos(glm::radians(pitch)) * sin(glm::radians(yaw))));
-
-	transform->SetRight(glm::normalize(glm::cross(transform->GetForward(), vec3(0, 1, 0)))); // Temp - world up
-	transform->SetUp(glm::normalize(glm::cross(transform->GetRight(), transform->GetForward())));
+	transform.SetForward(vec3(cos(glm::radians(pitch)) * cos(glm::radians(yaw)), sin(glm::radians(pitch)), cos(glm::radians(pitch)) * sin(glm::radians(yaw))));
 
 	lastOffset = Input::GetInstance()->GetMouseDelta();
 }
@@ -57,15 +54,15 @@ void FlyCamera::CalculateMovement(float deltaTime)
 	// TODO: Wrap key enumeration in Input class instead of using GLFW directly
 	float finalSpeed = movementSpeed * deltaTime;
 	if (Input::GetInstance()->GetKey(GLFW_KEY_W))
-		transform->Translate(transform->GetForward() * finalSpeed);
+		transform.Translate(transform.GetForward() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_S))
-		transform->Translate(-transform->GetForward() * finalSpeed);
+		transform.Translate(-transform.GetForward() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_A))
-		transform->Translate(-transform->GetRight() * finalSpeed);
+		transform.Translate(-transform.GetRight() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_D))
-		transform->Translate(transform->GetRight() * finalSpeed);
+		transform.Translate(transform.GetRight() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_SPACE))
-		transform->Translate(transform->GetUp() * finalSpeed);
+		transform.Translate(transform.GetUp() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_LEFT_SHIFT))
-		transform->Translate(-transform->GetUp() * finalSpeed);
+		transform.Translate(-transform.GetUp() * finalSpeed);
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "Component/AComponent.h"
+#include "Transform.h"
+
 #include <vector>
 
 using namespace std;
@@ -7,14 +9,18 @@ using namespace std;
 class GameObject
 {
 public:
-	void AddComponent(AComponent* newComponent);
+	Transform GetTransform();
 
+	// Components
+	void AddComponent(AComponent* newComponent);
 	template<class T> void RemoveComponent(T remove);
 	template<class T> T* GetComponent(T get);
 
 protected:
 	GameObject();
 	virtual ~GameObject();
+
+	Transform transform;
 
 	vector<AComponent*> components;
 

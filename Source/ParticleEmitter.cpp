@@ -128,8 +128,8 @@ void ParticleEmitter::Update(float deltaTime, Camera* camera)
 			vertexData[quad * 4 + 3].color = particle->color;
 
 			// Billboard the particle
-			vec3 zAxis = glm::normalize(vec3(camera->transform->GetPosition()) - particle->position);
-			vec3 xAxis = glm::cross(vec3(camera->transform->GetUp()), zAxis);
+			vec3 zAxis = glm::normalize(vec3(camera->transform.GetTranslation()) - particle->position);
+			vec3 xAxis = glm::cross(vec3(camera->transform.GetUp()), zAxis);
 			vec3 yAxis = glm::cross(zAxis, xAxis);
 
 			glm::mat4 billboard(vec4(xAxis, 0), vec4(yAxis, 0), vec4(zAxis, 0), vec4(0, 0, 0, 1));
@@ -168,7 +168,7 @@ void ParticleEmitter::Emit()
 
 	CPUParticle::Particle& particle = particles[firstDead++];
 
-	particle.position = transform.GetPosition();
+	particle.position = transform.GetTranslation();
 
 	particle.lifetime = 0;
 	particle.lifespan = (rand() / (float)RAND_MAX) * (lifespanMax - lifespanMin) + lifespanMin;

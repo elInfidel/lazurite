@@ -3,21 +3,17 @@
 
 Camera::Camera()
 {
-	transform = new Transform();
+	view = mat4(1.0f);
+	projection = mat4(1.0f);
+	viewProjection = mat4(1.0f);
 }
 
-
-Camera::~Camera()
-{
-	delete transform;
-}
-
-void Camera::SetOrthographic(float left, float right, float bottom, float top, float zNear, float zFar)
+void Camera::SetOrthographic(float left, float right, float bottom, float top, float zNear = 1.0f, float zFar = 100.0f)
 {
 	projection = glm::ortho(left, right, bottom, top, zNear, zFar);
 }
 
-void Camera::SetPerspective(float fov, float aspect, float zNear, float zFar)
+void Camera::SetPerspective(float fov, float aspect, float zNear = 1.0f, float zFar = 100.0f)
 {
 	projection = glm::perspective(fov, aspect, zNear, zFar);
 }
@@ -40,6 +36,7 @@ const mat4& Camera::GetProjectionView()
 
 void Camera::UpdateProjectionView()
 {
-	view = glm::lookAt(transform->GetPosition(), transform->GetPosition() + transform->GetForward(), vec3(0,1,0));
+	view = glm::lookAt(transform.GetTranslation(), transform.GetTranslation() + transform.GetForward(), vec3(0,1,0));
+	//view = glm::inverse(transform.GetWorldMatrix());
 	viewProjection = projection * view;
 }

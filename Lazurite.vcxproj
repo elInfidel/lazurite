@@ -70,6 +70,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Scene.cpp" />
+    <ClCompile Include="Source\Component\ModelRenderer.cpp" />
+    <ClCompile Include="Source\RenderSystem.cpp" />
     <ClCompile Include="Source\AObservable.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
@@ -93,6 +96,9 @@
     <ClCompile Include="Source\Utility\Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\Component\ModelRenderer.h" />
+    <ClInclude Include="Source\RenderSystem.h" />
     <ClInclude Include="Source\AObservable.h" />
     <ClInclude Include="Source\IObserver.h" />
     <ClInclude Include="Source\Component\AComponent.h" />

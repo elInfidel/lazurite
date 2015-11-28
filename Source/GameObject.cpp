@@ -9,6 +9,11 @@ GameObject::~GameObject()
 {
 }
 
+Transform GameObject::GetTransform()
+{
+	return transform;
+}
+
 void GameObject::AddComponent(AComponent* newComponent)
 {
 	//TODO: Implement duplicate check
@@ -26,7 +31,7 @@ void GameObject::Update(float deltaTime)
 template<class T>
 void GameObject::RemoveComponent(T remove)
 {
-	if (dynamic_cast<AComponent*>(T) == nullptr)
+	if (dynamic_cast<AComponent>(T) == nullptr)
 		return;
 
 	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
@@ -45,7 +50,7 @@ void GameObject::RemoveComponent(T remove)
 template<class T>
 T* GameObject::GetComponent(T get)
 {
-	if (dynamic_cast<AComponent*>(T) == nullptr)
+	if (dynamic_cast<AComponent>(T) == nullptr)
 		return;
 
 	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)

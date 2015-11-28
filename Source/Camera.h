@@ -10,21 +10,20 @@ class Camera
 {
 public:
 	Camera();
-	virtual ~Camera();
 
 	// Sets the camera to orthographic with the given arguments
 	void SetOrthographic(float left, float right, float top, float bottom, float zNear, float zFar);
 	// Sets the camera to perspective with the given arguments
 	void SetPerspective(float fov, float aspect, float zNear, float zFar);
 
-	const mat4& GetView()       const;
+	const mat4& GetView() const;
 	const mat4& GetProjection() const;
 	const mat4& GetProjectionView();
 
 	// Called once per update passing accessing to current deltaTime
 	virtual void Update(float deltaTime) = 0;
 
-	Transform* transform;
+	Transform transform;
 
 private:
 	// Camera view projection data
