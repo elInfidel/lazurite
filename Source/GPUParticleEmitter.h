@@ -2,7 +2,7 @@
 #include "glm/glm.hpp"
 #include "Camera.h"
 #include "ShaderProgram.h"
-#include "Transform.h"
+#include "Component/Transform.h"
 #include "ShaderProgram.h"
 
 using glm::vec3;

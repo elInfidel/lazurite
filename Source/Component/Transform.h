@@ -2,7 +2,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include <glm/gtx/quaternion.hpp>
-#include "Component/AComponent.h"
+#include "AComponent.h"
 
 using namespace std;
 

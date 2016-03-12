@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "Model.h"
+#include "Component/Model.h"
 #include "ParticleEmitter.h"
 #include "Cubemap.h"
 

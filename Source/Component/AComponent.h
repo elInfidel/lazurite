@@ -8,7 +8,7 @@ public:
 	AComponent();
 	virtual ~AComponent();
 
-	shared_ptr<GameObject> owner;
+	GameObject* owner;
 protected:
 	virtual void Update(float deltaTime) = 0;
 };

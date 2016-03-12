@@ -78,23 +78,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Renderer.cpp" />
+    <ClCompile Include="Source\Core\Physics.cpp" />
     <ClCompile Include="Source\ImguiImpl.cpp" />
     <ClCompile Include="Includes\imgui\imgui.cpp" />
     <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
     <ClCompile Include="Includes\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\MemoryAllocator.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
-    <ClCompile Include="Source\Component\ModelRenderer.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Cubemap.cpp" />
     <ClCompile Include="Source\Material.cpp" />
-    <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\Component\Model.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\GPUParticleEmitter.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
-    <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\FileIO.cpp" />
+    <ClCompile Include="Source\Core\Input.cpp" />
+    <ClCompile Include="Source\Utility\FileIO.cpp" />
     <ClCompile Include="Source\ShaderProgram.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -102,11 +103,13 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Includes\loadgen\gl_core_4_4.c" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Transform.cpp" />
+    <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\Utility\Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Renderer.h" />
+    <ClInclude Include="Source\Core\Physics.h" />
     <ClInclude Include="Source\ImguiImpl.h" />
     <ClInclude Include="Includes\imgui\imconfig.h" />
     <ClInclude Include="Includes\imgui\imgui.h" />
@@ -116,17 +119,16 @@
     <ClInclude Include="Includes\imgui\stb_truetype.h" />
     <ClInclude Include="Source\MemoryAllocator.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Component\ModelRenderer.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Cubemap.h" />
     <ClInclude Include="Source\Material.h" />
-    <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\Component\Model.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GPUParticleEmitter.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
-    <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\FileIO.h" />
+    <ClInclude Include="Source\Core\Input.h" />
+    <ClInclude Include="Source\Utility\FileIO.h" />
     <ClInclude Include="Source\ShaderProgram.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Application.h" />
@@ -135,7 +137,7 @@
     <ClInclude Include="Includes\glfw\glfw3.h" />
     <ClInclude Include="Includes\glfw\glfw3native.h" />
     <ClInclude Include="Includes\loadgen\gl_core_4_4.h" />
-    <ClInclude Include="Source\Transform.h" />
+    <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\Utility\Thread.h" />
@@ -163,6 +165,8 @@
     <None Include="Resources\Shaders\CubemapVert.glsl" />
     <None Include="Resources\Shaders\BlinnPhongFrag.glsl" />
     <None Include="Resources\Shaders\BlinnPhongVert.glsl" />
+    <None Include="Resources\Shaders\DefaultFrag.glsl" />
+    <None Include="Resources\Shaders\DefaultVert.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartFrag.glsl" />
     <None Include="Resources\Shaders\Particle\CPUPartVert.glsl" />
     <None Include="Resources\Shaders\Particle\GPUPartFrag.glsl" />

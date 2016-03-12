@@ -1,6 +1,6 @@
 #include "Application.h"
 #include <iostream>
-#include "Input.h"
+#include "Core/Input.h"
 #include "MemoryAllocator.h"
 
 GLFWwindow* Application::window;

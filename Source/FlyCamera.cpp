@@ -1,17 +1,10 @@
 #include "FlyCamera.h"
 #include "glm/gtc/matrix_transform.hpp"
-#include "Input.h"
+#include "Core/Input.h"
 #include <iostream>
 
-FlyCamera::FlyCamera() : yaw(-90.0f), pitch(0.0f)
-{
-
-}
-
-FlyCamera::~FlyCamera()
-{
-
-}
+FlyCamera::FlyCamera() : yaw(-90.0f), pitch(0.0f) {}
+FlyCamera::~FlyCamera() {}
 
 void FlyCamera::Update(float deltaTime)
 {
@@ -20,7 +13,7 @@ void FlyCamera::Update(float deltaTime)
 	if (!Input::GetInstance()->mouseLocked)
 		return;
 
-	CalculateRotation(deltaTime);
+	//CalculateRotation(deltaTime);
 }
 
 void FlyCamera::CalculateRotation(float deltaTime)
@@ -54,9 +47,9 @@ void FlyCamera::CalculateMovement(float deltaTime)
 	// TODO: Wrap key enumeration in Input class instead of using GLFW directly
 	float finalSpeed = movementSpeed * deltaTime;
 	if (Input::GetInstance()->GetKey(GLFW_KEY_W))
-		transform.Translate(transform.GetForward() * finalSpeed);
+		transform.Translate(vec3(0,0,-1) * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_S))
-		transform.Translate(-transform.GetForward() * finalSpeed);
+		transform.Translate(vec3(0, 0, 1) * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_A))
 		transform.Translate(-transform.GetRight() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_D))

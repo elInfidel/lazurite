@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
+#include "glm/glm.hpp"
 
 using namespace std;
+using glm::vec3;
+using glm::quat;
 
 class Scene
 {

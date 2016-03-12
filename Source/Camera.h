@@ -1,7 +1,7 @@
 #pragma once
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
-#include "Transform.h"
+#include "Component/Transform.h"
 
 using glm::mat4;
 using glm::vec3;

@@ -36,7 +36,7 @@ const mat4& Camera::GetProjectionView()
 
 void Camera::UpdateProjectionView()
 {
-	view = glm::lookAt(transform.GetTranslation(), transform.GetTranslation() + transform.GetForward(), vec3(0,1,0));
-	//view = glm::inverse(transform.GetWorldMatrix());
+	//view = glm::lookAt(transform.GetTranslation(), transform.GetTranslation() + transform.GetForward(), vec3(0,1,0));
+	view = glm::inverse(transform.GetWorldMatrix());
 	viewProjection = projection * view;
 }

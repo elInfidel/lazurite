@@ -25,8 +25,7 @@ void Transform::Translate(vec3 translation)
 
 void Transform::Translate(float x, float y, float z)
 {
-	position += vec3(x, y, z);
-	isDirty = true;
+	Translate(vec3(x, y, z));
 }
 
 void Transform::Rotate(vec3 eular)
@@ -37,8 +36,7 @@ void Transform::Rotate(vec3 eular)
 
 void Transform::Rotate(float x, float y, float z)
 {
-	rotation *= quat(vec3(x, y, z));
-	isDirty = true;
+	Rotate(vec3(x, y, z));
 }
 
 void Transform::Rotate(quat rotation)
@@ -180,6 +178,7 @@ void Transform::DetachChildren()
 	{
 		(*child)->parent = nullptr;
 	}
+	children.clear();
 }
 
 Transform* Transform::GetParent()
@@ -189,7 +188,10 @@ Transform* Transform::GetParent()
 
 Transform* Transform::GetChildByIndex(int index)
 {
-	return children[index];
+	if (index < children.size())
+		return children[index];
+	else
+		return nullptr;
 }
 
 vector<Transform*> Transform::GetChildren()
@@ -199,7 +201,7 @@ vector<Transform*> Transform::GetChildren()
 
 void Transform::UpdateTransformations()
 {
-	localMatrix = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
+	localMatrix = glm::scale(scale) * glm::toMat4(rotation) * glm::translate(position);
 
 	if (parent != nullptr)
 		worldMatrix = localMatrix * parent->worldMatrix;

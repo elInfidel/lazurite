@@ -3,7 +3,7 @@
 #include <glm/ext.hpp>
 #include "FlyCamera.h"
 #include "glm/gtc/type_ptr.hpp"
-#include "Input.h"
+#include "Core/Input.h"
 #include "GameObject.h"
 
 using glm::vec3;
@@ -15,11 +15,11 @@ void Game::Load()
 	// Initialize camera
 	camera = new FlyCamera();
 	camera->SetPerspective(70.0f, 16.0f / 9.0f, 1.0f, 100.0f);
-	camera->transform.SetTranslation(vec3(0,0,-4));
+	camera->transform.SetTranslation(vec3(0,0,4));
 
 	modelShader = new ShaderProgram();
-	modelShader->CompileShader("Resources/Shaders/BlinnPhongVert.glsl", OpenGLShader::VERTEX);
-	modelShader->CompileShader("Resources/Shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
+	modelShader->CompileShader("Resources/Shaders/DefaultVert.glsl", OpenGLShader::VERTEX);
+	modelShader->CompileShader("Resources/Shaders/DefaultFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
 
@@ -39,6 +39,7 @@ void Game::Draw(float deltaTime)
 	modelShader->SetUniform("mvMat", camera->GetView() * model->transform.GetWorldMatrix());
 	modelShader->SetUniform("pMat", camera->GetProjection());
 	modelShader->SetUniform("vMat", camera->GetView());
+	modelShader->SetUniform("mvpMat", camera->GetProjectionView() * model->transform.GetWorldMatrix());
 	modelShader->SetUniform("matA", matA);
 	modelShader->SetUniform("matD", matD);
 	modelShader->SetUniform("matS", matS);
