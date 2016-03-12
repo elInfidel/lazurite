@@ -3,8 +3,10 @@
 ## Storing libraries and includes in private dropbox
 ## to avoid legalities of sharing EULA protected code.
 #################
-[Ii]ncludes/
-[Ll]ibraries/
+[Ii]ncludes/physx
+[Ii]ncludes/fmod
+[Ll]ibraries/physx
+[Ll]ibraries/fmod
 
 #################
 ## Eclipse
