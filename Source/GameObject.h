@@ -8,6 +8,7 @@ using namespace std;
 
 class GameObject
 {
+	friend class Scene;
 public:
 	Transform GetTransform();
 

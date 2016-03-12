@@ -7,6 +7,12 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	for (int i = 0; i < components.size(); ++i)
+	{
+		delete components[i];
+	}
+
+	components.clear();
 }
 
 Transform GameObject::GetTransform()
@@ -24,7 +30,7 @@ void GameObject::Update(float deltaTime)
 {
 	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
 	{
-		(*component)->update(deltaTime);
+		(*component)->Update(deltaTime);
 	}
 }
 

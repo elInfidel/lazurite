@@ -4,7 +4,12 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 #include "Camera.h"
-#include "tweakbar/AntTweakBar.h"
+#include <physx/PxPhysicsAPI.h>
+#include <physx/PxScene.h>
+#include <physx/pvd/PxVisualDebugger.h>
+#include "ImguiImpl.h"
+
+using namespace physx;
 
 using glm::mat4;
 using glm::vec4;
@@ -21,12 +26,17 @@ public:
 	 void Terminate();
 	 // Runs the engine after initialization
 	 void Run();
+	 // Nvidia PhysX
+	 void InitializePhysx();
+	 void InitializePhysxDebugger();
+	 void UpdatePhysX(float deltaTime);
+	 void TestPhysx();
 
 	 // Temp functions
 	 //void GenerateGrid(unsigned int rows, unsigned int cols);
 	 //void DrawGrid(Camera* camera, ShaderProgram* shaderProgram, int rows, int cols);
 
-	 // Loop functions
+	 // pure virtual Loop functions.
 	 virtual void Load() = 0;
 	 virtual void Update(float deltaTime) = 0;
 	 virtual void Draw(float deltaTime) = 0;
@@ -37,9 +47,9 @@ public:
 
 private:
 	// GLFW data pointers
-	GLFWwindow* window;
-	GLFWmonitor* monitor;
-	const GLFWvidmode* videoMode;
+	static GLFWwindow* window;
+	static GLFWmonitor* monitor;
+	static const GLFWvidmode* videoMode;
 
 	// Callback for screen size changes
 	static void OnScreenSizeChange(GLFWwindow* w,  int width, int height);
@@ -51,5 +61,19 @@ private:
 
 	// TEMP
 	bool wireFrame;
+	bool show_test_window = true;
+	bool show_another_window = false;
+	ImVec4 clear_color = ImColor(114, 144, 154);
+
+	// TEMP PHYSICS
+	PxFoundation* g_PhysicsFoundation;
+	PxPhysics* g_Physics;
+	PxScene* g_PhysicsScene; 
+	PxDefaultErrorCallback gDefaultErrorCallback; 
+	PxDefaultAllocator gDefaultAllocatorCallback;
+	PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader; 
+	PxMaterial* g_PhysicsMaterial; 
+	PxMaterial* g_boxMaterial;
+	PxCooking* g_PhysicsCooker;
 };
 

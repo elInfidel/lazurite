@@ -1,6 +1,5 @@
 #include "Input.h"
 #include <iostream>
-#include "tweakbar/AntTweakBar.h"
 
 // Static data
 Input* Input::singleton;
@@ -87,12 +86,11 @@ void Input::Update(float deltaTime)
 void Input::OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	singleton->keys[key] = action;
-	TwEventKeyGLFW(key, action);
 }
 
 void Input::OnChar(GLFWwindow* window, unsigned int character)
 {
-	TwEventCharGLFW(character, GLFW_PRESS);
+
 }
 
 void Input::OnMousePos(GLFWwindow* window, double x, double y)
@@ -101,15 +99,14 @@ void Input::OnMousePos(GLFWwindow* window, double x, double y)
 	singleton->mouseDelta.y = singleton->mousePosition.y - (float)y;
 
 	singleton->mousePosition = vec2(x, y);
-	TwEventMousePosGLFW((int)x, (int)y);
 }
 
 void Input::OnMouseButton(GLFWwindow* window, int button, int action, int mods)
 {
-	TwEventMouseButtonGLFW(button, action);
+
 }
 
 void Input::OnMouseScroll(GLFWwindow* window, double x, double y)
 {
-	TwEventMouseWheelGLFW((int)y);
+
 }

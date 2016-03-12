@@ -1,7 +1,6 @@
 #pragma once
 #include "Application.h"
 #include "Model.h"
-#include "tweakbar/AntTweakBar.h"
 #include "ParticleEmitter.h"
 #include "Cubemap.h"
 
@@ -16,7 +15,6 @@ protected:
 	virtual void Unload();
 
 	FlyCamera* camera;
-	TwBar* bar;
 
 	ShaderProgram* modelShader;
 	Model* model;

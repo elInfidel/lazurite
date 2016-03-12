@@ -10,7 +10,7 @@ public:
 
 	GameObject* owner;
 protected:
-	virtual void update(float deltaTime) = 0;
+	virtual void Update(float deltaTime) = 0;
 
 private:
 };

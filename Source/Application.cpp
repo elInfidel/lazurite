@@ -1,6 +1,7 @@
 #include "Application.h"
 #include <iostream>
 #include "Input.h"
+#include "MemoryAllocator.h"
 
 Application::Application() : wireFrame(false), clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f))
 {
@@ -72,11 +73,12 @@ bool Application::Initialize()
 	deltaTime = 1.0f / 60.0f; // Assuming a starting deltaTime of 60fps (16.667ms)
 
 	// Initializing engine subsystems
-	// TODO
+	InitializePhysx();
+	InitializePhysxDebugger();
+	TestPhysx();
 
-	// TEMP INIT TW
-	TwInit(TW_OPENGL_CORE, nullptr);
-	TwWindowSize((int)(videoMode->width / 1.2f), (int)(videoMode->height / 1.2f));
+	ImGui_ImplGlfwGL3_Init(window, true);
+
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
 
 	// Print system data
@@ -93,8 +95,7 @@ bool Application::Initialize()
 
 void Application::Terminate()
 {
-	TwDeleteAllBars();
-	TwTerminate();
+	ImGui_ImplGlfwGL3_Shutdown();
 	glfwTerminate();
 }
 
@@ -107,6 +108,7 @@ void Application::Run()
 		SetClearColor(vec4(clearColor, 1));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
+		ImGui_ImplGlfwGL3_NewFrame();
 
 		// TODO: TEMP
 		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F9))
@@ -124,8 +126,37 @@ void Application::Run()
 		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
 			wireFrame = (!wireFrame);
 
+		// 1. Show a simple window
+		// Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
+		{
+			static float f = 0.0f;
+			ImGui::Text("Hello, world!");
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+			ImGui::ColorEdit3("clear color", (float*)&clear_color);
+			if (ImGui::Button("Test Window")) show_test_window ^= 1;
+			if (ImGui::Button("Another Window")) show_another_window ^= 1;
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		}
+
+		// 2. Show another simple window, this time using an explicit Begin/End pair
+		if (show_another_window)
+		{
+			ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
+			ImGui::Begin("Another Window", &show_another_window);
+			ImGui::Text("Hello");
+			ImGui::End();
+		}
+
+		// 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
+		if (show_test_window)
+		{
+			ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+			ImGui::ShowTestWindow(&show_test_window);
+		}
+
 		// Calling functions of Game class
 		Update(deltaTime);
+		UpdatePhysX(deltaTime);
 
 		if (wireFrame)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -133,11 +164,9 @@ void Application::Run()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		Draw(deltaTime);
-
-		// Temp TW DRAW
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		TwDraw();
 
+		ImGui::Render();
 		glfwSwapBuffers(window);
 		Input::GetInstance()->Update(deltaTime);
 
@@ -151,7 +180,69 @@ void Application::Run()
 			deltaTime = 1.0f / 60.0f;
 	}
 
+	ImGui_ImplGlfwGL3_Shutdown();
+
+	g_PhysicsScene->release();
+	g_Physics->release();
+	g_PhysicsFoundation->release();
+
 	Unload();
+}
+
+void Application::InitializePhysx()
+{
+	PxAllocatorCallback* myCallback = new MemoryAllocator();
+	g_PhysicsFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, *myCallback, gDefaultErrorCallback);
+	g_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *g_PhysicsFoundation, PxTolerancesScale());
+	PxInitExtensions(*g_Physics); 
+	g_PhysicsMaterial = g_Physics->createMaterial(0.5f, 0.5f, .5f); 
+	PxSceneDesc sceneDesc(g_Physics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0, -10.0f, 0);
+	sceneDesc.filterShader = &physx::PxDefaultSimulationFilterShader;
+	sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
+	g_PhysicsScene = g_Physics->createScene(sceneDesc);
+}
+
+void Application::InitializePhysxDebugger()
+{
+	// check if PvdConnection manager is available on this platform 
+	if (g_Physics->getPvdConnectionManager() == NULL) return;
+	// setup connection parameters 
+	const char* pvd_host_ip = "127.0.0.1"; 
+	// IP of the PC which is running PVD 
+	int port = 5425; 
+	// TCP port to connect to, where PVD is listening 
+	unsigned int timeout = 100; 
+	// timeout in milliseconds to wait for PVD to respond, //consoles and remote PCs need a higher timeout. 
+	PxVisualDebuggerConnectionFlags connectionFlags = PxVisualDebuggerExt::getAllConnectionFlags(); 
+	// and now try to connectPxVisualDebuggerExt 
+	auto connection = PxVisualDebuggerExt::createConnection( g_Physics-> getPvdConnectionManager(),pvd_host_ip, port, timeout, connectionFlags);
+}
+
+void Application::UpdatePhysX(float deltaTime) 
+{
+	if (deltaTime <= 0) { return; }
+	
+	g_PhysicsScene->simulate(deltaTime);
+	while (g_PhysicsScene->fetchResults() == false) 
+	{
+		// don’t need to do anything here yet but we have to fetch results
+	}
+}
+
+void Application::TestPhysx()
+{
+	//add a plane 
+	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi*1.0f, PxVec3(0.0f, 0.0f, 1.0f))); 
+	PxRigidStatic* plane = PxCreateStatic(*g_Physics, pose, PxPlaneGeometry(), *g_PhysicsMaterial);
+	//add it to the physX scene 
+	g_PhysicsScene->addActor(*plane);
+	//add a box 
+	float density = 10; PxBoxGeometry box(2, 2, 2);
+	PxTransform transform(PxVec3(0, 5, 0)); 
+	PxRigidDynamic* dynamicActor = PxCreateDynamic(*g_Physics, transform, box, *g_PhysicsMaterial, density); 
+	//add it to the physX scene 
+	g_PhysicsScene->addActor(*dynamicActor);
 }
 
 void Application::SetClearColor(vec4 color)
@@ -162,5 +253,4 @@ void Application::SetClearColor(vec4 color)
 void Application::OnScreenSizeChange(GLFWwindow* w, int width, int height)
 {
 	glViewport(0, 0, width, height);
-	TwWindowSize(width, height);
 }
