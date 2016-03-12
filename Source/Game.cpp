@@ -4,6 +4,7 @@
 #include "FlyCamera.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "Input.h"
+#include "GameObject.h"
 
 using glm::vec3;
 using glm::vec4;
@@ -23,6 +24,7 @@ void Game::Load()
 	modelShader->Validate();
 
 	model = new Model("Resources/Models/stanford/Dragon.fbx");
+
 }
 
 void Game::Update(float deltaTime)

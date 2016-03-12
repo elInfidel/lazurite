@@ -213,3 +213,9 @@ void Transform::UpdateTransformations()
 		(*child)->UpdateTransformations();
 	}
 }
+
+void Transform::Update(float deltaTime)
+{
+	if (isDirty)
+		UpdateTransformations();
+}

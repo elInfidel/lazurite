@@ -11,11 +11,13 @@ public:
 	Scene();
 	virtual ~Scene();
 
+	static shared_ptr<GameObject> InstantiateGameObject();
+	static shared_ptr<GameObject> InstantiateGameObject(vec3 position, quat rotation);
+
 private:
-	static Scene* scene;
+	static Scene* currentScene;
 
-	vector<GameObject*> sceneGraph;
+	vector<shared_ptr<GameObject>> sceneGraph;
 	void Update(float deltaTime);
-
 };
 

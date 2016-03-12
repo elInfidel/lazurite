@@ -10,6 +10,9 @@ class GameObject
 {
 	friend class Scene;
 public:
+	GameObject();
+	virtual ~GameObject();
+
 	Transform GetTransform();
 
 	// Components
@@ -18,9 +21,6 @@ public:
 	template<class T> T* GetComponent(T get);
 
 protected:
-	GameObject();
-	virtual ~GameObject();
-
 	Transform transform;
 
 	vector<AComponent*> components;

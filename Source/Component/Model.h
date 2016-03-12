@@ -1,20 +1,23 @@
 #pragma once
+
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-#include "ShaderProgram.h"
-#include "Mesh.h"
-#include "Material.h"
+#include "../ShaderProgram.h"
+#include "../Mesh.h"
+#include "../Material.h"
 #include <vector>
 #include <string>
 #include "Transform.h"
+#include "AComponent.h"
 
-class Model
+class Model : public AComponent
 {
 public:
 	Model(const char* path);
 	virtual ~Model();
 
+	void Update(float deltaTime) {} // TODO: Move drawing into Render system instead of Models drawing themselves
 	void Draw(const ShaderProgram& shaderProgram) const;
 
 	Transform transform;

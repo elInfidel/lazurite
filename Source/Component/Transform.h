@@ -2,6 +2,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include <glm/gtx/quaternion.hpp>
+#include "Component/AComponent.h"
 
 using namespace std;
 
@@ -10,11 +11,12 @@ using glm::mat4;
 using glm::vec4;
 using glm::vec3;
 
-class Transform
+class Transform : public AComponent
 {
 public:
 	Transform();
 
+	
 	void Translate(vec3 translation);
 	void Translate(float x, float y, float z);
 
@@ -49,6 +51,8 @@ public:
 	Transform* GetParent();
 	Transform* GetChildByIndex(int index);
 	vector<Transform*> GetChildren();
+
+	void Update(float deltaTime);
 
 private:
 	mat4 localMatrix;
