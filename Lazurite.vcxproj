@@ -78,13 +78,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\CoreSystem.cpp" />
     <ClCompile Include="Source\Core\Renderer.cpp" />
     <ClCompile Include="Source\Core\Physics.cpp" />
     <ClCompile Include="Source\ImguiImpl.cpp" />
     <ClCompile Include="Includes\imgui\imgui.cpp" />
     <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
     <ClCompile Include="Includes\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Source\MemoryAllocator.cpp" />
+    <ClCompile Include="Source\Core\MemoryAllocator.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
@@ -105,9 +106,9 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
-    <ClCompile Include="Source\Utility\Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\CoreSystem.h" />
     <ClInclude Include="Source\Core\Renderer.h" />
     <ClInclude Include="Source\Core\Physics.h" />
     <ClInclude Include="Source\ImguiImpl.h" />
@@ -117,7 +118,7 @@
     <ClInclude Include="Includes\imgui\stb_rect_pack.h" />
     <ClInclude Include="Includes\imgui\stb_textedit.h" />
     <ClInclude Include="Includes\imgui\stb_truetype.h" />
-    <ClInclude Include="Source\MemoryAllocator.h" />
+    <ClInclude Include="Source\Core\MemoryAllocator.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
@@ -140,7 +141,6 @@
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\Texture.h" />
-    <ClInclude Include="Source\Utility\Thread.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\assimp\assimp_32.lib" />

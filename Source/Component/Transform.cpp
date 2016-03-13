@@ -188,7 +188,7 @@ Transform* Transform::GetParent()
 
 Transform* Transform::GetChildByIndex(int index)
 {
-	if (index < children.size())
+	if ((size_t)index < children.size())
 		return children[index];
 	else
 		return nullptr;

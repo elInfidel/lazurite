@@ -13,7 +13,7 @@ void FlyCamera::Update(float deltaTime)
 	if (!Input::GetInstance()->mouseLocked)
 		return;
 
-	//CalculateRotation(deltaTime);
+	CalculateRotation(deltaTime);
 }
 
 void FlyCamera::CalculateRotation(float deltaTime)
