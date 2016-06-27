@@ -1,39 +1,43 @@
 #include "Scene.h"
-
-Scene* Scene::currentScene;
+#include "GameObject.h"
 
 Scene::Scene()
 {
 }
 
-
 Scene::~Scene()
 {
+	for (auto go : sceneGraph)
+		delete go;
+
+	sceneGraph.clear();
 }
 
 void Scene::Update(float deltaTime)
 {
-	// For now we just update all objects as opposed to filtering them down.
-	for (shared_ptr<GameObject> go : sceneGraph)
+	for (auto go : sceneGraph)
 	{
-		go->Update(deltaTime);
+		if(go->IsActive())
+			go->Update(deltaTime);
 	}
 }
 
-shared_ptr<GameObject> Scene::InstantiateGameObject()
+GameObject* Scene::InstantiateGameObject()
 {
-	shared_ptr<GameObject> go;
-
-	if (currentScene == nullptr) return go;
-
-	go = make_shared<GameObject>();
-	currentScene->sceneGraph.push_back(go);
+	GameObject* go = new GameObject();
+	sceneGraph.push_back(go);
 
 	return go;
 }
 
-shared_ptr<GameObject> Scene::InstantiateGameObject(vec3 position, quat rotation)
+GameObject* Scene::InstantiateGameObject(vec3 position, quat rotation)
 {
-	//TODO
-	return shared_ptr<GameObject>();
+	GameObject* go = InstantiateGameObject();
+
+	// WILL NOT WORK??
+	//go->AddComponent(Transform);
+	//go->GetComponent<Transform>()->SetTranslation(position);
+	//go->GetComponent<Transform>()->SetRotation(rotation);
+
+	return go;
 }

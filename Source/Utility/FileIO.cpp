@@ -59,6 +59,7 @@ bool FileIO::Write(const char* filePath, const string& fileData)
 
 //bool FileIO::AsyncWrite(const char* filePath, const string& fileData, bool& callback)
 //{
-//
-//	return false; // TODO: 
+//	std::thread writeThread(Write, filePath, fileData);
+//	writeThread.join();
+//	callback = true;
 //}

@@ -1,9 +1,9 @@
-#include "Application.h"
+#include "Engine.h"
 #include "Game.h"
 
 int main()
 {
-	Application* app = new Game();
+	Engine* app = new Game();
 	if (app->Initialize())
 		app->Run();
 	app->Terminate();

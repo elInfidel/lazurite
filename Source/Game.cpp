@@ -1,6 +1,6 @@
 #include "Game.h"
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
+#include "glm/glm.hpp"
+#include "glm/ext.hpp"
 #include "FlyCamera.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "Core/Input.h"
@@ -22,12 +22,10 @@ void Game::Load()
 	modelShader->CompileShader("Resources/Shaders/DefaultFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
-
 	model = new Model("Resources/Models/stanford/Dragon.fbx");
-
 }
 
-void Game::Update(float deltaTime)
+void Game::Update(const Scene& scene, float deltaTime)
 {
 	camera->Update(deltaTime);
 }
@@ -54,5 +52,6 @@ void Game::Unload()
 {
 	delete model;
 	delete modelShader;
+
 	delete camera;
 }

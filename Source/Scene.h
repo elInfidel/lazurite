@@ -1,26 +1,25 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
 #include "glm/glm.hpp"
 
 using namespace std;
 using glm::vec3;
 using glm::quat;
 
+class GameObject;
+
 class Scene
 {
-	friend class Application;
+	friend class Engine;
 public:
+	GameObject* InstantiateGameObject();
+	GameObject* InstantiateGameObject(vec3 position, quat rotation);
+
+private:
 	Scene();
 	virtual ~Scene();
 
-	static shared_ptr<GameObject> InstantiateGameObject();
-	static shared_ptr<GameObject> InstantiateGameObject(vec3 position, quat rotation);
-
-private:
-	static Scene* currentScene;
-
-	vector<shared_ptr<GameObject>> sceneGraph;
+	vector<GameObject*> sceneGraph;
 	void Update(float deltaTime);
 };
 

@@ -18,8 +18,8 @@ uniform vec3 lightS = vec3(1.0);
 
 uniform float specPow = 128.0f;
 
-uniform vec3 rimColor;
-uniform float rimPower;
+uniform vec3 rimColor = vec3(0.5f, 0.5f, 0.5f);
+uniform float rimPower = 28.0f;
 
 out vec4 fragColor;
 

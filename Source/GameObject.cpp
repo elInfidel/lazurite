@@ -1,52 +1,54 @@
 #include "GameObject.h"
+#include "Component/AComponent.h"
+#include <type_traits>
 
 GameObject::GameObject()
 {
 }
 
-
 GameObject::~GameObject()
 {
-	for (size_t i = 0; i < components.size(); ++i)
-	{
-		delete components[i];
-	}
+	for (size_t i = 0; i < _components.size(); ++i)
+		delete _components[i];
 
-	components.clear();
+	_components.clear();
 }
 
-Transform GameObject::GetTransform()
+void GameObject::SetActive(bool active)
 {
-	return transform;
+	_isActive = active;
 }
 
-void GameObject::AddComponent(AComponent* newComponent)
+bool GameObject::IsActive()
+{
+	return _isActive;
+}
+
+void GameObject::Update(float deltaTime)
+{
+	for (vector<AComponent*>::iterator component = _components.begin(); component != _components.end(); ++component)
+		(*component)->Update(deltaTime);
+}
+
+template<class T>
+void GameObject::AddComponent()
 {
 	//TODO: Implement duplicate check
 	components.push_back(newComponent);
 }
 
-void GameObject::Update(float deltaTime)
-{
-	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
-	{
-		(*component)->Update(deltaTime);
-	}
-}
-
 template<class T>
-void GameObject::RemoveComponent(T remove)
+void GameObject::RemoveComponent()
 {
-	if (dynamic_cast<AComponent>(T) == nullptr)
-		return;
+	static_assert(std::is_base_of<AComponent, T>::value, " Template type must inherit from AComponent. ");
 
-	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
+	for (auto it = _components.begin(); it != _components.end(); ++it)
 	{
-		T* c = dynamic_cast<T*>((*component));
+		T* c = dynamic_cast<T*>((*it));
 
 		if (c != nullptr)
 		{
-			components.erase(component);
+			_components.erase(it);
 			delete c;
 			return;
 		}
@@ -54,12 +56,11 @@ void GameObject::RemoveComponent(T remove)
 }
 
 template<class T>
-T* GameObject::GetComponent(T get)
+T* GameObject::GetComponent()
 {
-	if (dynamic_cast<AComponent>(T) == nullptr)
-		return;
+	static_assert(std::is_base_of<AComponent, T>::value, " Template type must inherit from AComponent. ");
 
-	for (vector<AComponent*>::iterator component = components.begin(); component != components.end(); ++component)
+	for (vector<AComponent*>::iterator component = _components.begin(); component != _components.end(); ++component)
 	{
 		T* c = dynamic_cast<T*>((*component));
 

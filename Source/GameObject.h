@@ -1,10 +1,11 @@
 #pragma once
-#include "Component/AComponent.h"
 #include "Component/Transform.h"
 
 #include <vector>
 
 using namespace std;
+
+class AComponent;
 
 class GameObject
 {
@@ -13,18 +14,19 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	Transform GetTransform();
+	void SetActive(bool active);
+	bool IsActive();
 
 	// Components
-	void AddComponent(AComponent* newComponent);
-	template<class T> void RemoveComponent(T remove);
-	template<class T> T* GetComponent(T get);
+	template<class T> void AddComponent();
+	template<class T> void RemoveComponent();
+	template<class T> T* GetComponent();
 
 protected:
-	Transform transform;
-
-	vector<AComponent*> components;
+	vector<AComponent*> _components;
 
 	virtual void Update(float deltaTime);
+private:
+	bool _isActive = true;;
 };
 
