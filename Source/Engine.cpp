@@ -64,8 +64,8 @@ bool Engine::Initialize()
 
 	// Print system data
 	printf("***Lazurite Framework***\n");
-	int major, minor, rev;
-	printf(" OpenGL Version: %i.%i\n", major, minor);
+	int major, minor, rev = 0;
+	//printf(" OpenGL Version: %i.%i\n", major, minor);
 	glfwGetVersion(&major, &minor, &rev);
 	printf(" GLFW Version:   %i.%i\n", major, minor);
 

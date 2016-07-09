@@ -69,14 +69,14 @@ void ShaderProgram::CompileShader(const char* filePath, OpenGLShader::OpenGLShad
 		return;
 	}
 
-	//if (handle <= 0)
-	//{
-	//	handle = glCreateProgram();
-	//
-	//	// TODO: LOG ERROR
-	//	if (handle == 0)
-	//	std::cout << "ERROR - Failed to create shader program!\n";
-	//}
+	if (handle <= 0)
+	{
+		handle = glCreateProgram();
+	
+		// TODO: LOG ERROR
+		if (handle == 0)
+			std::cout << "ERROR - Failed to create shader program!\n";
+	}
 
 	GLuint shaderHandle = glCreateShader(type);
 	const char* cSource = shaderCode.c_str();
@@ -246,6 +246,9 @@ void ShaderProgram::BindFragDataLocation(GLuint loc, const char* name) const
 
 void ShaderProgram::SetTransformFeedbackVaryings(unsigned int count, const char* varyings[], GLenum bufferMode)
 {
+	if (linked)
+		fprintf(stderr, "ERROR: Attempted to set transform feedback varyings on an already linked program.");
+
 	glTransformFeedbackVaryings(handle, count, varyings, bufferMode);
 }
 
