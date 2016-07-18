@@ -9,25 +9,25 @@ FlyCamera::~FlyCamera() {}
 void FlyCamera::Update(float deltaTime)
 {
 	CalculateMovement(deltaTime);
-
-	if (!Input::GetInstance()->mouseLocked)
-		return;
-
 	CalculateRotation(deltaTime);
 }
 
 void FlyCamera::CalculateRotation(float deltaTime)
 {
 	static vec2 lastOffset;
-	if (Input::GetInstance()->GetMouseDelta() == lastOffset)
+	static vec2 curOffset;
+
+	curOffset = Input::GetInstance()->GetMouseDelta();
+
+	if (curOffset == lastOffset)
 	{
 		yaw += 0.0f;
 		pitch += 0.0f;
 	}
 	else
 	{
-		yaw += Input::GetInstance()->GetMouseDelta().x * sensitivity;
-		pitch += Input::GetInstance()->GetMouseDelta().y * sensitivity;
+		yaw += curOffset.x * sensitivity;
+		pitch += curOffset.y * sensitivity;
 	}
 
 	if (pitch > 89.0f)
@@ -38,7 +38,7 @@ void FlyCamera::CalculateRotation(float deltaTime)
 	// We also recalculate our direction vectors // TODO: Move this to transform class?
 	transform.SetForward(vec3(cos(glm::radians(pitch)) * cos(glm::radians(yaw)), sin(glm::radians(pitch)), cos(glm::radians(pitch)) * sin(glm::radians(yaw))));
 
-	lastOffset = Input::GetInstance()->GetMouseDelta();
+	lastOffset = curOffset;
 }
 
 void FlyCamera::CalculateMovement(float deltaTime)

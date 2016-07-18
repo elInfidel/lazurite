@@ -1,7 +1,6 @@
 #include "Transform.h"
 #include <glm/gtx/transform.hpp>
 #include "glm/gtx/string_cast.hpp"
-#include <iostream>
 
 Transform::Transform()
 {
@@ -107,15 +106,8 @@ void Transform::SetForward(vec3 newForward)
 	localMatrix[2][1] = newForward.y;
 	localMatrix[2][2] = newForward.z;
 
-	vec3 newRight = glm::normalize(glm::cross(this->GetForward(), vec3(0, 1, 0)));
-	localMatrix[0][0] = newRight.x;
-	localMatrix[0][1] = newRight.y;
-	localMatrix[0][2] = newRight.z;
-
-	vec3 newUp = glm::normalize(glm::cross(this->GetRight(), this->GetForward()));
-	localMatrix[1][0] = newUp.x;
-	localMatrix[1][1] = newUp.y;
-	localMatrix[1][2] = newUp.z;
+	SetRight(glm::cross(newForward, vec3(0, 1, 0)));
+	SetUp(glm::cross(this->GetRight(), newForward));
 }
 
 vec3 Transform::GetRight()

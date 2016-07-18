@@ -4,7 +4,7 @@
 // Static data
 Input* Input::singleton;
 
-Input::Input() : mousePosition(vec2(0, 0)), mouseDelta(vec2(0, 0)), mouseLocked(false)
+Input::Input() : mousePosition(vec2(0, 0)), mouseDelta(vec2(0, 0))
 {
 	GLFWwindow* window = glfwGetCurrentContext();
 	glfwSetKeyCallback(window, OnKey);
@@ -59,6 +59,7 @@ void Input::GetMousePos(float &x, float &y)
 
 vec2 Input::GetMouseDelta()
 {
+	std::cout << singleton->mouseDelta.x << " " << singleton->mouseDelta.y << std::endl;
 	return mouseDelta;
 }
 
@@ -68,7 +69,7 @@ void Input::GetMouseDelta(float &x, float &y)
 	y = mouseDelta.y;
 }
 
-void Input::Update(float deltaTime)
+void Input::EndFrame(float deltaTime)
 {
 	// Clean up key events
 	for (int i = 0; i < MAX_KEYS; ++i)
@@ -79,8 +80,7 @@ void Input::Update(float deltaTime)
 			keys[i] = -1;
 	}
 
-	// Fix mouseDelta bug
-	mouseDelta = vec2(0,0);
+	mouseDelta = vec2(0, 0);
 }
 
 void Input::OnKey(GLFWwindow* window, int key, int scancode, int action, int mods)

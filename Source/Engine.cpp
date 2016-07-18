@@ -90,18 +90,6 @@ void Engine::Run()
 		ImGui_ImplGlfwGL3_NewFrame();
 
 		// TODO: TEMP
-		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F9))
-		{
-			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			Input::GetInstance()->mouseLocked = true;
-		}
-		else if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F10))
-		{
-			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			Input::GetInstance()->mouseLocked = false;
-		}
-
-		// TODO: TEMP
 		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
 			wireFrame = (!wireFrame);
 
@@ -119,7 +107,7 @@ void Engine::Run()
 
 		ImGui::Render();
 		glfwSwapBuffers(window);
-		Input::GetInstance()->Update(deltaTime);
+		Input::GetInstance()->EndFrame(deltaTime);
 
 		// Calculating deltaTime
 		endTime = glfwGetTime();

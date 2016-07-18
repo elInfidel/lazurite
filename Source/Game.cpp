@@ -18,8 +18,8 @@ void Game::Load()
 	camera->transform.SetTranslation(vec3(0,0,4));
 
 	modelShader = new ShaderProgram();
-	modelShader->CompileShader("Resources/Shaders/DefaultVert.glsl", OpenGLShader::VERTEX);
-	modelShader->CompileShader("Resources/Shaders/DefaultFrag.glsl", OpenGLShader::FRAGMENT);
+	modelShader->CompileShader("Resources/Shaders/BlinnPhongVert.glsl", OpenGLShader::VERTEX);
+	modelShader->CompileShader("Resources/Shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
 	model = new Model("Resources/Models/stanford/Dragon.fbx");

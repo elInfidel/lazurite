@@ -28,12 +28,12 @@ vec3 calculateRim(vec3 n, vec3 v);
 void main()
 {
 	vec3 n = normalize(vertexData.n);
-	vec3 l = normalize(vertexData.l);
+	vec3 l = -normalize(vertexData.l);
 	vec3 v = normalize(vertexData.v);
 
-	vec3 h = normalize(-l + v);
+	vec3 h = normalize(l + v);
 
-	vec3 diffuse = max(dot(n, -l), 0.0) * matD;
+	vec3 diffuse = max(dot(n, l), 0.0) * matD;
 	vec3 specular = pow(max(dot(n, h), 0.0), specPow) * matS;
 
 	vec3 rim = calculateRim(n, v);
