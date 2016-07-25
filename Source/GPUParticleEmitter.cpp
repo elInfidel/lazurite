@@ -128,7 +128,7 @@ void GPUParticleEmitter::Draw(float time, Camera& camera)
 
 	updateProgram->SetUniform("time", time);
 	updateProgram->SetUniform("deltaTime", delta);
-	updateProgram->SetUniform("emitterPosition", transform.GetTranslation());
+	updateProgram->SetUniform("emitterPosition", transform.GetPosition());
 
 	glEnable(GL_RASTERIZER_DISCARD);
 
@@ -149,7 +149,7 @@ void GPUParticleEmitter::Draw(float time, Camera& camera)
 	// Drawing particles
 	glUseProgram(drawProgram->GetHandle());
 
-	drawProgram->SetUniform("projectionView", camera.GetProjectionView());
+	drawProgram->SetUniform("projectionView", camera.GetProjectionMatrix() * camera.GetViewMatrix());
 	drawProgram->SetUniform("cameraTransform", camera.transform.GetWorldMatrix());
 
 	glBindVertexArray(vao[otherBuffer]);

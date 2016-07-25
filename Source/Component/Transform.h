@@ -24,12 +24,12 @@ public:
 	void Rotate(float x, float y, float z);
 	void Rotate(quat rotation);
 
-	void SetTranslation(vec3 newPos);
+	void SetPosition(vec3 newPos);
 	void SetScale(vec3 newScale);
 	void SetRotation(vec3 eular);
 	void SetRotation(quat quaternion);
 
-	vec3 GetTranslation();
+	vec3 GetPosition();
 	vec3 GetScale();
 	quat GetRotation();
 
@@ -37,20 +37,20 @@ public:
 	void SetUp(vec3 newUp);
 	void SetForward(vec3 newForward);
 
-	vec3 Transform::GetRight();
-	vec3 Transform::GetUp();
-	vec3 Transform::GetForward();
+	vec3 GetRight();
+	vec3 GetUp();
+	vec3 GetForward();
 
-	mat4 GetLocalMatrix();
-	mat4 GetWorldMatrix();
+	mat4& GetLocalMatrix();
+	mat4& GetWorldMatrix();
 
 	void SetParent(Transform* transform);
 	void AddChild(Transform* transform);
 	void DetachChildren();
 
-	Transform* GetParent();
-	Transform* GetChildByIndex(int index);
-	vector<Transform*> GetChildren();
+	Transform * GetParent();
+	Transform * GetChildByIndex(int index);
+	vector<Transform *> GetChildren();
 
 	void Update(float deltaTime);
 

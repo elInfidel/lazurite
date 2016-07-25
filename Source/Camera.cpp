@@ -5,7 +5,6 @@ Camera::Camera()
 {
 	view = mat4(1.0f);
 	projection = mat4(1.0f);
-	viewProjection = mat4(1.0f);
 }
 
 void Camera::SetOrthographic(float left, float right, float bottom, float top, float zNear = 1.0f, float zFar = 100.0f)
@@ -18,24 +17,12 @@ void Camera::SetPerspective(float fov, float aspect, float zNear = 1.0f, float z
 	projection = glm::perspective(fov, aspect, zNear, zFar);
 }
 
-const mat4& Camera::GetView() const
+const mat4& Camera::GetViewMatrix()
 {
-	return view;
+	return glm::inverse(transform.GetWorldMatrix());
 }
 
-const mat4& Camera::GetProjection() const
+const mat4& Camera::GetProjectionMatrix() const
 {
 	return projection;
-}
-
-const mat4& Camera::GetProjectionView()
-{
-	UpdateProjectionView();
-	return viewProjection;
-}
-
-void Camera::UpdateProjectionView()
-{
-	view = glm::inverse(transform.GetWorldMatrix());
-	viewProjection = projection * view;
 }

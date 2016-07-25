@@ -21,13 +21,13 @@ protected:
 
 	// Tweak bar vars
 	float fps = 0.0f;
-	vec3 lightDir = vec3(0.0f, -1.0f, 0.0f);
+	vec3 lightPos = vec3(0.0f, 100.0f, 0.0f);
 
-	vec3 matA = vec3(0.4f, 0.4f, 0.7f);
-	vec3 matD = vec3(1.0f, 1.0f, 1.0f);
-	vec3 matS = vec3(1.0f, 1.0f, 1.0f);
-	float specularPower = 15;
-	vec3 rimCol = vec3(1.0f, 1.0f, 1.0f);
-	float rimPow = 128.f;
+	vec3 matA = vec3(0.1, 0.1, 0.15);
+	vec3 matD = vec3(0, 0.5, 0.9);
+	vec3 matS = vec3(0.6, 0.45, 1);
+	float specularPower = 45;
+	vec3 rimCol = vec3(0.5, 0.5, 0.8);
+	float rimPow = 7;
 };
 

@@ -9,7 +9,7 @@ FlyCamera::~FlyCamera() {}
 void FlyCamera::Update(float deltaTime)
 {
 	CalculateMovement(deltaTime);
-	CalculateRotation(deltaTime);
+	//CalculateRotation(deltaTime);
 }
 
 void FlyCamera::CalculateRotation(float deltaTime)
@@ -45,7 +45,7 @@ void FlyCamera::CalculateMovement(float deltaTime)
 {
 	// Translation
 	// TODO: Wrap key enumeration in Input class instead of using GLFW directly
-	float finalSpeed = movementSpeed * deltaTime;
+	float finalSpeed = deltaTime;
 	if (Input::GetInstance()->GetKey(GLFW_KEY_W))
 		transform.Translate(vec3(0,0,-1) * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_S))

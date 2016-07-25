@@ -11,7 +11,7 @@ namespace OpenGLShaderInfo
 {
 	struct shader_file_extension 
 	{
-		const char *ext;
+		const char* ext;
 		OpenGLShader::OpenGLShaderType type;
 	};
 

@@ -128,7 +128,7 @@ void ParticleEmitter::Update(float deltaTime, Camera* camera)
 			vertexData[quad * 4 + 3].color = particle->color;
 
 			// Billboard the particle
-			vec3 zAxis = glm::normalize(vec3(camera->transform.GetTranslation()) - particle->position);
+			vec3 zAxis = glm::normalize(vec3(camera->transform.GetPosition()) - particle->position);
 			vec3 xAxis = glm::cross(vec3(camera->transform.GetUp()), zAxis);
 			vec3 yAxis = glm::cross(zAxis, xAxis);
 
@@ -150,7 +150,7 @@ void ParticleEmitter::Update(float deltaTime, Camera* camera)
 void ParticleEmitter::Draw(ShaderProgram* shaderProgram, Camera* camera)
 {
 	shaderProgram->Use();
-	shaderProgram->SetUniform("viewProjection", camera->GetProjectionView());
+	shaderProgram->SetUniform("viewProjection", camera->GetProjectionMatrix() * camera->GetViewMatrix());
 
 	// Sync living particles with vertex buffer
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -168,7 +168,7 @@ void ParticleEmitter::Emit()
 
 	CPUParticle::Particle& particle = particles[firstDead++];
 
-	particle.position = transform.GetTranslation();
+	particle.position = transform.GetPosition();
 
 	particle.lifetime = 0;
 	particle.lifespan = (rand() / (float)RAND_MAX) * (lifespanMax - lifespanMin) + lifespanMin;

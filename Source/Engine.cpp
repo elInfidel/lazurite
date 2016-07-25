@@ -21,7 +21,7 @@ bool Engine::Initialize()
 	videoMode = glfwGetVideoMode(monitor);
 
 	// Window hints for window creation
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwWindowHint(GLFW_SAMPLES, 8);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -46,6 +46,17 @@ bool Engine::Initialize()
 		glfwTerminate();
 		return false;
 	}
+
+	// Setting up some OpenGL functionality
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
+	// Disable backface culling temp
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	// Instantiating time variables
 	beginTime = glfwGetTime();
