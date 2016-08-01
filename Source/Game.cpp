@@ -23,6 +23,19 @@ void Game::Load()
 	modelShader->Link();
 	modelShader->Validate();
 	model = new Model("Resources/Models/stanford/Dragon.fbx");
+
+	cubemapShader = new ShaderProgram();
+	cubemapShader->CompileShader("Resources/Shaders/CubemapVert.glsl", OpenGLShader::VERTEX);
+	cubemapShader->CompileShader("Resources/Shaders/CubemapFrag.glsl", OpenGLShader::FRAGMENT);
+	cubemapShader->Link();
+	cubemapShader->Validate();
+
+	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Yokohama/negz.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posz.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posy.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/negy.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/negx.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posx.jpg");
 }
 
 void Game::Update(const Scene& scene, float deltaTime)
@@ -50,6 +63,9 @@ void Game::Draw(float deltaTime)
 	ImGui::SliderFloat3("Rim Color", glm::value_ptr(rimCol), 0.0f, 1.0f);
 	ImGui::End();
 
+	//Draw cubemap
+	cubeMap->Draw(*cubemapShader, camera);
+
 	//Draw model
 	modelShader->Use();
 	modelShader->SetUniform("mMat", modelMatrix);
@@ -71,8 +87,11 @@ void Game::Draw(float deltaTime)
 
 void Game::Unload()
 {
-	delete model;
-	delete modelShader;
+	delete(model);
+	delete(modelShader);
 
-	delete camera;
+	delete(cubeMap);
+	delete(cubemapShader);
+
+	delete(camera);
 }

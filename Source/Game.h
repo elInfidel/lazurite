@@ -19,6 +19,9 @@ protected:
 	ShaderProgram* modelShader;
 	Model* model;
 
+	ShaderProgram* cubemapShader;
+	Cubemap* cubeMap;
+
 	// Tweak bar vars
 	float fps = 0.0f;
 	vec3 lightPos = vec3(0.0f, 100.0f, 0.0f);
