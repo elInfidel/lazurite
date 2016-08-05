@@ -2,6 +2,7 @@
 #include <glm/gtx/transform.hpp>
 #include "glm/gtx/string_cast.hpp"
 #include <iostream>
+#include "../ImguiImpl.h"
 
 Transform::Transform()
 {
@@ -210,7 +211,7 @@ void Transform::UpdateTransformations()
 
 	isDirty = false;
 
-	for (vector<Transform*>::iterator child = children.begin(); child != children.end(); ++child)
+	for (auto child = children.begin(); child != children.end(); ++child)
 	{
 		(*child)->UpdateTransformations();
 	}

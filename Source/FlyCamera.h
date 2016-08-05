@@ -11,7 +11,7 @@ public:
 
 private:
 	const float movementSpeed = 10.0f;
-	const float sensitivity = 0.5f;
+	const float sensitivity = 5.0f;
 
 	float yaw, pitch;
 

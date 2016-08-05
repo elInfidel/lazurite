@@ -28,7 +28,12 @@ bool Engine::Initialize()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create a new OpenGL window
-	window = glfwCreateWindow((int)(videoMode->width / 1.2f), (int)(videoMode->height / 1.2f), "Lazurite Framework", nullptr, nullptr);
+	window = glfwCreateWindow(
+		(int)(videoMode->width / 1.2f),
+		(int)(videoMode->height / 1.2f),
+		"Lazurite Framework",
+		nullptr,
+		nullptr);
 
 	// Terminate if glfw fails to create a window
 	if (window == nullptr)
@@ -55,8 +60,8 @@ bool Engine::Initialize()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Instantiating time variables
 	beginTime = glfwGetTime();
@@ -100,7 +105,6 @@ void Engine::Run()
 		glfwPollEvents();
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		// TODO: TEMP
 		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
 			wireFrame = (!wireFrame);
 

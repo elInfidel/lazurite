@@ -1,5 +1,6 @@
 #include "Input.h"
 #include <iostream>
+#include "../ImguiImpl.h"
 
 // Static data
 Input* Input::singleton;
@@ -59,7 +60,6 @@ void Input::GetMousePos(float &x, float &y)
 
 vec2 Input::GetMouseDelta()
 {
-	std::cout << singleton->mouseDelta.x << " " << singleton->mouseDelta.y << std::endl;
 	return mouseDelta;
 }
 

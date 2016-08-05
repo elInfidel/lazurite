@@ -22,7 +22,21 @@ void Game::Load()
 	modelShader->CompileShader("Resources/Shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
-	model = new Model("Resources/Models/stanford/Bunny.fbx");
+
+	model = new Model("Resources/Models/basic_geom/sphere/sphere.obj");
+
+	cubemapShader = new ShaderProgram();
+	cubemapShader->CompileShader("Resources/Shaders/CubemapVert.glsl", OpenGLShader::VERTEX);
+	cubemapShader->CompileShader("Resources/Shaders/CubemapFrag.glsl", OpenGLShader::FRAGMENT);
+	cubemapShader->Link();
+	cubemapShader->Validate();
+
+	cubeMap = new Cubemap("Resources/Textures/Cubemaps/Yokohama/negz.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posz.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posy.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/negy.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/negx.jpg",
+						  "Resources/Textures/Cubemaps/Yokohama/posx.jpg");
 }
 
 void Game::Update(const Scene& scene, float deltaTime)
@@ -44,11 +58,14 @@ void Game::Draw(float deltaTime)
 	ImGui::SliderFloat3("Diffuse", glm::value_ptr(matD), 0.0f, 1.0f);
 	ImGui::SliderFloat3("Specular", glm::value_ptr(matS), 0.0f, 1.0f);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Specular Power", &specularPower, 0.0f, 128.0f);
+	ImGui::SliderFloat("Specular Power", &specularPower, 0.1f, 256.0f);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Rim Power", &rimPow, 0.0f, 10.0f);
+	ImGui::SliderFloat("Rim Power", &rimPow, 0.1f, 100.0f);
 	ImGui::SliderFloat3("Rim Color", glm::value_ptr(rimCol), 0.0f, 1.0f);
 	ImGui::End();
+
+	//Draw cubemap
+	cubeMap->Draw(*cubemapShader, camera);
 
 	//Draw model
 	modelShader->Use();
@@ -71,8 +88,11 @@ void Game::Draw(float deltaTime)
 
 void Game::Unload()
 {
-	delete model;
-	delete modelShader;
+	delete(model);
+	delete(modelShader);
 
-	delete camera;
+	delete(cubeMap);
+	delete(cubemapShader);
+
+	delete(camera);
 }
