@@ -22,7 +22,7 @@ void Game::Load()
 	modelShader->CompileShader("Resources/Shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
 	modelShader->Link();
 	modelShader->Validate();
-	model = new Model("Resources/Models/stanford/Dragon.fbx");
+	model = new Model("Resources/Models/stanford/Bunny.fbx");
 }
 
 void Game::Update(const Scene& scene, float deltaTime)
