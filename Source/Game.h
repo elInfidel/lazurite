@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Engine.h"
 #include "Component/Model.h"
 #include "ParticleEmitter.h"
@@ -10,14 +11,11 @@ class Game : public Engine
 {
 protected:
 	virtual void Load();
-	virtual void Update(const Scene& scene, float deltaTime);
+	virtual void Update(float deltaTime);
 	virtual void Draw(float deltaTime);
 	virtual void Unload();
 
 	FlyCamera* camera;
-
-	ShaderProgram* modelShader;
-	Model* model;
 
 	// Tweak bar vars
 	float fps = 0.0f;

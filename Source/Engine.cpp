@@ -3,12 +3,11 @@
 
 #include "Core/Input.h"
 #include "Core/MemoryAllocator.h"
-#include "Core/Physics.h"
 
 #include "Camera.h"
 #include "ShaderProgram.h"
 
-Engine::Engine() : wireFrame(false), clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
+Engine::Engine() : clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
 
 bool Engine::Initialize()
@@ -22,16 +21,17 @@ bool Engine::Initialize()
 
 	// Window hints for window creation
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a new OpenGL window
 	window = glfwCreateWindow((int)(videoMode->width / 1.2f), (int)(videoMode->height / 1.2f), "Lazurite Framework", nullptr, nullptr);
 
 	// Terminate if glfw fails to create a window
-	if (window == nullptr)
+	if (!window)
 	{
 		glfwTerminate();
 		return false;
@@ -53,21 +53,27 @@ bool Engine::Initialize()
 	deltaTime = 1.0f / 60.0f;
 
 	// Initializing engine subsystems
-	physics = new Physics();
-	physics->Initialize();
-
-	scene = new Scene();
-
 	ImGui_ImplGlfwGL3_Init(window, true);
 
+	// Set viewport dimensions and callback for future window size changes.
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
 
-	// Print system data
-	printf("***Lazurite Framework***\n");
-	int major, minor, rev;
+	// Print program information
+	printf("***Lazurite Framework***\n\n");
+	int major = 0, minor = 0, rev = 0;
+
+	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
 	printf(" OpenGL Version: %i.%i\n", major, minor);
+
 	glfwGetVersion(&major, &minor, &rev);
-	printf(" GLFW Version:   %i.%i\n", major, minor);
+	printf(" GLFW Version:   %i.%i.%i\n", major, minor, rev);
+
+	printf(" IMGUI Version:  %s", IMGUI_VERSION);
+
 
 	return true;
 }
@@ -89,33 +95,9 @@ void Engine::Run()
 		glfwPollEvents();
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		// TODO: TEMP
-		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F9))
-		{
-			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			Input::GetInstance()->mouseLocked = true;
-		}
-		else if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F10))
-		{
-			glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			Input::GetInstance()->mouseLocked = false;
-		}
-
-		// TODO: TEMP
-		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
-			wireFrame = (!wireFrame);
-
 		// Calling functions of Game class
-		Update(*scene, deltaTime);
-		physics->Update(deltaTime);
-
-		if (wireFrame)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+		Update(deltaTime);
 		Draw(deltaTime);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		ImGui::Render();
 		glfwSwapBuffers(window);
@@ -126,13 +108,10 @@ void Engine::Run()
 		deltaTime = (float)(endTime - beginTime);
 		beginTime = endTime;
 		// If the deltaTime is too large we can assume we continued execution from a breakpoint
-		// and reset the deltaTime back to a optimal scenario of 16ms
+		// and reset the deltaTime back to an optimal scenario of 16ms
 		if (deltaTime > 1.0f)
 			deltaTime = 1.0f / 60.0f;
 	}
-
-	ImGui_ImplGlfwGL3_Shutdown();
-	physics->Shutdown();
 
 	Unload();
 }

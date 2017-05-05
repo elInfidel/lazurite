@@ -81,18 +81,16 @@
   <ItemGroup>
     <ClCompile Include="Includes\glm\detail\glm.cpp" />
     <ClCompile Include="Source\Core\CoreSystem.cpp" />
-    <ClCompile Include="Source\Core\Physics.cpp" />
     <ClCompile Include="Source\ImguiImpl.cpp" />
     <ClCompile Include="Includes\imgui\imgui.cpp" />
     <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
     <ClCompile Include="Includes\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\Core\MemoryAllocator.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Cubemap.cpp" />
-    <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
+    <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\GPUParticleEmitter.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
@@ -288,7 +286,6 @@
     <ClInclude Include="Includes\glm\vec4.hpp" />
     <ClInclude Include="Includes\glm\vector_relational.hpp" />
     <ClInclude Include="Source\Core\CoreSystem.h" />
-    <ClInclude Include="Source\Core\Physics.h" />
     <ClInclude Include="Source\ImguiImpl.h" />
     <ClInclude Include="Includes\imgui\imconfig.h" />
     <ClInclude Include="Includes\imgui\imgui.h" />
@@ -297,12 +294,11 @@
     <ClInclude Include="Includes\imgui\stb_textedit.h" />
     <ClInclude Include="Includes\imgui\stb_truetype.h" />
     <ClInclude Include="Source\Core\MemoryAllocator.h" />
-    <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Cubemap.h" />
-    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Component\Model.h" />
+    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GPUParticleEmitter.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
