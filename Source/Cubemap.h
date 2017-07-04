@@ -9,7 +9,7 @@ public:
 			const char* left, const char* right);
 	~Cubemap();
 
-	void Draw(const ShaderProgram& shaderProgram, const Camera* camera);
+	void Draw(const ShaderProgram& shaderProgram, Camera* camera);
 private:
 	unsigned int vbo, vao;
 	GLuint texHandle;

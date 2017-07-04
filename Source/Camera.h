@@ -16,9 +16,8 @@ public:
 	// Sets the camera to perspective with the given arguments
 	void SetPerspective(float fov, float aspect, float zNear, float zFar);
 
-	const mat4& GetView() const;
-	const mat4& GetProjection() const;
-	const mat4& GetProjectionView();
+	const mat4& GetViewMatrix();
+	const mat4& GetProjectionMatrix() const;
 
 	// Called once per update passing accessing to current deltaTime
 	virtual void Update(float deltaTime) = 0;
@@ -29,9 +28,5 @@ private:
 	// Camera view projection data
 	mat4 view;
 	mat4 projection;
-	mat4 viewProjection;
-
-	// Regenerates the current ProjectionView
-	void UpdateProjectionView();
 };
 

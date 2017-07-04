@@ -10,9 +10,12 @@ using glm::vec4;
 
 class Engine
 {
+<<<<<<< HEAD
 private:
 	//Core Systems
 
+=======
+>>>>>>> development
 public:
 	Engine();
 	~Engine();

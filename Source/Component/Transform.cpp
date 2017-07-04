@@ -2,6 +2,7 @@
 #include <glm/gtx/transform.hpp>
 #include "glm/gtx/string_cast.hpp"
 #include <iostream>
+#include "../ImguiImpl.h"
 
 Transform::Transform()
 {
@@ -45,7 +46,7 @@ void Transform::Rotate(quat rotation)
 	isDirty = true;
 }
 
-void Transform::SetTranslation(vec3 newPos)
+void Transform::SetPosition(vec3 newPos)
 {
 	position = newPos;
 	isDirty = true;
@@ -69,7 +70,7 @@ void Transform::SetRotation(quat quaternion)
 	isDirty = true;
 }
 
-vec3 Transform::GetTranslation()
+vec3 Transform::GetPosition()
 {
 	return position;
 }
@@ -107,12 +108,12 @@ void Transform::SetForward(vec3 newForward)
 	localMatrix[2][1] = newForward.y;
 	localMatrix[2][2] = newForward.z;
 
-	vec3 newRight = glm::normalize(glm::cross(this->GetForward(), vec3(0, 1, 0)));
+	vec3 newRight = glm::normalize(glm::cross(newForward, vec3(0, 1, 0)));
 	localMatrix[0][0] = newRight.x;
 	localMatrix[0][1] = newRight.y;
 	localMatrix[0][2] = newRight.z;
 
-	vec3 newUp = glm::normalize(glm::cross(this->GetRight(), this->GetForward()));
+	vec3 newUp = glm::normalize(glm::cross(this->GetRight(), newForward));
 	localMatrix[1][0] = newUp.x;
 	localMatrix[1][1] = newUp.y;
 	localMatrix[1][2] = newUp.z;
@@ -133,7 +134,7 @@ vec3 Transform::GetForward()
 	return vec3(localMatrix[2]);
 }
 
-mat4 Transform::GetLocalMatrix()
+mat4& Transform::GetLocalMatrix()
 {
 	if (isDirty)
 		UpdateTransformations();
@@ -141,7 +142,7 @@ mat4 Transform::GetLocalMatrix()
 	return localMatrix;
 }
 
-mat4 Transform::GetWorldMatrix()
+mat4& Transform::GetWorldMatrix()
 {
 	if (isDirty)
 		UpdateTransformations();
@@ -201,7 +202,7 @@ vector<Transform*> Transform::GetChildren()
 
 void Transform::UpdateTransformations()
 {
-	localMatrix = glm::scale(scale) * glm::toMat4(rotation) * glm::translate(position);
+	localMatrix = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 
 	if (parent != nullptr)
 		worldMatrix = localMatrix * parent->worldMatrix;
@@ -210,7 +211,7 @@ void Transform::UpdateTransformations()
 
 	isDirty = false;
 
-	for (vector<Transform*>::iterator child = children.begin(); child != children.end(); ++child)
+	for (auto child = children.begin(); child != children.end(); ++child)
 	{
 		(*child)->UpdateTransformations();
 	}

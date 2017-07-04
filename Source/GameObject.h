@@ -9,7 +9,6 @@ class AComponent;
 
 class GameObject
 {
-	friend class Scene;
 public:
 	GameObject();
 	virtual ~GameObject();

@@ -50,10 +50,6 @@ void Mesh::SetupMesh()
 
 void Mesh::Draw(const ShaderProgram& shaderProgram) const
 {
-	shaderProgram.SetUniform("ambient",   material.properties.ambient);
-	shaderProgram.SetUniform("diffuse",   material.properties.diffuse);
-	shaderProgram.SetUniform("specular",  material.properties.specular);
-
 	for (size_t i = 0; i < material.textures.size(); ++i)
 	{
 		if (material.textures[i].GetType() == TextureType::Opacity)

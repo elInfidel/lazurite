@@ -60,6 +60,7 @@ T* GameObject::GetComponent()
 {
 	static_assert(std::is_base_of<AComponent, T>::value, " Template type must inherit from AComponent. ");
 
+	//TODO: I'd like to improve this by mapping component pointers using their type as a key.
 	for (vector<AComponent*>::iterator component = _components.begin(); component != _components.end(); ++component)
 	{
 		T* c = dynamic_cast<T*>((*component));

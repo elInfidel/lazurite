@@ -19,23 +19,20 @@ public:
 	vec2 GetMouseDelta();                    // Returns a vec2 containing current mouse delta
 	void GetMouseDelta(float &x, float &y);  // Sets variable references to current mouse delta
 
-	bool mouseLocked;            // Temp bool for storing whether or not GLFW is locking cursor // TODO: Move somewhere else!
-
-	void Update(float deltaTime);            // Should only be called by application // TODO: Find a better way to do this!
+	void EndFrame(float deltaTime);
 
 private:
 	Input();
 	~Input();
 
-	// Input state data
 	static Input* singleton;
 	static const int MAX_KEYS = 512;
 
 	vec2  mousePosition;         // The current position of the mouse in screen space
 	vec2  mouseDelta;            // Changes in mouse position represented as a delta value
-	signed char  keys[MAX_KEYS]; // Stores GLFW key definitions from events
+	signed char keys[MAX_KEYS];  // Stores GLFW key definitions from events
 
-	// GLFW Callbacks - TODO: move tweakbar calls elsewhere? maybe subscription
+	// GLFW Callbacks - TODO: move tweakbar calls elsewhere?
 	static void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods); // Called on key state change
 	static void OnChar(GLFWwindow* window, unsigned int character);                     // Called on character state change
 	static void OnMousePos(GLFWwindow* window, double x, double y);                     // Called on mouse position change

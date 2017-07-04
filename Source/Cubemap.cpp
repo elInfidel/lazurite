@@ -66,15 +66,16 @@ Cubemap::Cubemap(const char* front, const char* back, const char* top, const cha
 
 Cubemap::~Cubemap()
 {
-
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 }
 
-void Cubemap::Draw(const ShaderProgram& shaderProgram, const Camera* camera)
+void Cubemap::Draw(const ShaderProgram& shaderProgram, Camera* camera)
 {
 	glDepthMask(GL_FALSE);
 	glUseProgram(shaderProgram.GetHandle());
-	shaderProgram.SetUniform("P", camera->GetProjection());
-	shaderProgram.SetUniform("V", glm::mat4(glm::mat3(camera->GetView())));
+	shaderProgram.SetUniform("pMat", camera->GetProjectionMatrix());
+	shaderProgram.SetUniform("vMat", mat4(mat3(camera->GetViewMatrix())));
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texHandle);
 	glBindVertexArray(vao);

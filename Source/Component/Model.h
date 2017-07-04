@@ -11,7 +11,7 @@
 #include "Transform.h"
 #include "AComponent.h"
 
-class Model : public AComponent
+class Model
 {
 public:
 	Model(const char* path);

@@ -6,7 +6,7 @@ public:
 	virtual ~MemoryAllocator();
 
 protected:
-	void* AllocAligned();
-	void FreeAligned(void* ptr);
+	void* allocAligned();
+	void freeAligned(void* ptr);
 };
 

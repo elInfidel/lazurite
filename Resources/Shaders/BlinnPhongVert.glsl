@@ -11,22 +11,22 @@ uniform mat4 mvMat;
 uniform mat4 mvpMat;
 
 // Light
-uniform vec3 lightDir = vec3(0.0f, -1.0f, 0.0f);
+uniform vec3 lightPos = vec3(0.0f, 10.0f, 0.0f);
 
 out struct vData
 {
-  vec3 n;
-  vec3 l;
-  vec3 v;
+  vec3 normal;
+  vec3 lightDir;
+  vec3 viewDir;
 } vertexData;
 
 void main()
 {
 	vec4 p = mvMat * position;
 
-	vertexData.n = mat3(mvMat) * normal;
-	vertexData.l = lightDir;
-	vertexData.v = -p.xyz;
+	vertexData.normal = mat3(mvMat) * normal;
+	vertexData.lightDir = lightPos - p.xyz;
+	vertexData.viewDir = -p.xyz;
 
 	gl_Position = pMat * p;
 }
