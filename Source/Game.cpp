@@ -23,7 +23,7 @@ void Game::Load()
 	modelShader->Link();
 	modelShader->Validate();
 
-	model = new Model("Resources/Models/basic_geom/sphere/sphere.obj");
+	model = new Model("Resources/Models/stanford/Dragon.fbx");
 
 	cubemapShader = new ShaderProgram();
 	cubemapShader->CompileShader("Resources/Shaders/CubemapVert.glsl", OpenGLShader::VERTEX);
@@ -53,7 +53,9 @@ void Game::Draw(float deltaTime)
 	//Draw scene inspector
 	ImGui::Begin("Scene Properties");
 	ImGui::Spacing();
-	ImGui::Text("Model");
+	ImGui::Text("Model Selection");
+	ImGui::Spacing();
+	ImGui::Text("Material Parameters");
 	ImGui::SliderFloat3("Ambient", glm::value_ptr(matA), 0.0f, 1.0f);
 	ImGui::SliderFloat3("Diffuse", glm::value_ptr(matD), 0.0f, 1.0f);
 	ImGui::SliderFloat3("Specular", glm::value_ptr(matS), 0.0f, 1.0f);
