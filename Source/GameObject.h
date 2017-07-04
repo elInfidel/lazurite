@@ -2,6 +2,7 @@
 #include "Component/Transform.h"
 
 #include <vector>
+#include <hash_map>
 
 using namespace std;
 
@@ -9,7 +10,6 @@ class AComponent;
 
 class GameObject
 {
-	friend class Scene;
 public:
 	GameObject();
 	virtual ~GameObject();
