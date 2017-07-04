@@ -81,7 +81,6 @@
   <ItemGroup>
     <ClCompile Include="Includes\glm\detail\glm.cpp" />
     <ClCompile Include="Source\Core\CoreSystem.cpp" />
-    <ClCompile Include="Source\Core\Physics.cpp" />
     <ClCompile Include="Source\ImguiImpl.cpp" />
     <ClCompile Include="Includes\imgui\imgui.cpp" />
     <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
@@ -287,7 +286,6 @@
     <ClInclude Include="Includes\glm\vec4.hpp" />
     <ClInclude Include="Includes\glm\vector_relational.hpp" />
     <ClInclude Include="Source\Core\CoreSystem.h" />
-    <ClInclude Include="Source\Core\Physics.h" />
     <ClInclude Include="Source\ImguiImpl.h" />
     <ClInclude Include="Includes\imgui\imconfig.h" />
     <ClInclude Include="Includes\imgui\imgui.h" />

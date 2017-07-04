@@ -3,7 +3,6 @@
 
 #include "Core/Input.h"
 #include "Core/MemoryAllocator.h"
-#include "Core/Physics.h"
 
 #include "Camera.h"
 #include "ShaderProgram.h"
@@ -68,12 +67,6 @@ bool Engine::Initialize()
 	endTime = 0.0;
 	deltaTime = 1.0f / 60.0f;
 
-	// Initializing engine subsystems
-	physics = new Physics();
-	physics->Initialize();
-
-	scene = new Scene();
-
 	ImGui_ImplGlfwGL3_Init(window, true);
 
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
@@ -109,8 +102,7 @@ void Engine::Run()
 			wireFrame = (!wireFrame);
 
 		// Calling functions of Game class
-		Update(*scene, deltaTime);
-		physics->Update(deltaTime);
+		Update(deltaTime);
 
 		if (wireFrame)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -135,7 +127,6 @@ void Engine::Run()
 	}
 
 	ImGui_ImplGlfwGL3_Shutdown();
-	physics->Shutdown();
 
 	Unload();
 }

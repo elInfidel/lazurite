@@ -3,8 +3,6 @@
 #include "glfw/glfw3.h"
 #include "glm/glm.hpp"
 #include "ImguiImpl.h"
-#include "Scene.h"
-#include "Core/Physics.h"
 #include "Core/Input.h"
 
 using glm::mat4;
@@ -12,11 +10,6 @@ using glm::vec4;
 
 class Engine
 {
-private:
-	//Core Systems
-	Physics* physics;
-	Scene* scene;
-
 public:
 	Engine();
 	~Engine();
@@ -30,7 +23,7 @@ public:
 
 	 // pure virtual Loop functions.
 	 virtual void Load() = 0;
-	 virtual void Update(const Scene& scene, float deltaTime) = 0;
+	 virtual void Update(float deltaTime) = 0;
 	 virtual void Draw(float deltaTime) = 0;
 	 virtual void Unload() = 0;
 

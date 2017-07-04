@@ -2,7 +2,6 @@
 #include "Component/Transform.h"
 
 #include <vector>
-#include <hash_map>
 
 using namespace std;
 
