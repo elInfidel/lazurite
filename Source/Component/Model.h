@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
@@ -34,3 +34,4 @@ private:
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 };
 
+*/

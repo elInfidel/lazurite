@@ -59,8 +59,8 @@ public:
 	void AddChild(Transform* transform);
 	void DetachChildren();
 
-	Transform * GetParent();
-	Transform * GetChildByIndex(int index);
+	Transform* GetParent();
+	Transform* GetChildByIndex(int index);
 	std::vector<Transform *> GetChildren();
 
 	virtual void Tick(float deltaTime);

@@ -1,4 +1,4 @@
-#include "Material.h"
+/*#include "Material.h"
 
 
 Material::Material()
@@ -19,3 +19,4 @@ Material::~Material()
 {
 	delete _program;
 }
+*/

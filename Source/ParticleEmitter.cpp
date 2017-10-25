@@ -1,4 +1,4 @@
-#include "ParticleEmitter.h"
+/*#include "ParticleEmitter.h"
 #include "loadgen/gl_core_4_4.h"
 #include "glfw/glfw3.h"
 #include <iostream>
@@ -183,4 +183,4 @@ void ParticleEmitter::Emit()
 	particle.velocity.z = (rand() / (float)RAND_MAX) * 2 - 1;
 	particle.velocity = glm::normalize(particle.velocity) * velocity;
 
-}
+}*/

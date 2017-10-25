@@ -1,4 +1,4 @@
-#include "ShaderProgram.h"
+/*#include "ShaderProgram.h"
 #include "loadgen/gl_core_4_4.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "Utility/FileIO.h"
@@ -321,4 +321,4 @@ int ShaderProgram::getUniformLocation(const char* uniformName) const
 	int	uniformLocation= glGetUniformLocation(handle, uniformName);
 
 	return uniformLocation;
-}
+}*/

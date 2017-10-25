@@ -7,6 +7,8 @@ class AComponent
 {
 	friend class GameObject;
 
+	bool _isActive = true;
+
 protected:
 	virtual void Tick(float deltaTime) = 0;
 	std::shared_ptr<GameObject> owner;
@@ -14,5 +16,8 @@ protected:
 public:
 	AComponent();
 	virtual ~AComponent();
+
+	bool IsActive();
+
 };
 

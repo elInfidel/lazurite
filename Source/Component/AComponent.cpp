@@ -9,3 +9,8 @@ AComponent::AComponent()
 AComponent::~AComponent()
 {
 }
+
+bool AComponent::IsActive()
+{
+	return _isActive;
+}

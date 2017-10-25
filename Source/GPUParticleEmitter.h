@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "glm/glm.hpp"
 #include "Camera.h"
 #include "ShaderProgram.h"
@@ -67,3 +67,4 @@ protected:
 
 };
 
+*/

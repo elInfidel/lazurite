@@ -1,4 +1,4 @@
-#define GLM_SWIZZLE
+/*#define GLM_SWIZZLE
 #include "FlyCamera.h"
 #include <glm/ext.hpp>
 #include "glm/gtc/matrix_transform.hpp"
@@ -56,4 +56,4 @@ void FlyCamera::CalculateMovement(float deltaTime)
 		transform.Translate(transform.GetUp() * finalSpeed);
 	if (Input::GetInstance()->GetKey(GLFW_KEY_LEFT_SHIFT))
 		transform.Translate(-transform.GetUp() * finalSpeed);
-}
+}*/

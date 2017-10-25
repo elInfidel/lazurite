@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "ShaderProgram.h"
 
-Engine::Engine() : wireFrame(false), clearColor(vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
+Engine::Engine() : wireFrame(false), clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
 
 bool Engine::Initialize()

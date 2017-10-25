@@ -1,10 +1,6 @@
 #pragma once
 #include "glm/glm.hpp"
 
-using glm::vec2;
-using glm::vec3;
-using glm::vec4;
-
 namespace VertexOffset
 {
 	enum Offsets
@@ -23,19 +19,19 @@ namespace VertexOffset
 
 struct Vertex
 {
-	vec4 position = vec4(1.0);
-	vec3 color;
-	vec3 normal;
-	vec3 tangent;
-	vec3 bitangent;
-	vec3 indices;
-	vec3 weights;
-	vec2 texCoord1;
-	vec2 texCoord2;
+	glm::vec4 position = glm::vec4(1.0);
+	glm::vec3 color;
+	glm::vec3 normal;
+	glm::vec3 tangent;
+	glm::vec3 bitangent;
+	glm::vec3 indices;
+	glm::vec3 weights;
+	glm::vec2 texCoord1;
+	glm::vec2 texCoord2;
 };
 
 struct CPUParticleVertex
 {
-	vec4 position;
-	vec4 color;
+	glm::vec4 position;
+	glm::vec4 color;
 };

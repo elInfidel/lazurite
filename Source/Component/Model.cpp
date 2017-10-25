@@ -1,4 +1,4 @@
-#include "Model.h"
+/*#include "Model.h"
 #include <iostream>
 
 using namespace Assimp;
@@ -157,26 +157,22 @@ Material Model::LoadMaterial(aiMaterial* mat)
 
 	/** The texture is combined with the result of the diffuse
 	*  lighting equation.
-	*/
 	vector<Texture> diffuseMaps = this->LoadMaterialTextures(mat, aiTextureType_DIFFUSE, TextureType::Diffuse);
 	material.textures.insert(material.textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 
 	/** The texture is combined with the result of the specular
 	*  lighting equation.
-	*/
 	vector<Texture> specularMaps = this->LoadMaterialTextures(mat, aiTextureType_SPECULAR, TextureType::Specular);
 	material.textures.insert(material.textures.end(), specularMaps.begin(), specularMaps.end());
 
 	/** The texture is combined with the result of the ambient
 	*  lighting equation.
-	*/
 	vector<Texture> ambientMaps = this->LoadMaterialTextures(mat, aiTextureType_AMBIENT, TextureType::Ambient);
 	material.textures.insert(material.textures.end(), ambientMaps.begin(), ambientMaps.end());
 
 	/** The texture is added to the result of the lighting
 	*  calculation. It isn't influenced by incoming light.
-	*/
 	vector<Texture> emissiveMaps = this->LoadMaterialTextures(mat, aiTextureType_EMISSIVE, TextureType::Emissive);
 	material.textures.insert(material.textures.end(), emissiveMaps.begin(), emissiveMaps.end());
 
@@ -184,7 +180,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*
 	*  By convention, higher gray-scale values stand for
 	*  higher elevations from the base height.
-	*/
 	vector<Texture> heightMaps = this->LoadMaterialTextures(mat, aiTextureType_HEIGHT, TextureType::Height);
 	material.textures.insert(material.textures.end(), heightMaps.begin(), heightMaps.end());
 
@@ -193,7 +188,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*  Again, there are several conventions for tangent-space
 	*  normal maps. Assimp does (intentionally) not
 	*  distinguish here.
-	*/
 	vector<Texture> normalMaps = this->LoadMaterialTextures(mat, aiTextureType_NORMALS, TextureType::Normal);
 	material.textures.insert(material.textures.end(), normalMaps.begin(), normalMaps.end());
 
@@ -203,7 +197,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*  (phong) lighting equation. Usually there is a conversion
 	*  function defined to map the linear color values in the
 	*  texture to a suitable exponent. Have fun.
-	*/
 	vector<Texture> shininessMaps = this->LoadMaterialTextures(mat, aiTextureType_SHININESS, TextureType::Shininess);
 	material.textures.insert(material.textures.end(), shininessMaps.begin(), shininessMaps.end());
 
@@ -211,7 +204,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*
 	*  Usually 'white' means opaque and 'black' means
 	*  'transparency'. Or quite the opposite. Have fun.
-	*/
 	vector<Texture> opacityMaps = this->LoadMaterialTextures(mat, aiTextureType_OPACITY, TextureType::Opacity);
 	material.textures.insert(material.textures.end(), opacityMaps.begin(), opacityMaps.end());
 
@@ -219,7 +211,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*
 	*  The exact purpose and format is application-dependent.
 	*  Higher color values stand for higher vertex displacements.
-	*/
 	vector<Texture> displacementMaps = this->LoadMaterialTextures(mat, aiTextureType_DISPLACEMENT, TextureType::Displacement);
 	material.textures.insert(material.textures.end(), displacementMaps.begin(), displacementMaps.end());
 
@@ -229,7 +220,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*  covered by this material property. The texture contains a
 	*  scaling value for the final color value of a pixel. Its
 	*  intensity is not affected by incoming light.
-	*/
 	vector<Texture> lightMaps = this->LoadMaterialTextures(mat, aiTextureType_LIGHTMAP, TextureType::Lightmap);
 	material.textures.insert(material.textures.end(), lightMaps.begin(), lightMaps.end());
 
@@ -237,7 +227,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*
 	* Contains the color of a perfect mirror reflection.
 	* Rarely used, almost never for real-time applications.
-	*/
 	vector<Texture> reflectionMaps = this->LoadMaterialTextures(mat, aiTextureType_REFLECTION, TextureType::Reflection);
 	material.textures.insert(material.textures.end(), reflectionMaps.begin(), reflectionMaps.end());
 
@@ -246,7 +235,6 @@ Material Model::LoadMaterial(aiMaterial* mat)
 	*  A texture reference that does not match any of the definitions
 	*  above is considered to be 'unknown'. It is still imported,
 	*  but is excluded from any further postprocessing.
-	*/
 	vector<Texture> unknownMaps = this->LoadMaterialTextures(mat, aiTextureType_UNKNOWN, TextureType::Unknown);
 	material.textures.insert(material.textures.end(), unknownMaps.begin(), unknownMaps.end());
 
@@ -277,4 +265,4 @@ void Model::Draw(const ShaderProgram& shaderProgram) const
 	{
 		this->meshes[i].Draw(shaderProgram);
 	}
-}
+}*/

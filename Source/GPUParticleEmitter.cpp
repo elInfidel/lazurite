@@ -1,4 +1,4 @@
-#include "GPUParticleEmitter.h"
+/*#include "GPUParticleEmitter.h"
 #include <iostream>
 
 GPUParticleEmitter::GPUParticleEmitter() : particles(nullptr), maxParticles(0), drawProgram(0), updateProgram(0), lastDrawTime(0)
@@ -156,4 +156,4 @@ void GPUParticleEmitter::Draw(float time, Camera& camera)
 	glDrawArrays(GL_POINTS, 0, maxParticles);
 
 	activeBuffer = otherBuffer;
-}
+}*/

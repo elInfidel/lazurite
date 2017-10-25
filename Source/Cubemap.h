@@ -1,7 +1,7 @@
 #pragma once
 #include "ShaderProgram.h"
 #include "Camera.h"
-
+/*
 class Cubemap
 {
 public:
@@ -16,6 +16,7 @@ private:
 
 	void CreateCubemap(const char* front, const char* back, const char* top, const char* bottom,
 					   const char* left, const char* right, GLuint* texCube);
-	bool LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* fileName)
+	bool LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* fileName);
 };
 
+*/

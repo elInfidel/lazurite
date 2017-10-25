@@ -95,7 +95,6 @@
     <ClCompile Include="Source\GPUParticleEmitter.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Input.cpp" />
-    <ClCompile Include="Source\Utility\FileIO.cpp" />
     <ClCompile Include="Source\ShaderProgram.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
@@ -303,7 +302,6 @@
     <ClInclude Include="Source\GPUParticleEmitter.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Input.h" />
-    <ClInclude Include="Source\Utility\FileIO.h" />
     <ClInclude Include="Source\ShaderProgram.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Engine.h" />

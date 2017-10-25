@@ -1,4 +1,4 @@
-#include "Camera.h"
+/*#include "Camera.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Core/Input.h"
 
@@ -74,3 +74,4 @@ void Camera::CalculateMovement(float deltaTime)
 	if (Input::GetInstance()->GetKey(GLFW_KEY_LEFT_SHIFT))
 		transform.Translate(-transform.GetUp() * finalSpeed);
 }
+*/
