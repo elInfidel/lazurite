@@ -1,8 +1,9 @@
 #pragma once
-#include <vector>
 #include "glm/glm.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "AComponent.h"
+#include <vector>
+#include <memory>
 
 using glm::quat;
 using glm::mat4;
@@ -11,6 +12,19 @@ using glm::vec3;
 
 class Transform : public AComponent
 {
+	mat4 localMatrix;
+	mat4 worldMatrix;
+
+	vec3 position;
+	vec3 scale;
+	quat rotation;
+	bool isDirty;
+
+	Transform* parent;
+	std::vector<Transform*> children;
+
+	void UpdateTransformations();
+
 public:
 	Transform();
 
@@ -26,9 +40,9 @@ public:
 	void SetRotation(vec3 eular);
 	void SetRotation(quat quaternion);
 
-	vec3 GetPosition();
-	vec3 GetScale();
-	quat GetRotation();
+	vec3 GetPosition() const;
+	vec3 GetScale() const;
+	quat GetRotation() const;
 
 	void SetRight(vec3 newRight);
 	void SetUp(vec3 newUp);
@@ -49,20 +63,6 @@ public:
 	Transform * GetChildByIndex(int index);
 	std::vector<Transform *> GetChildren();
 
-	void Update(float deltaTime);
-
-private:
-	mat4 localMatrix;
-	mat4 worldMatrix;
-
-	vec3 position;
-	vec3 scale;
-	quat rotation;
-	bool isDirty;
-
-	Transform* parent;
-	std::vector<Transform*> children;
-
-	void UpdateTransformations();
+	virtual void Tick(float deltaTime);
 };
 

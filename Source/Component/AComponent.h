@@ -8,11 +8,11 @@ class AComponent
 	friend class GameObject;
 
 protected:
-	virtual void Update(float deltaTime) = 0;
+	virtual void Tick(float deltaTime) = 0;
+	std::shared_ptr<GameObject> owner;
+
 public:
 	AComponent();
 	virtual ~AComponent();
-
-	std::shared_ptr<GameObject> owner;
 };
 

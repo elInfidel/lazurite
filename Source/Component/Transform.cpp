@@ -70,17 +70,17 @@ void Transform::SetRotation(quat quaternion)
 	isDirty = true;
 }
 
-vec3 Transform::GetPosition()
+vec3 Transform::GetPosition() const
 {
 	return position;
 }
 
-vec3 Transform::GetScale()
+vec3 Transform::GetScale() const
 {
 	return scale;
 }
 
-quat Transform::GetRotation()
+quat Transform::GetRotation() const
 {
 	return rotation;
 }
@@ -217,7 +217,7 @@ void Transform::UpdateTransformations()
 	}
 }
 
-void Transform::Update(float deltaTime)
+void Transform::Tick(float deltaTime)
 {
 	if (isDirty)
 		UpdateTransformations();
