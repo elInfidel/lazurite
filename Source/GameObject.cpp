@@ -47,7 +47,7 @@ template<class T>
 void GameObject::AddComponent()
 {
 	static_assert(std::is_base_of<AComponent, T>::value, "T must inherit from type 'AComponent'");
-	_components.insert();
+	//_components.insert();
 }
 
 template<class T>
