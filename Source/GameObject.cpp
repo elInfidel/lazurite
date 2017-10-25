@@ -56,7 +56,6 @@ void GameObject::RemoveComponent()
 	static_assert(std::is_base_of<AComponent, T>::value, "T must inherit from type 'AComponent'");
 	const std::type_info& id = typeid(T);
 	auto it = _components.find(id);
-
 	if(it != _components.end())
 		_components.erase(it);
 }

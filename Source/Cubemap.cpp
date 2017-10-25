@@ -114,13 +114,13 @@ bool Cubemap::LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* f
 	unsigned char*  image_data = stbi_load(fileName, &x, &y, &n, force_channels);
 	if (!image_data) 
 	{
-		fprintf(stderr, "ERROR: could not load %s\n", fileName); // TODO:(Liam) Replace with framework logging tools
+		fprintf(stderr, "ERROR: could not load %s\n", fileName); // TODO: Replace with framework logging tools
 		return false;
 	}
 
 	// non-power-of-2 dimensions check
 	if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0)
-		fprintf(stderr, "WARNING: image %s is not power-of-2 dimensions\n", fileName); // TODO:(Liam) Replace with framework logging tools
+		fprintf(stderr, "WARNING: image %s is not power-of-2 dimensions\n", fileName); // TODO: Replace with framework logging tools
 
 	// copy image data into 'target' side of cube map
 	glTexImage2D(

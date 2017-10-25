@@ -16,6 +16,6 @@ private:
 
 	void CreateCubemap(const char* front, const char* back, const char* top, const char* bottom,
 					   const char* left, const char* right, GLuint* texCube);
-	bool LoadCubemapFace(unsigned int texHandle, GLenum faceTarget, const char* fileName);
+	bool LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* fileName)
 };
 
