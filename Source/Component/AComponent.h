@@ -1,15 +1,18 @@
 #pragma once
 #include <memory>
 
+class GameObject;
+
 class AComponent
 {
 	friend class GameObject;
+
+protected:
+	virtual void Update(float deltaTime) = 0;
 public:
 	AComponent();
 	virtual ~AComponent();
 
-	GameObject* owner;
-protected:
-	virtual void Update(float deltaTime) = 0;
+	std::shared_ptr<GameObject> owner;
 };
 

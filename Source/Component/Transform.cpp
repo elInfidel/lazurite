@@ -1,8 +1,8 @@
 #include "Transform.h"
-#include <glm/gtx/transform.hpp>
+#include "glm/gtx/transform.hpp"
 #include "glm/gtx/string_cast.hpp"
-#include <iostream>
 #include "../ImguiImpl.h"
+#include <iostream>
 
 Transform::Transform()
 {
@@ -152,7 +152,7 @@ mat4& Transform::GetWorldMatrix()
 
 void Transform::SetParent(Transform* transform)
 {
-	for (vector<Transform*>::iterator child = children.begin(); child != children.end(); ++child)
+	for (auto child = children.begin(); child != children.end(); ++child)
 	{
 		// You can't set a transform child as its parent!
 		if ((*child) == transform)
@@ -164,7 +164,7 @@ void Transform::SetParent(Transform* transform)
 
 void Transform::AddChild(Transform* transform)
 {
-	for (vector<Transform*>::iterator child = children.begin(); child != children.end(); ++child)
+	for (auto child = children.begin(); child != children.end(); ++child)
 	{
 		if ((*child) == transform)
 			return;
@@ -175,7 +175,7 @@ void Transform::AddChild(Transform* transform)
 
 void Transform::DetachChildren()
 {
-	for (vector<Transform*>::iterator child = children.begin(); child != children.end(); ++child)
+	for (auto child = children.begin(); child != children.end(); ++child)
 	{
 		(*child)->parent = nullptr;
 	}
@@ -195,7 +195,7 @@ Transform* Transform::GetChildByIndex(int index)
 		return nullptr;
 }
 
-vector<Transform*> Transform::GetChildren()
+std::vector<Transform*> Transform::GetChildren()
 {
 	return children;
 }

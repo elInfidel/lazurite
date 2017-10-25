@@ -4,13 +4,11 @@
 
 GameObject::GameObject()
 {
+
 }
 
 GameObject::~GameObject()
 {
-	for (size_t i = 0; i < _components.size(); ++i)
-		delete _components[i];
-
 	_components.clear();
 }
 
@@ -24,50 +22,51 @@ bool GameObject::IsActive()
 	return _isActive;
 }
 
-void GameObject::Update(float deltaTime)
+void GameObject::SetTick(bool tick)
 {
-	for (vector<AComponent*>::iterator component = _components.begin(); component != _components.end(); ++component)
-		(*component)->Update(deltaTime);
+	_isTicking = tick;
+}
+
+bool GameObject::IsTicking()
+{
+	return _isTicking;
+}
+
+void GameObject::Tick(float deltaTime)
+{
+	if (!_isTicking) return;
+
+	for (const auto& component : _components)
+	{
+		if(component.second != nullptr)
+			component.second.get()->Update(deltaTime);
+	}
 }
 
 template<class T>
 void GameObject::AddComponent()
 {
-	//TODO: Implement duplicate check
-	components.push_back(newComponent);
+	static_assert(std::is_base_of<AComponent, T>::value, "T must inherit from type 'AComponent'");
+	_components.insert();
 }
 
 template<class T>
 void GameObject::RemoveComponent()
 {
-	static_assert(std::is_base_of<AComponent, T>::value, " Template type must inherit from AComponent. ");
+	static_assert(std::is_base_of<AComponent, T>::value, "T must inherit from type 'AComponent'");
+	const std::type_info& id = typeid(T);
+	auto it = _components.find(id);
 
-	for (auto it = _components.begin(); it != _components.end(); ++it)
-	{
-		T* c = dynamic_cast<T*>((*it));
-
-		if (c != nullptr)
-		{
-			_components.erase(it);
-			delete c;
-			return;
-		}
-	}
+	if(it != _components.end())
+		_components.erase(it);
 }
 
 template<class T>
-T* GameObject::GetComponent()
+std::weak_ptr<T> GameObject::GetComponent()
 {
-	static_assert(std::is_base_of<AComponent, T>::value, " Template type must inherit from AComponent. ");
-
-	//TODO: I'd like to improve this by mapping component pointers using their type as a key.
-	for (vector<AComponent*>::iterator component = _components.begin(); component != _components.end(); ++component)
-	{
-		T* c = dynamic_cast<T*>((*component));
-
-		if (c != nullptr)
-		{
-			return c;
-		}
-	}
+	static_assert(std::is_base_of<AComponent, T>::value, "T must inherit from type 'AComponent'");
+	const std::type_info& id = typeid(T);
+	auto it = _components.find(id);
+	if (it != _components.end())
+		_components.erase(it);
 }

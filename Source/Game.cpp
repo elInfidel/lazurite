@@ -39,7 +39,7 @@ void Game::Load()
 						  "Resources/Textures/Cubemaps/Yokohama/posx.jpg");
 }
 
-void Game::Update(float deltaTime)
+void Game::Tick(float deltaTime)
 {
 	camera->Update(deltaTime);
 }

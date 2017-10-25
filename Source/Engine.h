@@ -23,7 +23,7 @@ public:
 
 	 // pure virtual Loop functions.
 	 virtual void Load() = 0;
-	 virtual void Update(float deltaTime) = 0;
+	 virtual void Tick(float deltaTime) = 0;
 	 virtual void Draw(float deltaTime) = 0;
 	 virtual void Unload() = 0;
 

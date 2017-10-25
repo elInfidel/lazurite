@@ -102,7 +102,7 @@ void Engine::Run()
 			wireFrame = (!wireFrame);
 
 		// Calling functions of Game class
-		Update(deltaTime);
+		Tick(deltaTime);
 
 		if (wireFrame)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Component/Model.h"
 #include "ParticleEmitter.h"
+#include "GameObject.h"
 #include "Cubemap.h"
 
 class FlyCamera;
@@ -10,7 +11,7 @@ class Game : public Engine
 {
 protected:
 	virtual void Load();
-	virtual void Update(float deltaTime);
+	virtual void Tick(float deltaTime);
 	virtual void Draw(float deltaTime);
 	virtual void Unload();
 
