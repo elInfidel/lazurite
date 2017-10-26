@@ -35,16 +35,16 @@ public:
 
 	// State
 	void SetActive(bool active);
-	bool IsActive();
+	bool IsActive() const;
 
 	void SetTick(bool tick);
-	bool IsTicking();
+	bool IsTicking() const;
 
 	Transform& GetTransform();
 
 	// Components
 	template<class T> void AddComponent();
 	template<class T> void RemoveComponent();
-	template<class T> std::weak_ptr<T> GetComponent();
+	template<class T> std::weak_ptr<T> GetComponent() const;
 };
 

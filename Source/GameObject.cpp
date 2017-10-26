@@ -18,7 +18,7 @@ void GameObject::SetActive(bool active)
 	_isActive = active;
 }
 
-bool GameObject::IsActive()
+bool GameObject::IsActive() const
 {
 	return _isActive;
 }
@@ -28,7 +28,7 @@ void GameObject::SetTick(bool tick)
 	_isTicking = tick;
 }
 
-bool GameObject::IsTicking()
+bool GameObject::IsTicking() const
 {
 	return _isTicking;
 }
@@ -52,7 +52,7 @@ void GameObject::Tick(float deltaTime)
 template<class T>
 void GameObject::AddComponent()
 {
-	//_components.insert();
+	_components.insert(std::pair<ComponentID, StrongComponentPtr>(typeid(T), std::make_shared<T>()));
 }
 
 template<class T>
@@ -64,7 +64,7 @@ void GameObject::RemoveComponent()
 }
 
 template<class T>
-std::weak_ptr<T> GameObject::GetComponent()
+std::weak_ptr<T> GameObject::GetComponent() const
 {
 	auto it = _components.find(typeid(T));
 	if (it != _components.end())
