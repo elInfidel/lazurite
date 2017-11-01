@@ -1,9 +1,11 @@
 #pragma once
 #include "Engine.h"
 #include "Component/Model.h"
+#include "Component/Transform.h"
 #include "ParticleEmitter.h"
 #include "GameObject.h"
 #include "Cubemap.h"
+#include <memory>
 
 class FlyCamera;
 
@@ -14,6 +16,9 @@ protected:
 	virtual void Tick(float deltaTime);
 	virtual void Draw(float deltaTime);
 	virtual void Unload();
+
+	GameObject obj;
+	std::weak_ptr<Transform> transform;
 
 	// Tweak bar vars
 	float fps = 0.0f;

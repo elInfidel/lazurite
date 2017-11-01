@@ -4,7 +4,7 @@
 #include "FlyCamera.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "Core/Input.h"
-#include "GameObject.h"
+#include <iostream>
 
 using glm::vec3;
 using glm::vec4;
@@ -12,7 +12,8 @@ using glm::mat4;
 
 void Game::Load()
 {
-
+	transform = obj.GetComponent<Transform>();
+	std::cout << transform.lock().get()->GetPosition().x << std::endl;
 }
 
 void Game::Tick(float deltaTime)
