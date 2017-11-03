@@ -8,6 +8,9 @@
 
 class Editor : public Engine
 {
+private:
+	void TickMainMenuBar();
+
 protected:
 	virtual void Load();
 	virtual void Tick(float deltaTime);
@@ -16,5 +19,5 @@ protected:
 
 	GameObject obj;
 
-	bool developerMenu = false;
+	bool developerMenu = true;
 };

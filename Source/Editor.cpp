@@ -6,21 +6,8 @@ using glm::vec3;
 using glm::vec4;
 using glm::mat4;
 
-void Editor::Load()
+void Editor::TickMainMenuBar()
 {
-
-}
-
-void Editor::Tick(float deltaTime)
-{
-
-}
-
-void Editor::Draw(float deltaTime)
-{
-	if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_GRAVE_ACCENT))
-		developerMenu = (developerMenu) ? false : true;
-
 	//Draw scene inspector
 	if (developerMenu && ImGui::BeginMainMenuBar())
 	{
@@ -47,22 +34,39 @@ void Editor::Draw(float deltaTime)
 
 		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::MenuItem("Hierarchy")) {}
 			if (ImGui::MenuItem("Profiler")) {}
+			if (ImGui::MenuItem("Lua Console")) {}
+
 
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Help"))
 		{
-			if (ImGui::MenuItem("New Scene", "CTRL+N")) {}
-			if (ImGui::MenuItem("Save Scene", "CTRL+S")) {}
-			if (ImGui::MenuItem("Save Scene As...", "CTRL+Z")) {}
-
 			ImGui::EndMenu();
 		}
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+void Editor::Load()
+{
+
+}
+
+void Editor::Tick(float deltaTime)
+{
+	if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_GRAVE_ACCENT))
+		developerMenu = (developerMenu) ? false : true;
+
+	TickMainMenuBar();
+}
+
+void Editor::Draw(float deltaTime)
+{
+
 }
 
 void Editor::Unload()
