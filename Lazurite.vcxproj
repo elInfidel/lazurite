@@ -99,7 +99,7 @@
     <ClCompile Include="Source\Editor.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\FlyCamera.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Component\Camera.cpp" />
     <ClCompile Include="Includes\loadgen\gl_core_4_4.c" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
@@ -306,7 +306,7 @@
     <ClInclude Include="Source\Editor.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\FlyCamera.h" />
-    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Component\Camera.h" />
     <ClInclude Include="Includes\glfw\glfw3.h" />
     <ClInclude Include="Includes\glfw\glfw3native.h" />
     <ClInclude Include="Includes\loadgen\gl_core_4_4.h" />
