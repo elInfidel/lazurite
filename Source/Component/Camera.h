@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
 #include "Component/Transform.h"
@@ -35,5 +35,3 @@ private:
 	mat4 view;
 	mat4 projection;
 };
-
-*/

@@ -449,6 +449,7 @@
     <None Include="Resources\Models\soulspear\soulspear.fbx" />
     <None Include="Resources\Models\sphere\sphere.fbx" />
     <None Include="Resources\Models\SponzaSimple.fbx" />
+    <None Include="Resources\Shaders\Common.glsl" />
     <None Include="Resources\Shaders\CubemapFrag.glsl" />
     <None Include="Resources\Shaders\CubemapVert.glsl" />
     <None Include="Resources\Shaders\BlinnPhongFrag.glsl" />

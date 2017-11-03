@@ -11,7 +11,7 @@ class AComponent
 
 protected:
 	virtual void Tick(float deltaTime) = 0;
-	std::shared_ptr<GameObject> owner;
+	std::shared_ptr<GameObject> gameObject;
 
 public:
 	AComponent();
