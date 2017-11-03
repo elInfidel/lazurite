@@ -96,7 +96,7 @@
     <ClCompile Include="Source\Rendering\CPUParticleEmitter.cpp" />
     <ClCompile Include="Source\Subsystem\Input.cpp" />
     <ClCompile Include="Source\Rendering\ShaderProgram.cpp" />
-    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Editor.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\FlyCamera.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -303,7 +303,7 @@
     <ClInclude Include="Source\Rendering\CPUParticleEmitter.h" />
     <ClInclude Include="Source\Subsystem\Input.h" />
     <ClInclude Include="Source\Rendering\ShaderProgram.h" />
-    <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Editor.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\FlyCamera.h" />
     <ClInclude Include="Source\Camera.h" />

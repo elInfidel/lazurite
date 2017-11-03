@@ -1,9 +1,9 @@
 #include "Engine.h"
-#include "Game.h"
+#include "Editor.h"
 
 int main()
 {
-	Engine* app = new Game();
+	Engine* app = new Editor();
 	if (app->Initialize())
 		app->Run();
 	app->Terminate();

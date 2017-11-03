@@ -6,7 +6,7 @@
 
 #include <memory>
 
-class Game : public Engine
+class Editor : public Engine
 {
 protected:
 	virtual void Load();
