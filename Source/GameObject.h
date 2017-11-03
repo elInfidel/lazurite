@@ -39,14 +39,14 @@ public:
 	void SetTick(bool tick);
 	bool IsTicking() const;
 
-	/// Adds the component T to this game object if the component doesn't already exist.
+	// Adds the component T to this game object if the component doesn't already exist.
 	template<class T>
 	void AddComponent()
 	{
 		_components.insert(std::pair<ComponentID, StrongComponentPtr>(typeid(T), std::make_shared<T>()));
 	}
 
-	/// Removes the component T from this game object if it exists.
+	// Removes the component T from this game object if it exists.
 	template<class T>
 	void RemoveComponent()
 	{
@@ -55,7 +55,7 @@ public:
 			_components.erase(it);
 	}
 
-	/// Returns a non owning pointer to the component T if it exists on this game object.
+	// Returns a non owning pointer to the component T if it exists on this game object.
 	template<class T>
 	std::weak_ptr<T> GetComponent()
 	{
@@ -69,7 +69,7 @@ public:
 			return std::weak_ptr<T>();
 	}
 
-	/// Returns true when the component T is contained within this game object.
+	// Returns true when the component T is contained within this game object.
 	template<class T>
 	bool ContainsComponent()
 	{
