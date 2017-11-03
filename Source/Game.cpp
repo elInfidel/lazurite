@@ -12,8 +12,7 @@ using glm::mat4;
 
 void Game::Load()
 {
-	transform = obj.GetComponent<Transform>();
-	std::cout << transform.lock().get()->GetPosition().x << std::endl;
+
 }
 
 void Game::Tick(float deltaTime)
@@ -23,13 +22,31 @@ void Game::Tick(float deltaTime)
 
 void Game::Draw(float deltaTime)
 {
+	if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_GRAVE_ACCENT))
+		developerMenu = (developerMenu) ? false : true;
+
 	//Draw scene inspector
-	ImGui::BeginMainMenuBar();
-	ImGui::BeginMenu("File");
-	ImGui::BeginMenu("Profiling");
-	ImGui::BeginMenu("Settings");
-	ImGui::BeginMenu("Help");
-	ImGui::End();
+	if (developerMenu && ImGui::BeginMainMenuBar())
+	{
+		/*
+		if (ImGui::BeginMenu("File"))
+		{
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Profiling"))
+		{
+			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			ImGui::Separator();
+			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			ImGui::EndMenu();
+		}
+		*/
+		ImGui::EndMainMenuBar();
+	}
 }
 
 void Game::Unload()

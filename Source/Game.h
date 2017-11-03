@@ -15,5 +15,6 @@ protected:
 	virtual void Unload();
 
 	GameObject obj;
-	std::weak_ptr<Transform> transform;
+
+	bool developerMenu = false;
 };
