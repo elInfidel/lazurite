@@ -80,22 +80,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Includes\glm\detail\glm.cpp" />
-    <ClCompile Include="Source\Core\CoreSystem.cpp" />
+    <ClCompile Include="Source\Subsystem\CoreSystem.cpp" />
     <ClCompile Include="Source\ImguiImpl.cpp" />
     <ClCompile Include="Includes\imgui\imgui.cpp" />
     <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
     <ClCompile Include="Includes\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Source\Core\MemoryAllocator.cpp" />
+    <ClCompile Include="Source\Subsystem\MemoryAllocator.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\Cubemap.cpp" />
-    <ClCompile Include="Source\Material.cpp" />
+    <ClCompile Include="Source\Rendering\Cubemap.cpp" />
+    <ClCompile Include="Source\Rendering\Material.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
-    <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Source\GPUParticleEmitter.cpp" />
-    <ClCompile Include="Source\ParticleEmitter.cpp" />
-    <ClCompile Include="Source\Core\Input.cpp" />
-    <ClCompile Include="Source\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Rendering\Mesh.cpp" />
+    <ClCompile Include="Source\Rendering\GPUParticleEmitter.cpp" />
+    <ClCompile Include="Source\Rendering\CPUParticleEmitter.cpp" />
+    <ClCompile Include="Source\Subsystem\Input.cpp" />
+    <ClCompile Include="Source\Rendering\ShaderProgram.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\FlyCamera.cpp" />
@@ -103,7 +103,7 @@
     <ClCompile Include="Includes\loadgen\gl_core_4_4.c" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\Texture.cpp" />
+    <ClCompile Include="Source\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\assimp\ai_assert.h" />
@@ -284,7 +284,7 @@
     <ClInclude Include="Includes\glm\vec3.hpp" />
     <ClInclude Include="Includes\glm\vec4.hpp" />
     <ClInclude Include="Includes\glm\vector_relational.hpp" />
-    <ClInclude Include="Source\Core\CoreSystem.h" />
+    <ClInclude Include="Source\Subsystem\CoreSystem.h" />
     <ClInclude Include="Source\ImguiImpl.h" />
     <ClInclude Include="Includes\imgui\imconfig.h" />
     <ClInclude Include="Includes\imgui\imgui.h" />
@@ -292,17 +292,17 @@
     <ClInclude Include="Includes\imgui\stb_rect_pack.h" />
     <ClInclude Include="Includes\imgui\stb_textedit.h" />
     <ClInclude Include="Includes\imgui\stb_truetype.h" />
-    <ClInclude Include="Source\Core\MemoryAllocator.h" />
+    <ClInclude Include="Source\Subsystem\MemoryAllocator.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\Cubemap.h" />
-    <ClInclude Include="Source\Material.h" />
+    <ClInclude Include="Source\Rendering\Cubemap.h" />
+    <ClInclude Include="Source\Rendering\Material.h" />
     <ClInclude Include="Source\Component\Model.h" />
-    <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\GPUParticleEmitter.h" />
-    <ClInclude Include="Source\ParticleEmitter.h" />
-    <ClInclude Include="Source\Core\Input.h" />
-    <ClInclude Include="Source\ShaderProgram.h" />
+    <ClInclude Include="Source\Rendering\Mesh.h" />
+    <ClInclude Include="Source\Rendering\GPUParticleEmitter.h" />
+    <ClInclude Include="Source\Rendering\CPUParticleEmitter.h" />
+    <ClInclude Include="Source\Subsystem\Input.h" />
+    <ClInclude Include="Source\Rendering\ShaderProgram.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\FlyCamera.h" />
@@ -311,8 +311,8 @@
     <ClInclude Include="Includes\glfw\glfw3native.h" />
     <ClInclude Include="Includes\loadgen\gl_core_4_4.h" />
     <ClInclude Include="Source\Component\Transform.h" />
-    <ClInclude Include="Source\Vertex.h" />
-    <ClInclude Include="Source\Texture.h" />
+    <ClInclude Include="Source\Rendering\Vertex.h" />
+    <ClInclude Include="Source\Rendering\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\assimp\assimp-vc140-mt.lib" />

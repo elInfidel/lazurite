@@ -3,7 +3,7 @@
 #include "glfw/glfw3.h"
 #include "glm/glm.hpp"
 #include "ImguiImpl.h"
-#include "Core/Input.h"
+#include "Subsystem/Input.h"
 
 using glm::mat4;
 using glm::vec4;
@@ -43,8 +43,5 @@ private:
 	double endTime;
 	float deltaTime;
 	glm::vec3 clearColor;
-
-	// TEMP
-	bool wireFrame;
 };
 

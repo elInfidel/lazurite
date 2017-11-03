@@ -1,13 +1,9 @@
 #include "Engine.h"
+#include "Subsystem/Input.h"
+
 #include <iostream>
 
-#include "Core/Input.h"
-#include "Core/MemoryAllocator.h"
-
-#include "Camera.h"
-#include "ShaderProgram.h"
-
-Engine::Engine() : wireFrame(false), clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
+Engine::Engine() : clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
 
 bool Engine::Initialize()
@@ -98,19 +94,9 @@ void Engine::Run()
 		glfwPollEvents();
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_F1))
-			wireFrame = (!wireFrame);
-
 		// Calling functions of Game class
 		Tick(deltaTime);
-
-		if (wireFrame)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
 		Draw(deltaTime);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		ImGui::Render();
 		glfwSwapBuffers(window);
