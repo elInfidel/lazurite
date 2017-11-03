@@ -1,8 +1,4 @@
 #include "Game.h"
-#include "glm/glm.hpp"
-#include "glm/ext.hpp"
-#include "FlyCamera.h"
-#include "glm/gtc/type_ptr.hpp"
 #include "Subsystem/Input.h"
 #include <iostream>
 
