@@ -15,7 +15,9 @@ void Editor::TickMainMenuBar()
 		{
 			if (ImGui::MenuItem("New Scene", "CTRL+N")) {}
 			if (ImGui::MenuItem("Save Scene", "CTRL+S")) {}
-			if (ImGui::MenuItem("Save Scene As...", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Save Scene As...")) {}
+			if (ImGui::MenuItem("Load Scene", "CTRL+L")) {}
+			if (ImGui::MenuItem("Exit", "ALT+F4")) {}
 
 			ImGui::EndMenu();
 		}
