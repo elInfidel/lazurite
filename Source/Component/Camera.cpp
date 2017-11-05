@@ -5,8 +5,8 @@
 
 Camera::Camera()
 {
-	_view = mat4(1.0f);
-	_projection = mat4(1.0f);
+	_view = glm::mat4(1.0f);
+	_projection = glm::mat4(1.0f);
 }
 
 void Camera::SetOrthographic(float left, float right, float bottom, float top, float zNear = 1.0f, float zFar = 100.0f)
@@ -19,14 +19,14 @@ void Camera::SetPerspective(float fov, float aspect, float zNear = 1.0f, float z
 	_projection = glm::perspective(fov, aspect, zNear, zFar);
 }
 
-const mat4& Camera::GetViewMatrix()
+const glm::mat4& Camera::GetViewMatrix()
 {
 	auto transform = gameObject.get()->GetComponent<Transform>().lock().get();
 	_view = glm::inverse(transform->GetWorldMatrix());
 	return _view;
 }
 
-const mat4& Camera::GetProjectionMatrix() const
+const glm::mat4& Camera::GetProjectionMatrix() const
 {
 	return _projection;
 }
