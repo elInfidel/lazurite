@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include "loadgen/gl_core_4_4.h"
 #include "Texture.h"
 #include "Vertex.h"
@@ -27,5 +27,3 @@ private:
 	void SetupMesh();
 
 };
-
-*/

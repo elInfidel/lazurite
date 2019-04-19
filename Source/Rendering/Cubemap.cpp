@@ -1,4 +1,4 @@
-/*#include "Cubemap.h"
+#include "Cubemap.h"
 #include "loadgen/gl_core_4_4.h"
 #include "stb/stb_image.h"
 #include "glm/gtc/matrix_transform.hpp"
@@ -138,4 +138,3 @@ bool Cubemap::LoadCubemapFace(GLuint texHandle, GLenum faceTarget, const char* f
 	free(image_data);
 	return true;
 }
-*/

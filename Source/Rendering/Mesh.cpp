@@ -1,4 +1,4 @@
-/*#include "Mesh.h"
+#include "Mesh.h"
 #include <iostream>
 
 Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, Material material) 
@@ -65,4 +65,4 @@ void Mesh::Draw(const ShaderProgram& shaderProgram) const
 	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-}*/
+}

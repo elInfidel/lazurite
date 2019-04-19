@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include "ShaderProgram.h"
 #include "glm/glm.hpp"
 #include "Texture.h"
@@ -30,5 +30,3 @@ public:
 	ShaderProgram& getShaderProgram() const;
 	void setShaderProgram(ShaderProgram* shaderProgram);
 };
-
-*/

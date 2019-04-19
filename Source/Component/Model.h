@@ -1,11 +1,11 @@
-/*#pragma once
+#pragma once
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-#include "../ShaderProgram.h"
-#include "../Mesh.h"
-#include "../Material.h"
+#include "../Rendering/ShaderProgram.h"
+#include "../Rendering/Mesh.h"
+#include "../Rendering/Material.h"
 #include <vector>
 #include <string>
 #include "Transform.h"
@@ -33,5 +33,3 @@ private:
 	Material LoadMaterial(aiMaterial* mat);
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 };
-
-*/

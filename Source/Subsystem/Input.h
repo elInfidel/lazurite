@@ -32,7 +32,7 @@ private:
 	vec2  mouseDelta;            // Changes in mouse position represented as a delta value
 	signed char keys[MAX_KEYS];  // Stores GLFW key definitions from events
 
-	// GLFW Callbacks - TODO: move tweakbar calls elsewhere?
+	// GLFW Callbacks
 	static void OnKey(GLFWwindow* window, int key, int scancode, int action, int mods); // Called on key state change
 	static void OnChar(GLFWwindow* window, unsigned int character);                     // Called on character state change
 	static void OnMousePos(GLFWwindow* window, double x, double y);                     // Called on mouse position change

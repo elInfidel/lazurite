@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include "loadgen/gl_core_4_4.h"
 #include "glm/glm.hpp"
 #include <string>
@@ -72,5 +72,3 @@ private:
 	//Returns the handle to a specified uniform location in the program
 	int getUniformLocation(const char* uniformName) const;
 };
-
-*/
