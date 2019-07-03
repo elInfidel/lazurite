@@ -52,22 +52,23 @@ public:
 	void SetTransformFeedbackVaryings(unsigned int count, const char* varyings[], GLenum bufferMode);
 	
 	// Set uniform data in shader
-	void SetUniform(const char* uniformName, const vec2& data)         const;
-	void SetUniform(const char* uniformName, const vec3& data)         const;
-	void SetUniform(const char* uniformName, const vec4& data)         const;
-	void SetUniform(const char* uniformName, const mat3& data)         const;
-	void SetUniform(const char* uniformName, const mat4& data)         const;
-	void SetUniform(const char* uniformName, const bool value)         const;
-	void SetUniform(const char* uniformName, const int value)          const;
-	void SetUniform(const char* uniformName, const unsigned int value) const;
-	void SetUniform(const char* uniformName, const float value)        const;
-	void SetUniform(const char* uniformName, const double value)       const;
+	void SetUniform(const char* uniformName, const vec2& data)  const;
+	void SetUniform(const char* uniformName, const vec3& data)  const;
+	void SetUniform(const char* uniformName, const vec4& data)  const;
+	void SetUniform(const char* uniformName, const mat3& data)  const;
+	void SetUniform(const char* uniformName, const mat4& data)  const;
+	void SetUniform(const char* uniformName, const int value)   const;
+	void SetUniform(const char* uniformName, const float value) const;
 
 private:
 	int handle;
 	bool linked;
-	map<string, OpenGLShader::OpenGLShaderType> shaderFiles;
-	//map<string, int> uniformLocations;
+
+	typedef std::map<string, int> UniformMap;
+	UniformMap uniformLocations;
+
+	typedef map<string, OpenGLShader::OpenGLShaderType> ShaderMap;
+	ShaderMap shaderFiles;
 
 	//Returns the handle to a specified uniform location in the program
 	int getUniformLocation(const char* uniformName) const;

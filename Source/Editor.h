@@ -8,9 +8,6 @@
 
 class Editor : public Engine
 {
-private:
-	void TickMainMenuBar();
-
 protected:
 	virtual void Load();
 	virtual void Tick(float deltaTime);

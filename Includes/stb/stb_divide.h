@@ -1,8 +1,9 @@
-// stb_divide.h - v0.91 - public domain - Sean Barrett, Feb 2010
+// stb_divide.h - v0.92 - public domain - Sean Barrett, Feb 2010
 // Three kinds of divide/modulus of signed integers.
 //
 // HISTORY
 //
+//   v0.92  2019-02-25  Fix warning
 //   v0.91  2010-02-27  Fix euclidean division by INT_MIN for non-truncating C
 //                      Check result with 64-bit math to catch such cases
 //   v0.90  2010-02-24  First public release
@@ -75,6 +76,10 @@
 // by the euclidean division operator we define, so it's possibly not
 // always true. If any such platform turns up, we can add more cases.
 // (Possibly only stb_div_trunc currently relies on property (b).)
+//
+// LICENSE
+//
+//   See end of file for license information.
 
 
 #ifndef INCLUDE_STB_DIVIDE_H
@@ -159,20 +164,21 @@ int stb_div_floor(int v1, int v2)
    #ifdef C_INTEGER_DIVISION_FLOORS
    return v1/v2;
    #else
-   if (v1 >= 0 && v2 < 0)
+   if (v1 >= 0 && v2 < 0) {
       if ((-v1)+v2+1 < 0) // check if increasing v1's magnitude overflows
          return -stb__div(-v1+v2+1,v2); // nope, so just compute it
       else
          return -stb__div(-v1,v2) + ((-v1)%v2 ? -1 : 0);
-   if (v1 < 0 && v2 >= 0)
-      if (v1 != INT_MIN)
+   }
+   if (v1 < 0 && v2 >= 0) {
+      if (v1 != INT_MIN) {
          if (v1-v2+1 < 0) // check if increasing v1's magnitude overflows
             return -stb__div(v1-v2+1,-v2); // nope, so just compute it
          else
             return -stb__div(-v1,v2) + (stb__mod(v1,-v2) ? -1 : 0);
-      else // it must be possible to compute -(v1+v2) without overflowing
+      } else // it must be possible to compute -(v1+v2) without overflowing
          return -stb__div(-(v1+v2),v2) + (stb__mod(-(v1+v2),v2) ? -2 : -1);
-   else
+   } else
       return v1/v2;           // same sign, so expect truncation
    #endif
 }
@@ -371,3 +377,45 @@ int main(int argc, char **argv)
 #endif // STB_DIVIDE_TEST
 #endif // STB_DIVIDE_IMPLEMENTATION
 #endif // INCLUDE_STB_DIVIDE_H
+
+/*
+------------------------------------------------------------------------------
+This software is available under 2 licenses -- choose whichever you prefer.
+------------------------------------------------------------------------------
+ALTERNATIVE A - MIT License
+Copyright (c) 2017 Sean Barrett
+Permission is hereby granted, free of charge, to any person obtaining a copy of 
+this software and associated documentation files (the "Software"), to deal in 
+the Software without restriction, including without limitation the rights to 
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
+of the Software, and to permit persons to whom the Software is furnished to do 
+so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+------------------------------------------------------------------------------
+ALTERNATIVE B - Public Domain (www.unlicense.org)
+This is free and unencumbered software released into the public domain.
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute this 
+software, either in source code form or as a compiled binary, for any purpose, 
+commercial or non-commercial, and by any means.
+In jurisdictions that recognize copyright laws, the author or authors of this 
+software dedicate any and all copyright interest in the software to the public 
+domain. We make this dedication for the benefit of the public at large and to 
+the detriment of our heirs and successors. We intend this dedication to be an 
+overt act of relinquishment in perpetuity of all present and future rights to 
+this software under copyright law.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN 
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+------------------------------------------------------------------------------
+*/

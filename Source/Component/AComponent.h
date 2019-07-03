@@ -6,7 +6,6 @@ class GameObject;
 class AComponent
 {
 	friend class GameObject;
-
 	bool _isActive = true;
 
 protected:

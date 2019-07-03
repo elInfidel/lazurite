@@ -50,19 +50,19 @@ void Mesh::SetupMesh()
 
 void Mesh::Draw(const ShaderProgram& shaderProgram) const
 {
-	for (size_t i = 0; i < material.textures.size(); ++i)
+	for (int i = 0; i < material.textures.size(); ++i)
 	{
 		if (material.textures[i].GetType() == TextureType::Opacity)
 			shaderProgram.SetUniform("alphaTested", true);
 		else
 			shaderProgram.SetUniform("alphaTested", false);
 
-		glActiveTexture(GL_TEXTURE0 + i);
+		glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
 		shaderProgram.SetUniform(TextureType::strings[material.textures[i].GetType()], i);
 		glBindTexture(GL_TEXTURE_2D, material.textures[i].GetID());
 	}
 
 	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
 	glBindVertexArray(0);
 }

@@ -123,11 +123,10 @@ void ShaderProgram::CompileShader(const char* filePath, OpenGLShader::OpenGLShad
 
 void ShaderProgram::Link()
 {
-	//if (linked) 
-	//	return;
-	//// TODO: LOG ERROR
-	//if (handle <= 0)
-	//	std::cout << "ERROR::SHADER::Program must be created before linking!\n";
+	if (linked) 
+		return;
+	if (handle <= 0)
+		std::cout << "ERROR::SHADER::Program must be created before linking!\n";
 
 	glLinkProgram(handle);
 
@@ -147,12 +146,12 @@ void ShaderProgram::Link()
 			log = rawLog;
 			delete[] rawLog;
 		}
-		// TODO: LOG ERROR
+
 		std::cout << "ERROR::SHADER::Failed to link program:\n" + log;
 	}
 	else
 	{
-		//uniformLocations.clear();
+		uniformLocations.clear();
 		linked = true;
 	}
 
@@ -172,7 +171,6 @@ void ShaderProgram::Link()
 
 void ShaderProgram::Validate()
 {
-	//// TODO: LOG ERROR
 	if (!linked)
 		std::cout << "ERROR::SHADER::Program must be linked to pass validation!\n";
 	
@@ -193,16 +191,15 @@ void ShaderProgram::Validate()
 			log = rawLog;
 			delete[] rawLog;
 		}
-		// TODO: LOG ERROR
 		std::cout << "ERROR::SHADER::Program failed validation!:\n" + log;
 	}
 }
 
 void ShaderProgram::Use()
 {
-	// TODO: LOG ERROR
 	if (handle <= 0 || (!linked))
 		std::cout << "ERROR::SHADER::Shaders must be linked prior to use!\n";
+
 	glUseProgram(handle);
 }
 
@@ -282,22 +279,10 @@ void ShaderProgram::SetUniform(const char* uniformName, const mat4& data) const
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(data));
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const bool value) const
-{
-	int location = getUniformLocation(uniformName);
-	glUniform1i(location, value);
-}
-
 void ShaderProgram::SetUniform(const char* uniformName, const int value) const
 {
 	int location = getUniformLocation(uniformName);
 	glUniform1i(location, value);
-}
-
-void ShaderProgram::SetUniform(const char* uniformName, const unsigned int value) const
-{
-	int location = getUniformLocation(uniformName);
-	glUniform1ui(location, value);
 }
 
 void ShaderProgram::SetUniform(const char* uniformName, const float value) const
@@ -306,19 +291,12 @@ void ShaderProgram::SetUniform(const char* uniformName, const float value) const
 	glUniform1f(location, value);
 }
 
-void ShaderProgram::SetUniform(const char* uniformName, const double value) const
-{
-	int location = getUniformLocation(uniformName);
-	glUniform1d(location, value);
-}
-
 int ShaderProgram::getUniformLocation(const char* uniformName) const
 {
-	//std::map<string, int>::iterator pos;
-	//pos = uniformLocations.find(uniformName);
+	// UniformMap::iterator uniformIter;
+	// uniformIter = uniformLocations.find(uniformName);
+	// if (uniformIter == uniformLocations.end())
 
-	//if (pos == uniformLocations.end())
 	int	uniformLocation= glGetUniformLocation(handle, uniformName);
-
 	return uniformLocation;
 }

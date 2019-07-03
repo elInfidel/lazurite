@@ -1,6 +1,5 @@
 #include "Input.h"
 #include <iostream>
-#include "../ImguiImpl.h"
 
 // Static data
 Input* Input::singleton;

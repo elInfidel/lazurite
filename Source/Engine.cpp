@@ -48,22 +48,22 @@ bool Engine::Initialize()
 	}
 
 	// Setting up some OpenGL functionality
+	this->SetClearColor(vec4(clearColor, 1));
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	// Disable backface culling temp
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
 	// Instantiating time variables
 	beginTime = glfwGetTime();
 	endTime = 0.0;
 	deltaTime = 1.0f / 60.0f;
-
-	ImGui_ImplGlfwGL3_Init(window, true);
 
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
 
@@ -79,7 +79,6 @@ bool Engine::Initialize()
 
 void Engine::Terminate()
 {
-	ImGui_ImplGlfwGL3_Shutdown();
 	glfwTerminate();
 }
 
@@ -89,16 +88,13 @@ void Engine::Run()
 
 	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
-		SetClearColor(vec4(clearColor, 1));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
-		ImGui_ImplGlfwGL3_NewFrame();
 
 		// Calling functions of Game class
 		Tick(deltaTime);
 		Draw(deltaTime);
 
-		ImGui::Render();
 		glfwSwapBuffers(window);
 		Input::GetInstance()->EndFrame(deltaTime);
 
@@ -111,8 +107,6 @@ void Engine::Run()
 		if (deltaTime > 1.0f)
 			deltaTime = 1.0f / 60.0f;
 	}
-
-	ImGui_ImplGlfwGL3_Shutdown();
 
 	Unload();
 }

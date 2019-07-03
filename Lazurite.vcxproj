@@ -5,13 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="x64|Win32">
-      <Configuration>x64</Configuration>
-      <Platform>Win32</Platform>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -26,6 +30,12 @@
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -33,8 +43,12 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='x64|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -42,7 +56,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -50,9 +70,17 @@
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\Bin\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\Bin\Obj\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\Bin\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\Bin\Obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -64,10 +92,42 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;d_assimp-vc140-mt.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>./Libraries/lua;./Libraries/assimp;./Libraries/glfw;./Libraries/physx;./Libraries/fmod;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./Libraries/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Includes;./Source</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;d_assimp-vc140-mt.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries/assimp;./Libraries/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Includes;./Source</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw3.lib;assimp_32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries/lua;./Libraries/assimp;./Libraries/glfw;./Libaries/physx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -81,16 +141,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;assimp_32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>./Libraries/lua;./Libraries/assimp;./Libraries/glfw;./Libaries/physx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;IrrXML.lib;zlibstatic.lib;assimp-vc141-mt.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries/Release/assimp;./Libraries/Release/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Includes\glm\detail\glm.cpp" />
-    <ClCompile Include="Source\ImguiImpl.cpp" />
-    <ClCompile Include="Includes\imgui\imgui.cpp" />
-    <ClCompile Include="Includes\imgui\imgui_demo.cpp" />
-    <ClCompile Include="Includes\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\Editor.cpp" />
     <ClCompile Include="Source\Component\AComponent.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Rendering\Cubemap.cpp" />
@@ -99,7 +156,6 @@
     <ClCompile Include="Source\Rendering\Mesh.cpp" />
     <ClCompile Include="Source\Subsystem\Input.cpp" />
     <ClCompile Include="Source\Rendering\ShaderProgram.cpp" />
-    <ClCompile Include="Source\Editor.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\FlyCamera.cpp" />
     <ClCompile Include="Source\Component\Camera.cpp" />
@@ -110,42 +166,7 @@
     <ClCompile Include="Source\Utility\FileIO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\assimp\ai_assert.h" />
-    <ClInclude Include="Includes\assimp\anim.h" />
-    <ClInclude Include="Includes\assimp\camera.h" />
-    <ClInclude Include="Includes\assimp\cexport.h" />
-    <ClInclude Include="Includes\assimp\cfileio.h" />
-    <ClInclude Include="Includes\assimp\cimport.h" />
-    <ClInclude Include="Includes\assimp\color4.h" />
-    <ClInclude Include="Includes\assimp\Compiler\poppack1.h" />
-    <ClInclude Include="Includes\assimp\Compiler\pstdint.h" />
-    <ClInclude Include="Includes\assimp\Compiler\pushpack1.h" />
     <ClInclude Include="Includes\assimp\config.h" />
-    <ClInclude Include="Includes\assimp\DefaultLogger.hpp" />
-    <ClInclude Include="Includes\assimp\defs.h" />
-    <ClInclude Include="Includes\assimp\Exporter.hpp" />
-    <ClInclude Include="Includes\assimp\Importer.hpp" />
-    <ClInclude Include="Includes\assimp\importerdesc.h" />
-    <ClInclude Include="Includes\assimp\IOStream.hpp" />
-    <ClInclude Include="Includes\assimp\IOSystem.hpp" />
-    <ClInclude Include="Includes\assimp\light.h" />
-    <ClInclude Include="Includes\assimp\Logger.hpp" />
-    <ClInclude Include="Includes\assimp\LogStream.hpp" />
-    <ClInclude Include="Includes\assimp\material.h" />
-    <ClInclude Include="Includes\assimp\matrix3x3.h" />
-    <ClInclude Include="Includes\assimp\matrix4x4.h" />
-    <ClInclude Include="Includes\assimp\mesh.h" />
-    <ClInclude Include="Includes\assimp\metadata.h" />
-    <ClInclude Include="Includes\assimp\NullLogger.hpp" />
-    <ClInclude Include="Includes\assimp\postprocess.h" />
-    <ClInclude Include="Includes\assimp\ProgressHandler.hpp" />
-    <ClInclude Include="Includes\assimp\quaternion.h" />
-    <ClInclude Include="Includes\assimp\scene.h" />
-    <ClInclude Include="Includes\assimp\texture.h" />
-    <ClInclude Include="Includes\assimp\types.h" />
-    <ClInclude Include="Includes\assimp\vector2.h" />
-    <ClInclude Include="Includes\assimp\vector3.h" />
-    <ClInclude Include="Includes\assimp\version.h" />
     <ClInclude Include="Includes\glfw\glfw3.h" />
     <ClInclude Include="Includes\glfw\glfw3native.h" />
     <ClInclude Include="Includes\glm\common.hpp" />
@@ -290,13 +311,46 @@
     <ClInclude Include="Includes\glm\vec3.hpp" />
     <ClInclude Include="Includes\glm\vec4.hpp" />
     <ClInclude Include="Includes\glm\vector_relational.hpp" />
-    <ClInclude Include="Source\ImguiImpl.h" />
-    <ClInclude Include="Includes\imgui\imconfig.h" />
-    <ClInclude Include="Includes\imgui\imgui.h" />
-    <ClInclude Include="Includes\imgui\imgui_internal.h" />
-    <ClInclude Include="Includes\imgui\stb_rect_pack.h" />
-    <ClInclude Include="Includes\imgui\stb_textedit.h" />
-    <ClInclude Include="Includes\imgui\stb_truetype.h" />
+    <ClInclude Include="Includes\stb\stb.h" />
+    <ClInclude Include="Includes\stb\stb_connected_components.h" />
+    <ClInclude Include="Includes\stb\stb_c_lexer.h" />
+    <ClInclude Include="Includes\stb\stb_divide.h" />
+    <ClInclude Include="Includes\stb\stb_ds.h" />
+    <ClInclude Include="Includes\stb\stb_dxt.h" />
+    <ClInclude Include="Includes\stb\stb_easy_font.h" />
+    <ClInclude Include="Includes\stb\stb_herringbone_wang_tile.h" />
+    <ClInclude Include="Includes\stb\stb_image.h" />
+    <ClInclude Include="Includes\stb\stb_image_resize.h" />
+    <ClInclude Include="Includes\stb\stb_image_write.h" />
+    <ClInclude Include="Includes\stb\stb_include.h" />
+    <ClInclude Include="Includes\stb\stb_leakcheck.h" />
+    <ClInclude Include="Includes\stb\stb_perlin.h" />
+    <ClInclude Include="Includes\stb\stb_rect_pack.h" />
+    <ClInclude Include="Includes\stb\stb_sprintf.h" />
+    <ClInclude Include="Includes\stb\stb_textedit.h" />
+    <ClInclude Include="Includes\stb\stb_tilemap_editor.h" />
+    <ClInclude Include="Includes\stb\stb_truetype.h" />
+    <ClInclude Include="Includes\v8\Debugger.h" />
+    <ClInclude Include="Includes\v8\Runtime.h" />
+    <ClInclude Include="Includes\v8\Schema.h" />
+    <ClInclude Include="Includes\v8\libplatform\libplatform-export.h" />
+    <ClInclude Include="Includes\v8\libplatform\libplatform.h" />
+    <ClInclude Include="Includes\v8\libplatform\v8-tracing.h" />
+    <ClInclude Include="Includes\v8\v8-inspector-protocol.h" />
+    <ClInclude Include="Includes\v8\v8-inspector.h" />
+    <ClInclude Include="Includes\v8\v8-internal.h" />
+    <ClInclude Include="Includes\v8\v8-platform.h" />
+    <ClInclude Include="Includes\v8\v8-profiler.h" />
+    <ClInclude Include="Includes\v8\v8-testing.h" />
+    <ClInclude Include="Includes\v8\v8-util.h" />
+    <ClInclude Include="Includes\v8\v8-value-serializer-version.h" />
+    <ClInclude Include="Includes\v8\v8-version-string.h" />
+    <ClInclude Include="Includes\v8\v8-version.h" />
+    <ClInclude Include="Includes\v8\v8-wasm-trap-handler-posix.h" />
+    <ClInclude Include="Includes\v8\v8-wasm-trap-handler-win.h" />
+    <ClInclude Include="Includes\v8\v8.h" />
+    <ClInclude Include="Includes\v8\v8config.h" />
+    <ClInclude Include="Source\Editor.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Rendering\Cubemap.h" />
@@ -305,7 +359,6 @@
     <ClInclude Include="Source\Rendering\Mesh.h" />
     <ClInclude Include="Source\Subsystem\Input.h" />
     <ClInclude Include="Source\Rendering\ShaderProgram.h" />
-    <ClInclude Include="Source\Editor.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\FlyCamera.h" />
     <ClInclude Include="Source\Component\Camera.h" />
@@ -316,19 +369,12 @@
     <ClInclude Include="Source\Utility\FileIO.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Libraries\assimp\assimp-vc140-mt.lib" />
-    <Library Include="Libraries\assimp\d_assimp-vc140-mt.lib" />
-    <Library Include="Libraries\glfw\glfw3.lib" />
+    <Library Include="Libraries\Release\assimp\assimp-vc141-mt.lib" />
+    <Library Include="Libraries\Release\assimp\IrrXML.lib" />
+    <Library Include="Libraries\Release\glfw\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\assimp-vc140-mt.dll" />
-    <None Include="Includes\assimp\color4.inl" />
-    <None Include="Includes\assimp\material.inl" />
-    <None Include="Includes\assimp\matrix3x3.inl" />
-    <None Include="Includes\assimp\matrix4x4.inl" />
-    <None Include="Includes\assimp\quaternion.inl" />
-    <None Include="Includes\assimp\vector2.inl" />
-    <None Include="Includes\assimp\vector3.inl" />
     <None Include="Includes\glm\detail\func_common.inl" />
     <None Include="Includes\glm\detail\func_exponential.inl" />
     <None Include="Includes\glm\detail\func_geometric.inl" />
@@ -438,12 +484,10 @@
     <None Include="Includes\glm\gtx\vector_angle.inl" />
     <None Include="Includes\glm\gtx\vector_query.inl" />
     <None Include="Includes\glm\gtx\wrap.inl" />
+    <None Include="Includes\stb\README.md" />
+    <None Include="Includes\v8\libplatform\DEPS" />
     <None Include="Libraries\assimpd.ilk" />
     <None Include="Libraries\assimpd.pdb" />
-    <None Include="Libraries\assimp\assimp-vc140-mt.dll" />
-    <None Include="Libraries\assimp\assimp-vc140-mt.exp" />
-    <None Include="Libraries\assimp\d_assimp-vc140-mt.dll" />
-    <None Include="Libraries\assimp\d_assimp-vc140-mt.exp" />
     <None Include="Libraries\assimp\d_assimp-vc140-mt.ilk" />
     <None Include="Libraries\assimp\d_assimp-vc140-mt.pdb" />
     <None Include="Resources\Models\cylinder.fbx" />

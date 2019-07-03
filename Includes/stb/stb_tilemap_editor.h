@@ -1,4 +1,4 @@
-// stb_tilemap_editor.h - v0.30 - Sean Barrett - http://nothings.org/stb
+// stb_tilemap_editor.h - v0.41 - Sean Barrett - http://nothings.org/stb
 // placed in the public domain - not copyrighted - first released 2014-09
 //
 // Embeddable tilemap editor for C/C++
@@ -168,7 +168,7 @@
 //      #define STB_TILEMAP_EDITOR_IMPLEMENTATION
 //      // this triggers the implementation
 //
-//      void STBTE_DRAW_RECT(int x0, int y0, int x1, int y1, uint color);
+//      void STBTE_DRAW_RECT(int x0, int y0, int x1, int y1, unsigned int color);
 //      // this must draw a filled rectangle (exclusive on right/bottom)
 //      // color = (r<<16)|(g<<8)|(b)
 //      
@@ -251,7 +251,7 @@
 //
 //   The following symbols set static limits which determine how much
 //   memory will be allocated for the editor. You can override them
-//   by making similiar definitions, but memory usage will increase.
+//   by making similar definitions, but memory usage will increase.
 //
 //      #define STBTE_MAX_TILEMAP_X      200   // max 4096
 //      #define STBTE_MAX_TILEMAP_Y      200   // max 4096
@@ -259,7 +259,7 @@
 //      #define STBTE_MAX_CATEGORIES     100
 //      #define STBTE_UNDO_BUFFER_BYTES  (1 << 24) // 16 MB
 //      #define STBTE_MAX_COPY           90000  // e.g. 300x300
-//      #define STBTE_MAX_PROPERTIESERTIES     10     // max properties per tile
+//      #define STBTE_MAX_PROPERTIES     10     // max properties per tile
 //
 // API
 //
@@ -275,6 +275,16 @@
 //   either approach allows cut&pasting between levels.)
 //
 // REVISION HISTORY
+//   0.41  fix warnings
+//   0.40  fix warning
+//   0.39  fix warning
+//   0.38  fix warning
+//   0.37  fix warning
+//   0.36  minor compiler support
+//   0.35  layername button changes
+//          - layername buttons grow with the layer panel
+//          - fix stbte_create_map being declared as stbte_create
+//          - fix declaration of stbte_create_map
 //   0.30  properties release
 //          - properties panel for editing user-defined "object" properties
 //          - can link each tile to one other tile
@@ -296,17 +306,21 @@
 //   Support STBTE_HITTEST_TILE above
 //  ?Cancel drags by clicking other button? - may be fixed
 //   Finish support for toolbar at side
-//   Layer name buttons grow to fill box
 //
 // CREDITS
 //
-//   Written by Sean Barrett, September & October 2014.
+//
+//   Main editor & features
+//      Sean Barrett
+//   Additional features:
+//      Josh Huelsman
+//   Bugfixes:
+//      Ryan Whitworth
+//      Eugene Opalev
 //
 // LICENSE
 //
-//   This software has been placed in the public domain by its author.
-//   Where that dedication is not recognized, you are granted a perpetual,
-//   irrevocable license to copy and modify this file as you see fit.
+//   See end of file for license information.
 
 
 
@@ -316,6 +330,14 @@
 
 #ifndef STB_TILEMAP_INCLUDE_STB_TILEMAP_EDITOR_H
 #define STB_TILEMAP_INCLUDE_STB_TILEMAP_EDITOR_H
+
+#ifdef _WIN32
+  #ifndef _CRT_SECURE_NO_WARNINGS
+  #define _CRT_SECURE_NO_WARNINGS
+  #endif
+  #include <stdlib.h>
+  #include <stdio.h>
+#endif
 
 typedef struct stbte_tilemap stbte_tilemap;
 
@@ -339,7 +361,7 @@ enum
 // creation
 //
 
-extern stbte_tilemap *stbte_create(int map_x, int map_y, int map_layers, int spacing_x, int spacing_y, int max_tiles);
+extern stbte_tilemap *stbte_create_map(int map_x, int map_y, int map_layers, int spacing_x, int spacing_y, int max_tiles);
 // create an editable tilemap
 //   map_x      : dimensions of map horizontally (user can change this in editor), <= STBTE_MAX_TILEMAP_X
 //   map_y      : dimensions of map vertically (user can change this in editor)    <= STBTE_MAX_TILEMAP_Y
@@ -352,7 +374,7 @@ extern stbte_tilemap *stbte_create(int map_x, int map_y, int map_layers, int spa
 
 extern void stbte_define_tile(stbte_tilemap *tm, unsigned short id, unsigned int layermask, const char * category);
 // call this repeatedly for each tile to install the tile definitions into the editable tilemap
-//   tm        : tilemap created by stbte_create
+//   tm        : tilemap created by stbte_create_map
 //   id        : unique identifier for each tile, 0 <= id < 32768
 //   layermask : bitmask of which layers tile is allowed on: 1 = layer 0, 255 = layers 0..7
 //               (note that onscreen, the editor numbers the layers from 1 not 0)
@@ -377,7 +399,7 @@ extern void stbte_tick(stbte_tilemap *tm, float time_in_seconds_since_last_frame
 //  user input
 //
 
-// if you're using SDL, call the next function for SDL_MOUSEMOVE, SDL_MOUSEBUTTON, SDL_MOUSEWHEEL;
+// if you're using SDL, call the next function for SDL_MOUSEMOTION, SDL_MOUSEBUTTONDOWN, SDL_MOUSEBUTTONUP, SDL_MOUSEWHEEL;
 // the transformation lets you scale from SDL mouse coords to stb_tilemap_editor coords
 extern void stbte_mouse_sdl(stbte_tilemap *tm, const void *sdl_event, float xscale, float yscale, int xoffset, int yoffset);
 
@@ -385,6 +407,8 @@ extern void stbte_mouse_sdl(stbte_tilemap *tm, const void *sdl_event, float xsca
 extern void stbte_mouse_move(stbte_tilemap *tm, int x, int y, int shifted, int scrollkey);
 extern void stbte_mouse_button(stbte_tilemap *tm, int x, int y, int right, int down, int shifted, int scrollkey);
 extern void stbte_mouse_wheel(stbte_tilemap *tm, int x, int y, int vscroll);
+
+// note: at the moment, mouse wheel events (SDL_MOUSEWHEEL) are ignored.
 
 // for keyboard, define your own mapping from keys to the following actions.
 // this is totally optional, as all features are accessible with the mouse
@@ -938,6 +962,7 @@ struct stbte_tilemap
     int tileinfo_dirty;
     stbte__layer layerinfo[STBTE_MAX_LAYERS];
     int has_layer_names;
+    int layername_width;
     int layer_scroll;
     int propmode;
     int solo_layer;
@@ -947,7 +972,7 @@ struct stbte_tilemap
     short *undo_buffer;
 };
 
-static char *default_category = "[unassigned]";
+static char *default_category = (char*) "[unassigned]";
 
 static void stbte__init_gui(void)
 {
@@ -1016,6 +1041,7 @@ stbte_tilemap *stbte_create_map(int map_x, int map_y, int map_layers, int spacin
    tm->layer_scroll = 0;
    tm->propmode = 0;
    tm->has_layer_names = 0;
+   tm->layername_width = 0;
    tm->undo_available_valid = 0;
 
    for (i=0; i < tm->num_layers; ++i) {
@@ -1038,8 +1064,9 @@ stbte_tilemap *stbte_create_map(int map_x, int map_y, int map_layers, int spacin
 void stbte_set_background_tile(stbte_tilemap *tm, short id)
 {
    int i;
-   STBTE_ASSERT(id >= -1 && id < 32768);
-   if (id >= 32768 || id < -1)
+   STBTE_ASSERT(id >= -1);
+   // STBTE_ASSERT(id < 32768);
+   if (id < -1)
       return;
    for (i=0; i < STBTE_MAX_TILEMAP_X * STBTE_MAX_TILEMAP_Y; ++i)
       if (tm->data[0][i][0] == -1)
@@ -1088,12 +1115,17 @@ void stbte_define_tile(stbte_tilemap *tm, unsigned short id, unsigned int layerm
    tm->tileinfo_dirty = 1;
 }
 
+static int stbte__text_width(const char *str);
+
 void stbte_set_layername(stbte_tilemap *tm, int layer, const char *layername)
 {
    STBTE_ASSERT(layer >= 0 && layer < tm->num_layers);
    if (layer >= 0 && layer < tm->num_layers) {
+      int width;
       tm->layerinfo[layer].name = layername;
       tm->has_layer_names = 1;
+      width = stbte__text_width(layername);
+      tm->layername_width = (width > tm->layername_width ? width : tm->layername_width);
    }
 }
 
@@ -1141,7 +1173,9 @@ void stbte_set_property(stbte_tilemap *tm, int x, int y, int n, float val)
    tm->props[y][x][n] = val;
 }
 
+#ifdef STBTE_ALLOW_LINK
 static void stbte__set_link(stbte_tilemap *tm, int src_x, int src_y, int dest_x, int dest_y, int undo_mode);
+#endif
 
 enum
 {
@@ -1194,7 +1228,8 @@ void stbte_set_tile(stbte_tilemap *tm, int x, int y, int layer, signed short til
 {
    STBTE_ASSERT(x >= 0 && x < tm->max_x && y >= 0 && y < tm->max_y);
    STBTE_ASSERT(layer >= 0 && layer < tm->num_layers);
-   STBTE_ASSERT(tile >= -1 && tile < 32768);
+   STBTE_ASSERT(tile >= -1);
+   //STBTE_ASSERT(tile < 32768);
    if (x < 0 || x >= STBTE_MAX_TILEMAP_X || y < 0 || y >= STBTE_MAX_TILEMAP_Y)
       return;
    if (layer < 0 || layer >= tm->num_layers || tile < -1)
@@ -1222,7 +1257,7 @@ static int stbte__strequal(char *p, char *q)
 
 static void stbte__compute_tileinfo(stbte_tilemap *tm)
 {
-   int i,j,n=0;
+   int i,j;
 
    tm->num_categories=0;
 
@@ -1617,6 +1652,7 @@ static void stbte__draw_rect(int x0, int y0, int x1, int y1, unsigned int color)
    STBTE_DRAW_RECT(x0,y0,x1,y1, color);
 }
 
+#ifdef STBTE_ALLOW_LINK
 static void stbte__draw_line(int x0, int y0, int x1, int y1, unsigned int color)
 {
    int temp;
@@ -1630,18 +1666,13 @@ static void stbte__draw_link(int x0, int y0, int x1, int y1, unsigned int color)
    stbte__draw_line(x0,y0,x0,y1, color);
    stbte__draw_line(x0,y1,x1,y1, color);
 }
+#endif
 
 static void stbte__draw_frame(int x0, int y0, int x1, int y1, unsigned int color)
 {
    stbte__draw_rect(x0,y0,x1-1,y0+1,color);
    stbte__draw_rect(x1-1,y0,x1,y1-1,color);
    stbte__draw_rect(x0+1,y1-1,x1,y1,color);
-   stbte__draw_rect(x0,y0+1,x0+1,y1,color);
-}
-
-static void stbte__draw_halfframe(int x0, int y0, int x1, int y1, unsigned int color)
-{
-   stbte__draw_rect(x0,y0,x1,y0+1,color);
    stbte__draw_rect(x0,y0+1,x0+1,y1,color);
 }
 
@@ -1785,15 +1816,13 @@ static void stbte__draw_textbox(int x0, int y0, int x1, int y1, char *text, int 
    stbte__draw_text(x0+xoff,y0+yoff, text, x1-x0-xoff-1, stbte__color_table[colormode][STBTE__text][colorindex]);
 }
 
-static int stbte__button(int colormode, char *label, int x, int y, int textoff, int width, int id, int toggled, int disabled)
+static int stbte__button(int colormode, const char *label, int x, int y, int textoff, int width, int id, int toggled, int disabled)
 {
    int x0=x,y0=y, x1=x+width,y1=y+STBTE__BUTTON_HEIGHT;
    int s = STBTE__BUTTON_INTERNAL_SPACING;
 
-   int over = !disabled && stbte__hittest(x0,y0,x1,y1,id);
-      
    if (stbte__ui.event == STBTE__paint)
-      stbte__draw_textbox(x0,y0,x1,y1, label,s+textoff,s, colormode, STBTE__INDEX_FOR_ID(id,disabled,toggled));
+      stbte__draw_textbox(x0,y0,x1,y1, (char*) label,s+textoff,s, colormode, STBTE__INDEX_FOR_ID(id,disabled,toggled));
    if (disabled)
       return 0;
    return (stbte__button_core(id) == 1);
@@ -1804,8 +1833,6 @@ static int stbte__button_icon(int colormode, char ch, int x, int y, int width, i
    int x0=x,y0=y, x1=x+width,y1=y+STBTE__BUTTON_HEIGHT;
    int s = STBTE__BUTTON_INTERNAL_SPACING;
 
-   int over = stbte__hittest(x0,y0,x1,y1,id);
-      
    if (stbte__ui.event == STBTE__paint) {
       char label[2] = { ch, 0 };
       int pad = (9 - stbte__get_char_width(ch))/2;
@@ -1819,9 +1846,8 @@ static int stbte__button_icon(int colormode, char ch, int x, int y, int width, i
 static int stbte__minibutton(int colormode, int x, int y, int ch, int id)
 {
    int x0 = x, y0 = y, x1 = x+8, y1 = y+7;
-   int over = stbte__hittest(x0,y0,x1,y1,id);
    if (stbte__ui.event == STBTE__paint) {
-      char str[2] = { ch,0 };
+      char str[2] = { (char)ch, 0 };
       stbte__draw_textbox(x0,y0,x1,y1, str,1,0,colormode, STBTE__INDEX_FOR_ID(id,0,0));
    }
    return stbte__button_core(id);
@@ -1830,9 +1856,8 @@ static int stbte__minibutton(int colormode, int x, int y, int ch, int id)
 static int stbte__layerbutton(int x, int y, int ch, int id, int toggled, int disabled, int colormode)
 {
    int x0 = x, y0 = y, x1 = x+10, y1 = y+11;
-   int over = !disabled && stbte__hittest(x0,y0,x1,y1,id);
    if (stbte__ui.event == STBTE__paint) {
-      char str[2] = { ch,0 };
+      char str[2] = { (char)ch, 0 };
       int off = (9-stbte__get_char_width(ch))/2;
       stbte__draw_textbox(x0,y0,x1,y1, str, off+1,2, colormode, STBTE__INDEX_FOR_ID(id,disabled,toggled));
    }
@@ -1844,7 +1869,6 @@ static int stbte__layerbutton(int x, int y, int ch, int id, int toggled, int dis
 static int stbte__microbutton(int x, int y, int size, int id, int colormode)
 {
    int x0 = x, y0 = y, x1 = x+size, y1 = y+size;
-   int over = stbte__hittest(x0,y0,x1,y1,id);
    if (stbte__ui.event == STBTE__paint) {
       stbte__draw_box(x0,y0,x1,y1, colormode, STBTE__INDEX_FOR_ID(id,0,0));
    }
@@ -1854,7 +1878,6 @@ static int stbte__microbutton(int x, int y, int size, int id, int colormode)
 static int stbte__microbutton_dragger(int x, int y, int size, int id, int *pos)
 {
    int x0 = x, y0 = y, x1 = x+size, y1 = y+size;
-   int over = stbte__hittest(x0,y0,x1,y1,id);
    switch (stbte__ui.event) {
       case STBTE__paint:
          stbte__draw_box(x0,y0,x1,y1, STBTE__cexpander, STBTE__INDEX_FOR_ID(id,0,0));
@@ -1880,15 +1903,13 @@ static int stbte__microbutton_dragger(int x, int y, int size, int id, int *pos)
    return 0;
 }
 
-static int stbte__category_button(char *label, int x, int y, int width, int id, int toggled)
+static int stbte__category_button(const char *label, int x, int y, int width, int id, int toggled)
 {
    int x0=x,y0=y, x1=x+width,y1=y+STBTE__BUTTON_HEIGHT;
    int s = STBTE__BUTTON_INTERNAL_SPACING;
-
-   int over = stbte__hittest(x0,y0,x1,y1,id);
       
    if (stbte__ui.event == STBTE__paint)
-      stbte__draw_textbox(x0,y0,x1,y1, label, s,s, STBTE__ccategory_button, STBTE__INDEX_FOR_ID(id,0,toggled));
+      stbte__draw_textbox(x0,y0,x1,y1, (char*) label, s,s, STBTE__ccategory_button, STBTE__INDEX_FOR_ID(id,0,toggled));
 
    return (stbte__button_core(id) == 1);
 }
@@ -1906,7 +1927,6 @@ static int stbte__slider(int x0, int w, int y, int range, int *value, int id)
 {
    int x1 = x0+w;
    int pos = *value * w / (range+1);
-   int over = stbte__hittest(x0,y-2,x1,y+3,id);
    int event_mouse_move = STBTE__change;
    switch (stbte__ui.event) {
       case STBTE__paint:
@@ -1937,15 +1957,22 @@ static int stbte__slider(int x0, int w, int y, int range, int *value, int id)
    return STBTE__none;
 }
 
-static int stbte__float_control(int x0, int y0, int w, float minv, float maxv, float scale, char *fmt, float *value, int colormode, int id)
+#if defined(_WIN32) && defined(__STDC_WANT_SECURE_LIB__)
+   #define stbte__sprintf      sprintf_s
+   #define stbte__sizeof(s)    , sizeof(s)
+#else
+   #define stbte__sprintf      sprintf
+   #define stbte__sizeof(s)    
+#endif
+
+static int stbte__float_control(int x0, int y0, int w, float minv, float maxv, float scale, const char *fmt, float *value, int colormode, int id)
 {
    int x1 = x0+w;
    int y1 = y0+11;
-   int over = stbte__hittest(x0,y0,x1,y1,id);
    switch (stbte__ui.event) {
       case STBTE__paint: {
          char text[32];
-         sprintf(text, fmt ? fmt : "%6.2f", *value);
+         stbte__sprintf(text stbte__sizeof(text), fmt ? fmt : "%6.2f", *value);
          stbte__draw_textbox(x0,y0,x1,y1, text, 1,2, colormode, STBTE__INDEX_FOR_ID(id,0,0));
          break;
       }
@@ -2224,7 +2251,7 @@ enum
    STBTE__prop_int,
 };
 
-// id is:      [      24-bit data     : 7-bit identifer ]
+// id is:      [      24-bit data     : 7-bit identifier ]
 // map id is:  [  12-bit y : 12 bit x : 7-bit identifier ]
 
 #define STBTE__ID(n,p)     ((n) + ((p)<<7))
@@ -2251,7 +2278,6 @@ static void stbte__alert(const char *msg)
 
 static void stbte__brush_predict(stbte_tilemap *tm, short result[])
 {
-   int layer_to_paint = tm->cur_layer;
    stbte__tileinfo *ti;
    int i;
 
@@ -2290,7 +2316,6 @@ static void stbte__brush_predict(stbte_tilemap *tm, short result[])
 
 static void stbte__brush(stbte_tilemap *tm, int x, int y)
 {
-   int layer_to_paint = tm->cur_layer;
    stbte__tileinfo *ti;
 
    // find lowest legit layer to paint it on, and put it there
@@ -2602,7 +2627,6 @@ static void stbte__clear_stack(stbte_tilemap *tm, short result[])
 static void stbte__fillrect(stbte_tilemap *tm, int x0, int y0, int x1, int y1, int fill)
 {
    int i,j;
-   int x=x0,y=y0;
 
    stbte__begin_undo(tm);
    if (x0 > x1) i=x0,x0=x1,x1=i;
@@ -2702,6 +2726,7 @@ static int stbte__in_rect(int x, int y, int x0, int y0, int w, int h)
    return x >= x0 && x < x0+w && y >= y0 && y < y0+h;
 }
 
+#ifdef STBTE_ALLOW_LINK
 static int stbte__in_src_rect(int x, int y)
 {
    return stbte__in_rect(x,y, stbte__ui.copy_src_x, stbte__ui.copy_src_y, stbte__ui.copy_width, stbte__ui.copy_height);
@@ -2711,6 +2736,7 @@ static int stbte__in_dest_rect(int x, int y, int destx, int desty)
 {
    return stbte__in_rect(x,y, destx, desty, stbte__ui.copy_width, stbte__ui.copy_height);
 }
+#endif
 
 static void stbte__paste(stbte_tilemap *tm, int mapx, int mapy)
 {
@@ -2852,7 +2878,7 @@ static void stbte__drag_update(stbte_tilemap *tm, int mapx, int mapy, int copy_p
             stbte__set_link(tm, mapx, mapy, -1, -1, STBTE__undo_record);
          else if (moved || (copied && written)) {
             // if we move the target, we update to point to the new target;
-            // or, if we copy the target and the source is part ofthe copy, then update to new target
+            // or, if we copy the target and the source is part of the copy, then update to new target
             int x = k->x + (stbte__ui.drag_dest_x - stbte__ui.drag_x);
             int y = k->y + (stbte__ui.drag_dest_y - stbte__ui.drag_y);
             if (!(x >= 0 && y >= 0 && x < tm->max_x && y < tm->max_y))
@@ -2902,9 +2928,6 @@ static void stbte__tile_paint(stbte_tilemap *tm, int sx, int sy, int mapx, int m
 {
    int i;
    int id = STBTE__IDMAP(mapx,mapy);
-   int x0=sx, y0=sy;
-   int x1=sx+tm->spacing_x, y1=sy+tm->spacing_y;
-   int over = stbte__hittest(x0,y0,x1,y1, id);
    short *data = tm->data[mapy][mapx];
    short temp[STBTE_MAX_LAYERS];
 
@@ -3329,12 +3352,12 @@ static void stbte__toolbar(stbte_tilemap *tm, int x0, int y0, int w, int h)
 
 #define STBTE__TEXTCOLOR(n)  stbte__color_table[n][STBTE__text][STBTE__idle]
 
-static int stbte__info_value(char *label, int x, int y, int val, int digits, int id)
+static int stbte__info_value(const char *label, int x, int y, int val, int digits, int id)
 {
    if (stbte__ui.event == STBTE__paint) {
       int off = 9-stbte__get_char_width(label[0]);
       char text[16];
-      sprintf(text, label, digits, val);
+      stbte__sprintf(text stbte__sizeof(text), label, digits, val);
       stbte__draw_text_core(x+off,y, text, 999, STBTE__TEXTCOLOR(STBTE__cpanel),1);
    }
    if (id) {
@@ -3382,14 +3405,21 @@ static void stbte__info(stbte_tilemap *tm, int x0, int y0, int w, int h)
 
 static void stbte__layers(stbte_tilemap *tm, int x0, int y0, int w, int h)
 {
-   int i, y, n;
-   int x1 = x0+w;
-   int y1 = y0+h;
-   int xoff = tm->has_layer_names ? 50 : 20;
-   static char *propmodes[3] = {
+   static const char *propmodes[3] = {
       "default", "always", "never"
    };
    int num_rows;
+   int i, y, n;
+   int x1 = x0+w;
+   int y1 = y0+h;
+   int xoff = 20;
+   
+   if (tm->has_layer_names) {
+      int side = stbte__ui.panel[STBTE__panel_layers].side;
+      xoff = stbte__region[side].width - 42;
+      xoff = (xoff < tm->layername_width + 10 ? xoff : tm->layername_width + 10);
+   }
+
    x0 += 2;
    y0 += 5;
    if (!tm->has_layer_names) {
@@ -3410,7 +3440,7 @@ static void stbte__layers(stbte_tilemap *tm, int x0, int y0, int w, int h)
       int disabled = (tm->solo_layer >= 0 && tm->solo_layer != i);
       if (i-tm->layer_scroll >= 0 && i-tm->layer_scroll < num_rows) {
          if (str == NULL)
-            sprintf(str=text, "%2d", i+1);
+            stbte__sprintf(str=text stbte__sizeof(text), "%2d", i+1);
          if (stbte__button(STBTE__clayer_button, str, x0,y,(i+1<10)*2,xoff-2, STBTE__ID(STBTE__layer,i), tm->cur_layer==i,0))
             tm->cur_layer = (tm->cur_layer == i ? -1 : i);
          if (stbte__layerbutton(x0+xoff +  0,y+1,'H',STBTE__ID(STBTE__hide,i), tm->layerinfo[i].hidden,disabled,STBTE__clayer_hide))
@@ -3427,7 +3457,7 @@ static void stbte__layers(stbte_tilemap *tm, int x0, int y0, int w, int h)
    n = stbte__text_width("prop:")+2;
    stbte__draw_text(x0,y+2, "prop:", w, STBTE__TEXTCOLOR(STBTE__cpanel));
    i = w - n - 4;
-   if (i > 45) i = 45;
+   if (i > 50) i = 50;
    if (stbte__button(STBTE__clayer_button, propmodes[tm->propmode], x0+n,y,0,i, STBTE__ID(STBTE__layer,256), 0,0))
       tm->propmode = (tm->propmode+1)%3;
 #endif
@@ -3462,10 +3492,7 @@ static void stbte__categories(stbte_tilemap *tm, int x0, int y0, int w, int h)
 
 static void stbte__tile_in_palette(stbte_tilemap *tm, int x, int y, int slot)
 {
-   stbte__tileinfo *t = &tm->tiles[slot];
-   int x0=x, y0=y, x1 = x+tm->palette_spacing_x - 1, y1 = y+tm->palette_spacing_y;
    int id = STBTE__ID(STBTE__palette, slot);
-   int over = stbte__hittest(x0,y0,x1,y1, id);
    switch (stbte__ui.event) {
       case STBTE__paint:
          stbte__draw_rect(x,y,x+tm->palette_spacing_x-1,y+tm->palette_spacing_x-1, STBTE_COLOR_TILEPALETTE_BACKGROUND);
@@ -3522,15 +3549,10 @@ static void stbte__palette_of_tiles(stbte_tilemap *tm, int x0, int y0, int w, in
    stbte__scrollbar(x1-4, y0+6, y1-2, &tm->palette_scroll, 0, num_total_rows, num_vis_rows, STBTE__ID(STBTE__scrollbar_id, STBTE__palette));
 }
 
-static float stbte__linear_remap(float n, float x0, float x1, float y0, float y1)
-{
-   return (n-x0)/(x1-x0)*(y1-y0) + y0;
-}
-
 static float stbte__saved;
 static void stbte__props_panel(stbte_tilemap *tm, int x0, int y0, int w, int h)
 {
-   int x1 = x0+w, y1 = y0+h;
+   int x1 = x0+w;
    int i;
    int y = y0 + 5, x = x0+2;
    int slider_width = 60;
@@ -3546,8 +3568,8 @@ static void stbte__props_panel(stbte_tilemap *tm, int x0, int y0, int w, int h)
    for (i=0; i < STBTE_MAX_PROPERTIES; ++i) {
       unsigned int n = STBTE_PROP_TYPE(i, data, p);
       if (n) {
-         char *s = STBTE_PROP_NAME(i, data, p);
-         if (s == NULL) s = "";
+         char *s = (char*) STBTE_PROP_NAME(i, data, p);
+         if (s == NULL) s = (char*) "";
          switch (n & 3) {
             case STBTE_PROP_bool: {
                int flag = (int) p[i];
@@ -4095,3 +4117,45 @@ void stbte_mouse_sdl(stbte_tilemap *tm, const void *sdl_event, float xs, float y
 }
 
 #endif // STB_TILEMAP_EDITOR_IMPLEMENTATION
+
+/*
+------------------------------------------------------------------------------
+This software is available under 2 licenses -- choose whichever you prefer.
+------------------------------------------------------------------------------
+ALTERNATIVE A - MIT License
+Copyright (c) 2017 Sean Barrett
+Permission is hereby granted, free of charge, to any person obtaining a copy of 
+this software and associated documentation files (the "Software"), to deal in 
+the Software without restriction, including without limitation the rights to 
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
+of the Software, and to permit persons to whom the Software is furnished to do 
+so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+------------------------------------------------------------------------------
+ALTERNATIVE B - Public Domain (www.unlicense.org)
+This is free and unencumbered software released into the public domain.
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute this 
+software, either in source code form or as a compiled binary, for any purpose, 
+commercial or non-commercial, and by any means.
+In jurisdictions that recognize copyright laws, the author or authors of this 
+software dedicate any and all copyright interest in the software to the public 
+domain. We make this dedication for the benefit of the public at large and to 
+the detriment of our heirs and successors. We intend this dedication to be an 
+overt act of relinquishment in perpetuity of all present and future rights to 
+this software under copyright law.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN 
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+------------------------------------------------------------------------------
+*/

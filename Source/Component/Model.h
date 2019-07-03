@@ -17,16 +17,16 @@ public:
 	Model(const char* path);
 	virtual ~Model();
 
-	void Update(float deltaTime) {} // TODO: Move drawing into Render system instead of Models drawing themselves
+	void Update(float deltaTime) {}
 	void Draw(const ShaderProgram& shaderProgram) const;
 
-	Transform transform;
+	void LoadModel(string path);
+
 private:
 
 	vector<Mesh> meshes;
 	string directory;
 
-	void LoadModel(string path);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 

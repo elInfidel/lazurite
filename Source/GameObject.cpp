@@ -23,16 +23,6 @@ bool GameObject::IsActive() const
 	return _isActive;
 }
 
-void GameObject::SetTick(bool tick)
-{
-	_isTicking = tick;
-}
-
-bool GameObject::IsTicking() const
-{
-	return _isTicking;
-}
-
 void GameObject::Tick(float deltaTime)
 {
 	for (const auto& component : _components)

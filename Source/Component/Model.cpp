@@ -86,12 +86,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.bitangent.z = mesh->mBitangents[i].z;
 		}
 
-		// Vertex weights
-		//if (mesh->HasBones())
-		//{
-		//	vertex.weights.x 
-		//}
-
 		// Vertex texcoords
 		if (mesh->HasTextureCoords(0))
 		{
@@ -259,7 +253,7 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	for (size_t i = 0; i < mat->GetTextureCount(type); ++i)
 	{
 		aiString string;
-		mat->GetTexture(type, i, &string);
+		mat->GetTexture(type, (unsigned int)i, &string);
 
 		Texture texture;
 		texture.LoadTexture(this->directory, string.C_Str(), typeName);

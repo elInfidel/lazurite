@@ -1,7 +1,6 @@
 #include "Transform.h"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/string_cast.hpp"
-#include "../ImguiImpl.h"
 #include <iostream>
 
 Transform::Transform()
