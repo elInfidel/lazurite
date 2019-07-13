@@ -1,9 +1,7 @@
 #################
 ## Project Specific
 #################
-/Resources/*
-!/Resources/Shaders/
-imgui.ini
+[Bb]uild/ 
 
 
 #################
