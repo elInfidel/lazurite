@@ -2,17 +2,22 @@ cmake_minimum_required(VERSION 3.14)
 
 project(lazurite_core)
 
+find_package(OpenGL)
+
 set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_NO_EXPORT OFF CACHE BOOL "" FORCE)
 
 include(FetchContent)
-FetchContent_Declare(external_glfw GIT_REPOSITORY https://github.com/glfw/glfw GIT_TAG 3.3)
-FetchContent_Declare(external_assimp GIT_REPOSITORY https://github.com/assimp/assimp GIT_TAG v4.1.0)
-FetchContent_Declare(external_glm GIT_REPOSITORY https://github.com/g-truc/glm GIT_TAG 0.9.9.5)
-FetchContent_Declare(external_stb GIT_REPOSITORY https://github.com/nothings/stb)
-FetchContent_MakeAvailable(external_glfw external_assimp external_glm external_stb)
+FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw GIT_TAG 3.3)
+FetchContent_Declare(assimp GIT_REPOSITORY https://github.com/assimp/assimp GIT_TAG v4.1.0)
+FetchContent_Declare(glm GIT_REPOSITORY https://github.com/g-truc/glm GIT_TAG 0.9.9.5)
+FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb)
+FetchContent_MakeAvailable(glfw assimp glm stb)
 
 set(LZ_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include") 
 set(LZ_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
@@ -21,6 +26,7 @@ set(
     LZ_CORE_HEADER_FILES
     ${LZ_INCLUDE_DIR}/gl_core_4_4.h
     ${LZ_INCLUDE_DIR}/Engine.h
+	${LZ_INCLUDE_DIR}/Editor.h
     ${LZ_INCLUDE_DIR}/GameObject.h
     ${LZ_INCLUDE_DIR}/GameObject.h
     ${LZ_INCLUDE_DIR}/subsystem/Input.h
@@ -41,6 +47,7 @@ set(
     LZ_CORE_SOURCE_FILES
     ${LZ_SRC_DIR}/gl_core_4_4.c
     ${LZ_SRC_DIR}/Engine.cpp
+	${LZ_SRC_DIR}/Editor.cpp
     ${LZ_SRC_DIR}/EntryPoint.cpp
     ${LZ_SRC_DIR}/GameObject.cpp
     ${LZ_SRC_DIR}/subsystem/Input.cpp
@@ -66,15 +73,16 @@ target_include_directories(
 	lazurite_core 
 	PUBLIC 
 	${LZ_INCLUDE_DIR} 
-	${external_glfw_SOURCE_DIR}/include
-	${external_assimp_SOURCE_DIR}/include
-	${external_assimp_BINARY_DIR}/include
-	${external_glm_SOURCE_DIR}
-	${external_stb_SOURCE_DIR}
+	${glfw_SOURCE_DIR}/include
+	${assimp_SOURCE_DIR}/include
+	${assimp_BINARY_DIR}/include
+	${glm_SOURCE_DIR}
+	${stb_SOURCE_DIR}
 )
 
 target_link_libraries(
 	lazurite_core 
-	external_glfw
-	external_assimp
+	glfw
+	assimp
+	${OPENGL_gl_LIBRARY}
 )
