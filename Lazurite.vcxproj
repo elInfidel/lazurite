@@ -71,16 +71,16 @@
     <IntDir>$(SolutionDir)\bin\intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\Bin\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\Bin\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\Obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\Bin\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\Bin\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\Obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,8 +104,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;d_assimp-vc140-mt.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>./Libraries/assimp;./Libraries/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;IrrXMLd.lib;zlibstaticd.lib;assimp-vc141-mtd.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./Libraries/Debug/assimp;./Libraries/Release/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -330,26 +330,6 @@
     <ClInclude Include="Includes\stb\stb_textedit.h" />
     <ClInclude Include="Includes\stb\stb_tilemap_editor.h" />
     <ClInclude Include="Includes\stb\stb_truetype.h" />
-    <ClInclude Include="Includes\v8\Debugger.h" />
-    <ClInclude Include="Includes\v8\Runtime.h" />
-    <ClInclude Include="Includes\v8\Schema.h" />
-    <ClInclude Include="Includes\v8\libplatform\libplatform-export.h" />
-    <ClInclude Include="Includes\v8\libplatform\libplatform.h" />
-    <ClInclude Include="Includes\v8\libplatform\v8-tracing.h" />
-    <ClInclude Include="Includes\v8\v8-inspector-protocol.h" />
-    <ClInclude Include="Includes\v8\v8-inspector.h" />
-    <ClInclude Include="Includes\v8\v8-internal.h" />
-    <ClInclude Include="Includes\v8\v8-platform.h" />
-    <ClInclude Include="Includes\v8\v8-profiler.h" />
-    <ClInclude Include="Includes\v8\v8-testing.h" />
-    <ClInclude Include="Includes\v8\v8-util.h" />
-    <ClInclude Include="Includes\v8\v8-value-serializer-version.h" />
-    <ClInclude Include="Includes\v8\v8-version-string.h" />
-    <ClInclude Include="Includes\v8\v8-version.h" />
-    <ClInclude Include="Includes\v8\v8-wasm-trap-handler-posix.h" />
-    <ClInclude Include="Includes\v8\v8-wasm-trap-handler-win.h" />
-    <ClInclude Include="Includes\v8\v8.h" />
-    <ClInclude Include="Includes\v8\v8config.h" />
     <ClInclude Include="Source\Editor.h" />
     <ClInclude Include="Source\Component\AComponent.h" />
     <ClInclude Include="Source\GameObject.h" />
@@ -369,12 +349,9 @@
     <ClInclude Include="Source\Utility\FileIO.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Libraries\Release\assimp\assimp-vc141-mt.lib" />
-    <Library Include="Libraries\Release\assimp\IrrXML.lib" />
     <Library Include="Libraries\Release\glfw\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\assimp-vc140-mt.dll" />
     <None Include="Includes\glm\detail\func_common.inl" />
     <None Include="Includes\glm\detail\func_exponential.inl" />
     <None Include="Includes\glm\detail\func_geometric.inl" />
@@ -485,7 +462,6 @@
     <None Include="Includes\glm\gtx\vector_query.inl" />
     <None Include="Includes\glm\gtx\wrap.inl" />
     <None Include="Includes\stb\README.md" />
-    <None Include="Includes\v8\libplatform\DEPS" />
     <None Include="Libraries\assimpd.ilk" />
     <None Include="Libraries\assimpd.pdb" />
     <None Include="Libraries\assimp\d_assimp-vc140-mt.ilk" />

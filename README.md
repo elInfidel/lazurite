@@ -8,17 +8,14 @@ configuration will require you to recompile for your own needs.
 
 ### External Libraries
 
-* Chrome V8 - https://v8.dev/
 * GLFW      - https://www.glfw.org/
 * Assimp    - http://www.assimp.org/
 * STB       - https://github.com/nothings/stb
 * GLM       - https://glm.g-truc.net/
 
 ## Goals
-I use Lazurite as a playground for testing the implementation of common techniques and patterns in game development.
-By no means is it an engine I would use to build a game, it's likely full of performance issues I haven't taken into
-consideration. If you decide you want to get the code running and somehow do (See above) you do so at your own risk, I'm
-not liable if your computer grows arms and punches you in the face.
+I use Lazurite as a playground for testing the implementation of common techniques and patterns in game development. If you decide you want 
+to get the code running and somehow do (See above) you do so at your own risk, I'm not liable if your computer grows arms and punches you in the face.
 
 Currently I'm playing with the following
 * Component based architecture
