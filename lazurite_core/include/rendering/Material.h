@@ -13,7 +13,6 @@ private:
 	ShaderProgram* _program;
 public:
 	Material();
-	Material(ShaderProgram* shaderProgram);
 	virtual ~Material();
 
 	struct MaterialProperties
@@ -26,7 +25,4 @@ public:
 	} properties;
 
 	vector<Texture> textures;
-
-	ShaderProgram& getShaderProgram() const;
-	void setShaderProgram(ShaderProgram* shaderProgram);
 };

@@ -10,7 +10,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
-set(ASSIMP_NO_EXPORT OFF CACHE BOOL "" FORCE)
+set(ASSIMP_NO_EXPORT ON CACHE BOOL "" FORCE)
+# TODO: Disable all unwanted Assimp importers. Really only need OBJ & FBX.
 
 include(FetchContent)
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw GIT_TAG 3.3)
@@ -70,9 +71,9 @@ add_executable(
 )
 
 target_include_directories(
-	lazurite_core 
-	PUBLIC 
-	${LZ_INCLUDE_DIR} 
+	lazurite_core
+	PUBLIC
+	${LZ_INCLUDE_DIR}
 	${glfw_SOURCE_DIR}/include
 	${assimp_SOURCE_DIR}/include
 	${assimp_BINARY_DIR}/include
@@ -81,7 +82,7 @@ target_include_directories(
 )
 
 target_link_libraries(
-	lazurite_core 
+	lazurite_core
 	glfw
 	assimp
 	${OPENGL_gl_LIBRARY}

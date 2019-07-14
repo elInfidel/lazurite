@@ -10,11 +10,6 @@ Material::Material()
 	properties.roughness = 0.0f;
 }
 
-Material::Material(ShaderProgram* shaderProgram)
-{
-
-}
-
 Material::~Material()
 {
 	delete _program;
