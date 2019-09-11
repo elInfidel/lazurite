@@ -42,6 +42,7 @@ public:
 	{
 		static_assert(std::is_base_of<AComponent, T>::value, "T not derived from AComponent");
 		auto newComponent = std::pair<ComponentID, StrongComponentPtr>(typeid(T), std::make_shared<T>());
+		newComponent.second->gameObject = this;
 		componentList.insert(newComponent);
 		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(newComponent.second));
 	}

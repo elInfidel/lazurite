@@ -2,9 +2,9 @@
 #include "Component/AComponent.h"
 #include <type_traits>
 
-GameObject::GameObject()
+GameObject::GameObject() 
 {
-	AddComponent<Transform>();
+	this->AddComponent<Transform>();
 }
 
 GameObject::~GameObject()

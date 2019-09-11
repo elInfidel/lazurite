@@ -3,6 +3,7 @@
 
 Material::Material()
 {
+	_program = nullptr;
 	properties.ambient = vec3(0.0f);
 	properties.diffuse = vec3(0.0f);
 	properties.specular = vec3(0.0f);
@@ -12,5 +13,8 @@ Material::Material()
 
 Material::~Material()
 {
-	delete _program;
+	if (_program)
+	{
+		delete _program;
+	}
 }

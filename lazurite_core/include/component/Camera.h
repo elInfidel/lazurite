@@ -14,7 +14,7 @@ public:
 	// Sets the camera to orthographic projection with the given arguments
 	void SetOrthographic(float left, float right, float top, float bottom, float zNear, float zFar);
 	// Sets the camera to perspective projection with the given arguments
-	void SetPerspective(float fov, float aspect, float zNear, float zFar);
+	void SetPerspective(float fov, float aspect, float zNear = 1.0f, float zFar = 100.0f);
 
 	// Get the current view matrix.
 	const glm::mat4& GetViewMatrix();

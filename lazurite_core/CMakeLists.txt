@@ -23,6 +23,10 @@ FetchContent_MakeAvailable(glfw assimp glm stb)
 set(LZ_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include") 
 set(LZ_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 
+if(APPLE) 
+	set(CMAKE_CXX_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+endif()
+
 set(
     LZ_CORE_HEADER_FILES
     ${LZ_INCLUDE_DIR}/gl_core_4_4.h
