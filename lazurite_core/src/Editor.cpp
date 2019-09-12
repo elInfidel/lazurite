@@ -34,7 +34,6 @@ void Editor::Draw(float deltaTime)
 	shaderProgram->SetUniform("pMat", camComponent->GetProjectionMatrix());
 	shaderProgram->SetUniform("vMat", camComponent->GetViewMatrix());
 	shaderProgram->SetUniform("mvpMat", camComponent->GetProjectionMatrix() * camComponent->GetViewMatrix() * modelTransform->GetWorldMatrix());
-	shaderProgram->SetUniform("lightPos", vec3(0.0, 0.5, -3.0));
 
 	testObj.GetComponent<Model>().lock()->Draw(*shaderProgram);
 }
