@@ -1,7 +1,7 @@
 #include "rendering/Mesh.h"
 #include <iostream>
 
-Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, Material material) 
+Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material) 
 	: vertices(vertices), indices(indices), material(material)
 {
 	this->SetupMesh();
@@ -10,7 +10,9 @@ Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, Material material)
 
 Mesh::~Mesh()
 {
-
+	if (material) {
+		delete material;
+	}
 }
 
 void Mesh::SetupMesh()
@@ -48,18 +50,17 @@ void Mesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(const ShaderProgram& shaderProgram) const
+void Mesh::Draw() const
 {
-	for (int i = 0; i < material.textures.size(); ++i)
-	{
-		if (material.textures[i].GetType() == TextureType::Opacity)
-			shaderProgram.SetUniform("alphaTested", true);
-		else
-			shaderProgram.SetUniform("alphaTested", false);
-
-		glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
-		shaderProgram.SetUniform(TextureType::strings[material.textures[i].GetType()], i);
-		glBindTexture(GL_TEXTURE_2D, material.textures[i].GetID());
+	if (material) {
+		ShaderProgram& program = material->getShaderProgram();
+		program.Use();
+		for (int i = 0; i < material->textures.size(); ++i)
+		{
+			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
+			program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
+			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
+		}
 	}
 
 	glBindVertexArray(this->vao);

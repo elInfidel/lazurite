@@ -15,5 +15,4 @@ protected:
 
 	GameObject camera;
 	GameObject testObj;
-	ShaderProgram* shaderProgram;
 };

@@ -21,7 +21,7 @@ set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "")
 
 include(FetchContent)
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw GIT_TAG 3.3)
-FetchContent_Declare(assimp GIT_REPOSITORY https://github.com/assimp/assimp GIT_TAG v4.1.0)
+FetchContent_Declare(assimp GIT_REPOSITORY https://github.com/assimp/assimp GIT_TAG v5.0.0)
 FetchContent_Declare(glm GIT_REPOSITORY https://github.com/g-truc/glm GIT_TAG 0.9.9.5)
 FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb)
 FetchContent_MakeAvailable(glfw assimp glm stb)
@@ -96,4 +96,12 @@ target_link_libraries(
 	glfw
 	assimp
 	${OPENGL_gl_LIBRARY}
+)
+
+set_property(
+	TARGET 
+	lazurite_core 
+	PROPERTY 
+	VS_DEBUGGER_WORKING_DIRECTORY 
+	"${CMAKE_SOURCE_DIR}/resources"
 )

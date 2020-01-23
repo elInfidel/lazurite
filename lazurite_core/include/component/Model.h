@@ -18,7 +18,7 @@ class Model : public AComponent
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 
-	Material LoadMaterial(aiMaterial* mat);
+	MaterialBase* LoadMaterial(aiMaterial* mat);
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 
 public:
@@ -26,7 +26,7 @@ public:
 	Model();
 
 	virtual void Tick(float deltaTime) {};
-	void Draw(const ShaderProgram& shaderProgram) const;
+	void Draw() const;
 
 	void LoadModel(string path);
 };

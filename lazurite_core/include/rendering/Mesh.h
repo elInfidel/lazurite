@@ -12,18 +12,16 @@ using namespace std;
 class Mesh
 {
 public:
-	Mesh(vector<Vertex> vertices, vector<GLuint> indices, Material material);
+	Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material);
 	virtual ~Mesh();
 
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
-	Material material;
+	MaterialBase* material;
 
-	void Draw(const ShaderProgram& shaderProgram) const;
+	void Draw() const;
 
 private:
 	GLuint vao, vbo, ebo;
-
 	void SetupMesh();
-
 };
