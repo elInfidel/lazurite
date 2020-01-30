@@ -8,11 +8,8 @@ Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* materi
 }
 
 
-Mesh::~Mesh()
-{
-	if (material) {
-		delete material;
-	}
+Mesh::~Mesh() {
+	delete this->material;
 }
 
 void Mesh::SetupMesh()
@@ -50,19 +47,25 @@ void Mesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw() const
+void Mesh::Draw(const mat4& view, const mat4& projection, const mat4& model)
 {
-	if (material) {
-		ShaderProgram& program = material->getShaderProgram();
-		program.Use();
-		for (int i = 0; i < material->textures.size(); ++i)
-		{
-			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
-			program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
-			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
-		}
+	// Obtain the materials associated shader program
+	ShaderProgram& program = material->getShaderProgram();
+	program.Use();
+
+	program.SetUniform("model", model);
+	program.SetUniform("view", view);
+	program.SetUniform("projection", projection);
+
+	// Bind the textures for the material
+	for (int i = 0; i < material->textures.size(); ++i)
+	{
+		glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
+		program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
+		glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
 	}
 
+	// Draw the mesh.
 	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
 	glBindVertexArray(0);

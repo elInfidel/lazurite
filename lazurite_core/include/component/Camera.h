@@ -5,7 +5,6 @@
 
 class Camera : public AComponent
 {
-	glm::mat4 _view;
 	glm::mat4 _projection;
 
 public:

@@ -12,21 +12,20 @@
 
 class Model : public AComponent
 {
-	vector<Mesh> meshes;
 	string directory;
 
+	vector<Mesh*> meshes;
+
 	void ProcessNode(aiNode* node, const aiScene* scene);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene);
 
 	MaterialBase* LoadMaterial(aiMaterial* mat);
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 
 public:
 
-	Model();
-
 	virtual void Tick(float deltaTime) {};
-	void Draw() const;
+	void Draw(const mat4& view, const mat4& projection, const mat4& model);
 
 	void LoadModel(string path);
 };

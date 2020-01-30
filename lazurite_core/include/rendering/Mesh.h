@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "Material.h"
 #include <vector>
+#include <component\Camera.h>
 
 using namespace std;
 
@@ -13,13 +14,13 @@ class Mesh
 {
 public:
 	Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material);
-	virtual ~Mesh();
+	~Mesh();
 
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
 	MaterialBase* material;
 
-	void Draw() const;
+	void Draw(const mat4& view, const mat4& projection, const mat4& model);
 
 private:
 	GLuint vao, vbo, ebo;

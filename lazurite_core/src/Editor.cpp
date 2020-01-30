@@ -5,12 +5,12 @@
 void Editor::Load()
 { 
 	auto modelPtr = testObj.AddComponent<Model>();
-	modelPtr.lock()->LoadModel("./models/bunny.obj");
 	testObj.GetComponent<Transform>().lock()->SetScale(glm::vec3(5.f, 5.f, 5.f));
 	testObj.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0, -.5f, -2.f));
+	modelPtr.lock()->LoadModel("./models/bunny.obj");
 
 	auto cameraPtr = camera.AddComponent<Camera>();
-
+	camera.GetComponent<Transform>().lock()->SetPosition(vec3(0, 0, -10));
 }
 
 void Editor::Tick(float deltaTime)
@@ -20,8 +20,13 @@ void Editor::Tick(float deltaTime)
 
 void Editor::Draw(float deltaTime)
 {
-	auto camComponent = camera.GetComponent<Camera>().lock();
-	auto modelTransform = testObj.GetComponent<Transform>().lock();
+	auto transform = testObj.GetComponent<Transform>().lock();
+	auto cam = camera.GetComponent<Camera>().lock();
+	testObj.GetComponent<Model>().lock()->Draw(
+		cam->GetViewMatrix(),
+		cam->GetProjectionMatrix(),
+		transform->GetWorldMatrix()
+	);
 }
 
 void Editor::Unload()

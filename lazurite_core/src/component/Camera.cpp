@@ -5,7 +5,6 @@
 
 Camera::Camera()
 {
-	_view = glm::mat4(1.0f);
 	this->SetPerspective(70.0f, 1920.0f/1080.0f);
 }
 
@@ -22,8 +21,7 @@ void Camera::SetPerspective(float fov, float aspect, float zNear, float zFar)
 const glm::mat4& Camera::GetViewMatrix()
 {
 	auto worldMat = gameObject->GetComponent<Transform>().lock()->GetWorldMatrix();
-	_view = glm::inverse(worldMat);
-	return _view;
+	return glm::inverse(worldMat);
 }
 
 const glm::mat4& Camera::GetProjectionMatrix() const
