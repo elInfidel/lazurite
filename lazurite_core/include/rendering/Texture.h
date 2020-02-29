@@ -8,18 +8,18 @@ namespace TextureType
 	enum Type : int
 	{
 		Diffuse = 0,
-		Specular = 1,
-		Ambient = 2,
-		Emissive = 3,
-		Height = 4,
-		Normal = 5,
-		Shininess = 6,
-		Opacity = 7,
-		Displacement = 8,
-		Lightmap = 9,
-		Reflection = 10,
-		Unknown = 11,
-		TextureCount = 12
+		Specular,
+		Ambient,
+		Emissive,
+		Height,
+		Normal,
+		Shininess,
+		Opacity,
+		Displacement,
+		Lightmap,
+		Reflection,
+		Unknown,
+		TextureCount
 	};
 
 	// Stores string representation of each type.

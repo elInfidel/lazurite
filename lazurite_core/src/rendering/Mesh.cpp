@@ -42,8 +42,6 @@ void Mesh::SetupMesh()
 	glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::WeightsOffset);
 	glEnableVertexAttribArray(7); // Vertex texcoord1
 	glVertexAttribPointer(7, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
-	glEnableVertexAttribArray(8); // Vertex texcoord2
-	glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord2Offset);
 
 	glBindVertexArray(0);
 }
@@ -52,11 +50,6 @@ void Mesh::Draw(const ShaderProgram& shaderProgram) const
 {
 	for (int i = 0; i < material.textures.size(); ++i)
 	{
-		if (material.textures[i].GetType() == TextureType::Opacity)
-			shaderProgram.SetUniform("alphaTested", true);
-		else
-			shaderProgram.SetUniform("alphaTested", false);
-
 		glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
 		shaderProgram.SetUniform(TextureType::strings[material.textures[i].GetType()], i);
 		glBindTexture(GL_TEXTURE_2D, material.textures[i].GetID());
