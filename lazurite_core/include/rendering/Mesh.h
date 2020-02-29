@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "Material.h"
 #include <vector>
+#include <component\Camera.h>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ public:
 	vector<GLuint> indices;
 	MaterialBase* material;
 
-	void Draw() const;
+	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const;
 
 private:
 	GLuint vao, vbo, ebo;

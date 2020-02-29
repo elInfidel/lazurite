@@ -97,11 +97,3 @@ target_link_libraries(
 	assimp
 	${OPENGL_gl_LIBRARY}
 )
-
-set_property(
-	TARGET 
-	lazurite_core 
-	PROPERTY 
-	VS_DEBUGGER_WORKING_DIRECTORY 
-	"${CMAKE_SOURCE_DIR}/resources"
-)

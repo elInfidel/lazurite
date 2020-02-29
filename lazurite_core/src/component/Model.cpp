@@ -276,8 +276,8 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	return textures;
 }
 
-void Model::Draw() const
+void Model::Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const
 {
 	for (unsigned int i = 0; i < this->meshes.size(); ++i)
-		this->meshes[i].Draw();
+		this->meshes[i].Draw(camera, camTransform, modelTransform);
 }

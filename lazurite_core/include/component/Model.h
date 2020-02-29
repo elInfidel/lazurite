@@ -9,6 +9,8 @@
 #include "rendering/Material.h"
 #include <vector>
 #include <string>
+#include <component\Camera.h>
+#include <component\Transform.h>
 
 class Model : public AComponent
 {
@@ -26,7 +28,7 @@ public:
 	Model();
 
 	virtual void Tick(float deltaTime) {};
-	void Draw() const;
+	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const;
 
 	void LoadModel(string path);
 };

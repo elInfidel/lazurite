@@ -10,9 +10,6 @@ Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* materi
 
 Mesh::~Mesh()
 {
-	if (material) {
-		delete material;
-	}
 }
 
 void Mesh::SetupMesh()
@@ -48,11 +45,36 @@ void Mesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw() const
+void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const
 {
 	if (material) {
 		ShaderProgram& program = material->getShaderProgram();
 		program.Use();
+
+		// Set any uniforms
+		program.SetUniform("model", modelTransform.GetWorldMatrix());
+		program.SetUniform("view", camera.GetViewMatrix());
+		program.SetUniform("projection", camera.GetProjectionMatrix());
+
+		vector<vec3> pointPositions = {
+			vec3(-3.5, 4.0, -4.0),
+			vec3(0.0, 4.0, -4.0),
+			vec3(3.5, 4.0, -4.0),
+			vec3(-3.5, 4.0, 0.0),
+		};
+
+		vector<vec3> pointColors = {
+			vec3(255, 255, 255),
+			vec3(255, 255, 255),
+			vec3(255, 255, 255),
+			vec3(255, 255, 255),
+		};
+
+		program.SetUniform("lightPositions", pointPositions);
+		program.SetUniform("lightColors", pointColors);
+		program.SetUniform("camPos", camTransform.GetPosition());
+
+		// Set texture uniform values
 		for (int i = 0; i < material->textures.size(); ++i)
 		{
 			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
@@ -61,6 +83,7 @@ void Mesh::Draw() const
 		}
 	}
 
+	// Render
 	glBindVertexArray(this->vao);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
 	glBindVertexArray(0);
