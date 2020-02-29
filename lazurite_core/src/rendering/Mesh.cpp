@@ -44,8 +44,6 @@ void Mesh::SetupMesh()
 	glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::WeightsOffset);
 	glEnableVertexAttribArray(7); // Vertex texcoord1
 	glVertexAttribPointer(7, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
-	glEnableVertexAttribArray(8); // Vertex texcoord2
-	glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord2Offset);
 
 	glBindVertexArray(0);
 }

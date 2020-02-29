@@ -19,7 +19,7 @@ namespace VertexOffset
 
 struct Vertex
 {
-	glm::vec4 position = glm::vec4(1.0);
+	glm::vec4 position;
 	glm::vec3 color;
 	glm::vec3 normal;
 	glm::vec3 tangent;

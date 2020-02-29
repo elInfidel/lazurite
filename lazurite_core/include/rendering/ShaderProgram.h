@@ -1,19 +1,9 @@
 #pragma once
 #include "gl_core_4_4.h"
 #include "glm/glm.hpp"
-#include <string>
 #include <map>
-#include <list>
-
-using std::string;
-using std::map;
-using std::list;
-
-using glm::vec2;
-using glm::vec3;
-using glm::vec4;
-using glm::mat3;
-using glm::mat4;
+#include <vector>
+#include <string>
 
 namespace OpenGLShader
 {
@@ -52,11 +42,12 @@ public:
 	void SetTransformFeedbackVaryings(unsigned int count, const char* varyings[], GLenum bufferMode);
 	
 	// Set uniform data in shader
-	void SetUniform(const char* uniformName, const vec2& data)  const;
-	void SetUniform(const char* uniformName, const vec3& data)  const;
-	void SetUniform(const char* uniformName, const vec4& data)  const;
-	void SetUniform(const char* uniformName, const mat3& data)  const;
-	void SetUniform(const char* uniformName, const mat4& data)  const;
+	void SetUniform(const char* uniformName, const glm::vec2& data)  const;
+	void SetUniform(const char* uniformName, const glm::vec3& data)  const;
+	void SetUniform(const char* uniformName, const std::vector<glm::vec3> data) const;
+	void SetUniform(const char* uniformName, const glm::vec4& data)  const;
+	void SetUniform(const char* uniformName, const glm::mat3& data)  const;
+	void SetUniform(const char* uniformName, const glm::mat4& data)  const;
 	void SetUniform(const char* uniformName, const int value)   const;
 	void SetUniform(const char* uniformName, const float value) const;
 
@@ -64,10 +55,10 @@ private:
 	int handle;
 	bool linked;
 
-	typedef std::map<string, int> UniformMap;
+	typedef std::map<std::string, int> UniformMap;
 	UniformMap uniformLocations;
 
-	typedef map<string, OpenGLShader::OpenGLShaderType> ShaderMap;
+	typedef std::map<std::string, OpenGLShader::OpenGLShaderType> ShaderMap;
 	ShaderMap shaderFiles;
 
 	//Returns the handle to a specified uniform location in the program

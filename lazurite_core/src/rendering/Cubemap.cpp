@@ -75,7 +75,7 @@ void Cubemap::Draw(const ShaderProgram& shaderProgram, Camera* camera)
 	glDepthMask(GL_FALSE);
 	glUseProgram(shaderProgram.GetHandle());
 	shaderProgram.SetUniform("pMat", camera->GetProjectionMatrix());
-	shaderProgram.SetUniform("vMat", mat4(mat3(camera->GetViewMatrix())));
+	shaderProgram.SetUniform("vMat", mat4(glm::mat3(camera->GetViewMatrix())));
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texHandle);
 	glBindVertexArray(vao);
