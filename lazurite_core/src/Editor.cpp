@@ -16,33 +16,40 @@ std::string workingdir()
 void Editor::Load()
 { 
 	auto modelPtr = testObj.AddComponent<Model>();
-	modelPtr.lock()->LoadModel("resources\\models\\PillarWoman.fbx");
-	testObj.GetComponent<Transform>().lock()->SetScale(glm::vec3(.1f));
-	testObj.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0, -15, 0));
-	testObj.GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(90, 180, 180))));
-
+	modelPtr.lock()->LoadModel("resources\\models\\woman\\PillarWoman.obj");
+	testObj.GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(0, -90, 0))));
 	auto cameraPtr = camera.AddComponent<Camera>();
-	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,0,10));
+	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 }
 
 void Editor::Tick(float deltaTime)
 {
 	camera.GetComponent<Camera>().lock()->Tick(deltaTime);
 
+	float camSpeed = 1;
+
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_W)) {
-		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 1 * deltaTime, 0));
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, camSpeed * deltaTime, 0));
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_A)) {
-		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(-1 * deltaTime, 0, 0));
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(-camSpeed * deltaTime, 0, 0));
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_S)) {
-		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, -1 * deltaTime, 0));
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, -camSpeed * deltaTime, 0));
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_D)) {
-		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(1 * deltaTime, 0, 0));
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(camSpeed * deltaTime, 0, 0));
+	}
+
+	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, -camSpeed * deltaTime));
+	}
+
+	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, camSpeed * deltaTime));
 	}
 }
 

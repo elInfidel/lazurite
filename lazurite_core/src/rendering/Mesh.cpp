@@ -77,6 +77,7 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		// Set texture uniform values
 		for (int i = 0; i < material->textures.size(); ++i)
 		{
+			std::cout << TextureType::strings[material->textures[i].GetType()] << std::endl;
 			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
 			program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
 			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());

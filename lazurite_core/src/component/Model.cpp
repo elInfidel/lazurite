@@ -6,7 +6,7 @@ Model::Model() {}
 void Model::LoadModel(string path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_OptimizeMeshes);
 
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -115,35 +115,10 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 {
 	MaterialBase* material;
 
-	// Check presence of PBR related properties to
+	// TODO: Check presence of PBR related properties to
 	// build relevant material
 
-	if (true) {
-		material = new PBRMaterial();
-	}
-	else {
-		material = new BasicMaterial();
-
-		aiColor3D ambient(1.f, 1.f, 1.f);
-		aiColor3D diffuse(1.f, 1.f, 1.f);
-		aiColor3D specular(0.f, 0.f, 0.f);
-
-		mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
-		mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
-		mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
-
-		((BasicMaterial*)material)->ambient.r = ambient.r;
-		((BasicMaterial*)material)->ambient.g = ambient.g;
-		((BasicMaterial*)material)->ambient.b = ambient.b;
-
-		((BasicMaterial*)material)->diffuse.r = diffuse.r;
-		((BasicMaterial*)material)->diffuse.g = diffuse.g;
-		((BasicMaterial*)material)->diffuse.b = diffuse.b;
-
-		((BasicMaterial*)material)->specular.r = specular.r;
-		((BasicMaterial*)material)->specular.g = specular.g;
-		((BasicMaterial*)material)->specular.b = specular.b;
-	}
+	material = new PBRMaterial();
 
 	// Load textures
 	// TODO: Comment PBR textures
@@ -266,7 +241,6 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	{
 		aiString string;
 		mat->GetTexture(type, (unsigned int)i, &string);
-
 		Texture texture;
 		texture.LoadTexture(this->directory, string.C_Str(), typeName);
 		textures.push_back(texture);
