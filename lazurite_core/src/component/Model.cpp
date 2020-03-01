@@ -123,6 +123,12 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	// Load textures
 	// TODO: Comment PBR textures
 
+	/* The texture is an albedo map
+	*
+	*  Used most commonly in physically based rendering. Very similar to the diffuse map
+	*  however the albedo stores no lighting information and purely represents the surface color at some given position.
+	*
+	*/
 	vector<Texture> albedoMaps = this->LoadMaterialTextures(mat, aiTextureType_BASE_COLOR, TextureType::Albedo);
 	material->textures.insert(material->textures.end(), albedoMaps.begin(), albedoMaps.end());
 
@@ -183,8 +189,11 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  (phong) lighting equation. Usually there is a conversion
 	*  function defined to map the linear color values in the
 	*  texture to a suitable exponent. Have fun.
+	*
+	*  NOTE: We treat these as roughness maps moving forward.
+	*
 	*/
-	vector<Texture> shininessMaps = this->LoadMaterialTextures(mat, aiTextureType_SHININESS, TextureType::Shininess);
+	vector<Texture> shininessMaps = this->LoadMaterialTextures(mat, aiTextureType_SHININESS, TextureType::Roughness);
 	material->textures.insert(material->textures.end(), shininessMaps.begin(), shininessMaps.end());
 
 	/** The texture defines per-pixel opacity.

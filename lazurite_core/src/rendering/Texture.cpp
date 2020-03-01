@@ -26,12 +26,15 @@ void Texture::LoadTexture(string directory, const char* filePath, TextureType::T
 	string path = string(filePath);
 	this->type = type;
 
-	struct stat buffer;
-	if (stat(path.c_str(), &buffer) != 0) {
-		std::cout << "Failed to find texture at path: " << path << std::endl;
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_rgb_alpha);
+
+	if (!data) {
+		std::cout << "Failed to load texture at path: " << path << std::endl;
 	};
 
-	LoadOpenGLData(stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_rgb_alpha));
+	std::cout << path << std::endl;
+
+	LoadOpenGLData(data);
 }
 
 void Texture::LoadOpenGLData(unsigned char* data)

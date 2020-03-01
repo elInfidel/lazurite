@@ -27,20 +27,10 @@ void Mesh::SetupMesh()
 
 	glEnableVertexAttribArray(0); // Vertex position
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::PositionOffset);
-	glEnableVertexAttribArray(1); // Vertex color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::ColorOffset);
-	glEnableVertexAttribArray(2); // Vertex normal
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::NormalOffset);
-	glEnableVertexAttribArray(3); // Vertex tangent
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::TangentOffset);
-	glEnableVertexAttribArray(4); // Vertex bitangent
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::BiTangentOffset);
-	glEnableVertexAttribArray(5); // Vertex indices
-	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::IndicesOffset);
-	glEnableVertexAttribArray(6); // Vertex weights
-	glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::WeightsOffset);
-	glEnableVertexAttribArray(7); // Vertex texcoord1
-	glVertexAttribPointer(7, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
+	glEnableVertexAttribArray(1); // Vertex normal
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE,  sizeof(Vertex), (void*)VertexOffset::NormalOffset);
+	glEnableVertexAttribArray(2); // Vertex texcoord1
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
 
 	glBindVertexArray(0);
 }
@@ -77,7 +67,6 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		// Set texture uniform values
 		for (int i = 0; i < material->textures.size(); ++i)
 		{
-			std::cout << TextureType::strings[material->textures[i].GetType()] << std::endl;
 			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
 			program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
 			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
