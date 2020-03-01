@@ -3,6 +3,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <string>
+#include <sys/stat.h>
+#include <iostream>
 
 Texture::Texture() : type(TextureType::Unknown), textureID(0), width(0), height(0), depth(0), imageFormat(0)
 {
@@ -22,8 +24,12 @@ Texture::~Texture()
 void Texture::LoadTexture(string directory, const char* filePath, TextureType::Type type)
 {
 	string path = string(filePath);
-	path = directory + "/" + path;
 	this->type = type;
+
+	struct stat buffer;
+	if (stat(path.c_str(), &buffer) != 0) {
+		std::cout << "Failed to find texture at path: " << path << std::endl;
+	};
 
 	LoadOpenGLData(stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_rgb_alpha));
 }

@@ -148,16 +148,16 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	// Load textures
 	// TODO: Comment PBR textures
 
-	vector<Texture> albedoMaps = this->LoadMaterialTextures(mat, aiTextureType_BASE_COLOR, TextureType::Diffuse);
+	vector<Texture> albedoMaps = this->LoadMaterialTextures(mat, aiTextureType_BASE_COLOR, TextureType::Albedo);
 	material->textures.insert(material->textures.end(), albedoMaps.begin(), albedoMaps.end());
 
-	vector<Texture> metallicMaps = this->LoadMaterialTextures(mat, aiTextureType_METALNESS, TextureType::Diffuse);
+	vector<Texture> metallicMaps = this->LoadMaterialTextures(mat, aiTextureType_METALNESS, TextureType::Metallic);
 	material->textures.insert(material->textures.end(), metallicMaps.begin(), metallicMaps.end());
 
-	vector<Texture> roughnessMaps = this->LoadMaterialTextures(mat, aiTextureType_DIFFUSE_ROUGHNESS, TextureType::Diffuse);
+	vector<Texture> roughnessMaps = this->LoadMaterialTextures(mat, aiTextureType_DIFFUSE_ROUGHNESS, TextureType::Roughness);
 	material->textures.insert(material->textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 
-	vector<Texture> aoMaps = this->LoadMaterialTextures(mat, aiTextureType_AMBIENT_OCCLUSION, TextureType::Diffuse);
+	vector<Texture> aoMaps = this->LoadMaterialTextures(mat, aiTextureType_AMBIENT_OCCLUSION, TextureType::AmbientOcclusion);
 	material->textures.insert(material->textures.end(), aoMaps.begin(), aoMaps.end());
 
 	/* The texture is combined with the result of the diffuse
@@ -260,7 +260,6 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 
 vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName)
 {
-	// TODO: May move this to some material class
 	vector<Texture> textures;
 
 	for (size_t i = 0; i < mat->GetTextureCount(type); ++i)

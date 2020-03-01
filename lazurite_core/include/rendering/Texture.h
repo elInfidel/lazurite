@@ -8,8 +8,12 @@ namespace TextureType
 	enum Type : int
 	{
 		Diffuse = 0,
+		Albedo,
+		Metallic,
+		Roughness,
 		Specular,
 		Ambient,
+		AmbientOcclusion,
 		Emissive,
 		Height,
 		Normal,
@@ -27,8 +31,12 @@ namespace TextureType
 	static const char* strings[] = 
 	{ 
 		"diffuse", 
+		"albedo",
+		"metallic",
+		"roughness",
 		"specular", 
 		"ambient",
+		"ambientOcclusion",
 		"emissive",
 		"height",
 		"normal",
