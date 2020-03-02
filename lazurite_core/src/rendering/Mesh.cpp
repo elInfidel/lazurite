@@ -1,5 +1,6 @@
 #include "rendering/Mesh.h"
 #include <iostream>
+#include <subsystem\Input.h>
 
 Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material) 
 	: vertices(vertices), indices(indices), material(material)
@@ -39,6 +40,12 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 {
 	if (material) {
 		ShaderProgram& program = material->getShaderProgram();
+
+		// Shader hacky reloading implementation
+		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_R)) {
+			program.Reload();
+		}
+
 		program.Use();
 
 		// Set any uniforms

@@ -4,7 +4,6 @@
 #include "utility/FileIO.h"
 #include <vector>
 #include <iostream>
-
 using std::vector;
 
 namespace OpenGLShaderInfo
@@ -206,16 +205,6 @@ void ShaderProgram::Use()
 void ShaderProgram::Reload()
 {
 	// TODO: Shader hot loading functionality
-
-	typedef std::map<std::string, OpenGLShader::OpenGLShaderType>::iterator const_iter;
-	for (const_iter iterator = shaderFiles.begin(); iterator != shaderFiles.end(); iterator++)
-	{
-		this->CompileShader(iterator->first.c_str(), iterator->second);
-		std::cout << "Compiled Shader: " << iterator->first << std::endl;
-	}
-
-	this->Link();
-	this->Validate();
 }
 
 int ShaderProgram::GetHandle() const
