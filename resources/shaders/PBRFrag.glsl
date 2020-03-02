@@ -5,11 +5,11 @@ in vec3 WorldPos;
 in vec3 Normal;
 
 // material parameters
-uniform sampler2D diffuse;
-uniform sampler2D normal;
-uniform sampler2D metallic;
-uniform sampler2D roughness;
-uniform sampler2D ambientOcclusion;
+layout(binding = 16) uniform sampler2D texture_diffuse;
+layout(binding = 16) uniform sampler2D texture_normal;
+layout(binding = 16) uniform sampler2D texture_metallic;
+layout(binding = 16) uniform sampler2D texture_roughness;
+layout(binding = 16) uniform sampler2D texture_ambientOcclusion;
 
 // lights
 uniform vec3 lightPositions[4];
@@ -21,7 +21,7 @@ const float PI=3.14159265359;
 
 vec3 getNormalFromMap()
 {
-    vec3 tangentNormal=texture(normal,TexCoords).xyz*2.-1.;
+    vec3 tangentNormal=texture(texture_normal,TexCoords).xyz*2.-1.;
     
     vec3 Q1=dFdx(WorldPos);
     vec3 Q2=dFdy(WorldPos);
@@ -78,14 +78,25 @@ vec3 fresnelSchlick(float cosTheta,vec3 F0)
 
 void main()
 {
-    vec3 albedo=pow(texture(diffuse,TexCoords).rgb,vec3(2.2));
-    float metallic=texture(metallic,TexCoords).r;
-    float roughness=texture(roughness,TexCoords).r;
-    float ao=texture(ambientOcclusion,TexCoords).r;
-    
-    vec3 N=getNormalFromMap();
+
+    vec4 albedoRaw = texture(texture_diffuse,TexCoords);
+    vec3 albedo=pow(albedoRaw.rgb,vec3(2.2));
+    float metallic=texture(texture_metallic,TexCoords).r;
+    float roughness=texture(texture_roughness,TexCoords).r;
+    float ao=texture(texture_ambientOcclusion,TexCoords).r;
+
+    // For now we set the normal based on a normal texture being supplied.
+    // To remove this branching condition moving forward, we should have a seperate shader
+    // that uses vertex normals instead where no normal map was given.
+    vec3 N;
+    if(getNormalFromMap().r == 0) {
+        N = getNormalFromMap();
+    } else {
+        N = Normal.rgb;
+    }
+
     vec3 V=normalize(camPos-WorldPos);
-    
+
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
     // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)
     vec3 F0=vec3(.04);
@@ -143,5 +154,5 @@ void main()
     // gamma correct
     color=pow(color,vec3(1./2.2));
     
-    FragColor=vec4(color,texture(diffuse,TexCoords).a);
+    FragColor=vec4(color, 1.);
 }

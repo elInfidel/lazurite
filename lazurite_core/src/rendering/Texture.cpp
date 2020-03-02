@@ -24,28 +24,36 @@ Texture::~Texture()
 void Texture::LoadTexture(string directory, const char* filePath, TextureType::Type type)
 {
 	string path = string(filePath);
-	this->type = type;
 
-	unsigned char* data = stbi_load(path.c_str(), &width, &height, &imageFormat, STBI_rgb_alpha);
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &imageFormat, 0);
 
 	if (!data) {
 		std::cout << "Failed to load texture at path: " << path << std::endl;
+		stbi_image_free(data);
+		return;
 	};
 
-	std::cout << path << std::endl;
+	this->type = type;
 
 	LoadOpenGLData(data);
+	stbi_image_free(data);
 }
 
+/* TODO: Draw this code out into subclass of an interface that can support other rendering libraries*/
 void Texture::LoadOpenGLData(unsigned char* data)
 {
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
-	if (type == TextureType::Diffuse) // If texture is diffuse we use SRGB color space
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	GLenum format = GL_RGBA;
+	if (imageFormat == 1)
+		format = GL_RED;
+	else if (imageFormat == 3)
+		format = GL_RGB;
+	else if (imageFormat == 4)
+		format = GL_RGBA;
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -53,8 +61,6 @@ void Texture::LoadOpenGLData(unsigned char* data)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	stbi_image_free(data);
 }
 
 bool Texture::Is1D() const

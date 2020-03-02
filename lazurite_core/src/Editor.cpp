@@ -16,8 +16,8 @@ std::string workingdir()
 void Editor::Load()
 { 
 	auto modelPtr = testObj.AddComponent<Model>();
-	modelPtr.lock()->LoadModel("resources\\models\\woman\\PillarWoman.obj");
-	testObj.GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(0, -90, 0))));
+	modelPtr.lock()->LoadModel("..\\..\\resources\\models\\woman\\PillarWoman.fbx");
+	testObj.GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(-90, -90, 0))));
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 }
@@ -51,6 +51,8 @@ void Editor::Tick(float deltaTime)
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_CONTROL)) {
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, camSpeed * deltaTime));
 	}
+
+	// testObj.GetComponent<Transform>().lock()->Rotate(0,0, 0.1 * deltaTime);
 }
 
 void Editor::Draw(float deltaTime)

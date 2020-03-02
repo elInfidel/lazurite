@@ -29,8 +29,8 @@ public:
 
 	BasicMaterial() {
 		_program = new ShaderProgram();
-		_program->CompileShader("resources/shaders/BlinnPhongVert.glsl", OpenGLShader::VERTEX);
-		_program->CompileShader("resources/shaders/BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
+		_program->CompileShader("..\\..\\resources\\shaders\\BlinnPhongVert.glsl", OpenGLShader::VERTEX);
+		_program->CompileShader("..\\..\\resources\\shaders\\BlinnPhongFrag.glsl", OpenGLShader::FRAGMENT);
 		_program->Link();
 		_program->Validate();
 	};
@@ -46,8 +46,8 @@ class PBRMaterial: public MaterialBase
 public:
 	PBRMaterial() {
 		_program = new ShaderProgram();
-		_program->CompileShader("resources/shaders/PBRVert.glsl", OpenGLShader::VERTEX);
-		_program->CompileShader("resources/shaders/PBRFrag.glsl", OpenGLShader::FRAGMENT);
+		_program->CompileShader("..\\..\\resources\\shaders\\PBRVert.glsl", OpenGLShader::VERTEX);
+		_program->CompileShader("..\\..\\resources\\shaders\\PBRFrag.glsl", OpenGLShader::FRAGMENT);
 		_program->Link();
 		_program->Validate();
 	};

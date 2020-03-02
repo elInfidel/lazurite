@@ -47,17 +47,11 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		program.SetUniform("projection", camera.GetProjectionMatrix());
 
 		vector<vec3> pointPositions = {
-			vec3(-2, -4, -1),
-			vec3(-2, -2, -2),
-			vec3(2, 2, -2),
-			vec3(2, 4, -1),
+			vec3(0, 0, 7)
 		};
 
 		vector<vec3> pointColors = {
-			vec3(255, 255, 255),
-			vec3(255, 255, 255),
-			vec3(255, 255, 255),
-			vec3(255, 255, 255),
+			vec3(255, 255, 255)
 		};
 
 		program.SetUniform("lightPositions", pointPositions);
@@ -68,13 +62,14 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		for (int i = 0; i < material->textures.size(); ++i)
 		{
 			glActiveTexture(GL_TEXTURE0 + (unsigned int)i);
-			program.SetUniform(TextureType::strings[material->textures[i].GetType()], i);
+			string targetTexture = "texture_" + std::string(TextureType::strings[material->textures[i].GetType()]);
+			program.SetUniform(targetTexture.c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
 		}
-	}
 
-	// Render
-	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
-	glBindVertexArray(0);
+		// Render
+		glBindVertexArray(this->vao);
+		glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
+		glBindVertexArray(0);
+	}
 }
