@@ -1,6 +1,9 @@
 #include "Engine.h"
 #include "subsystem/Input.h"
 #include <iostream>
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 Engine::Engine() : clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
@@ -49,6 +52,7 @@ bool Engine::Initialize()
 	// Setting up some OpenGL functionality
 	this->SetClearColor(vec4(clearColor, 1));
 
+	// TODO Move this into a render subsystem
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
@@ -58,6 +62,13 @@ bool Engine::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	// IMGUI Init
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 420");
 
 	// Instantiating time variables
 	beginTime = glfwGetTime();
@@ -78,6 +89,10 @@ bool Engine::Initialize()
 
 void Engine::Terminate()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	glfwTerminate();
 }
 
@@ -85,14 +100,27 @@ void Engine::Run()
 {
 	Load();
 
+	bool show_demo_window = true;
+
 	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
 
+		// IMGUI Update
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		if (show_demo_window)
+			ImGui::ShowDemoWindow(&show_demo_window);
+
 		// Calling functions of Game class
 		Tick(deltaTime);
 		Draw(deltaTime);
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(window);
 		Input::GetInstance()->EndFrame(deltaTime);

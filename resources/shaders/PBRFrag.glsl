@@ -80,6 +80,12 @@ void main()
 {
 
     vec4 albedoRaw = texture(texture_diffuse,TexCoords);
+
+    // Very basic alpha handling for now..
+    if(albedoRaw.a < 0.1) {
+        discard;
+    }
+
     vec3 albedo=pow(albedoRaw.rgb,vec3(2.2));
     float metallic=texture(texture_metallic,TexCoords).r;
     float roughness=texture(texture_roughness,TexCoords).r;
@@ -154,5 +160,6 @@ void main()
     // gamma correct
     color=pow(color,vec3(1./2.2));
     
+    // TODO: Use albedo alpha. We need to figure out sorting for transparent objects first
     FragColor=vec4(color, 1.);
 }
