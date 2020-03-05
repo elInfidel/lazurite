@@ -19,10 +19,12 @@ public:
 	vector<GLuint> indices;
 	MaterialBase* material;
 
-	virtual void Tick(float deltaTime) {};
 	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const;
 
 private:
+
+	// Abstract this behind some sort of rendering system interface.
 	GLuint vao, vbo, ebo;
+	
 	void SetupMesh();
 };

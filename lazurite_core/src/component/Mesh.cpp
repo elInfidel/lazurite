@@ -36,12 +36,15 @@ void Mesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void Tick(float deltaTime) {};
-
 void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const
 {
 	if (material) {
 		ShaderProgram& program = material->getShaderProgram();
+
+		// Shader hacky reloading implementation
+		if (Input::GetInstance()->GetKeyPressed(GLFW_KEY_R)) {
+			program.Reload();
+		}
 
 		program.Use();
 
@@ -70,10 +73,10 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 			program.SetUniform(targetTexture.c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, material->textures[i].GetID());
 		}
-	}
 
-	// Render
-	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
-	glBindVertexArray(0);
+		// Render
+		glBindVertexArray(this->vao);
+		glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLsizei)0);
+		glBindVertexArray(0);
+	}
 }

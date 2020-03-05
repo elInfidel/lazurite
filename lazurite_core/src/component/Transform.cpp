@@ -151,7 +151,7 @@ mat4& Transform::GetWorldMatrix()
 	return worldMatrix;
 }
 
-void Transform::SetParent(Transform* transform)
+void Transform::SetParent(std::shared_ptr<Transform> transform)
 {
 	for (auto child = children.begin(); child != children.end(); ++child)
 	{
@@ -163,7 +163,7 @@ void Transform::SetParent(Transform* transform)
 	parent = transform;
 }
 
-void Transform::AddChild(Transform* transform)
+void Transform::AddChild(std::shared_ptr<Transform> transform)
 {
 	for (auto child = children.begin(); child != children.end(); ++child)
 	{
@@ -183,12 +183,12 @@ void Transform::DetachChildren()
 	children.clear();
 }
 
-Transform* Transform::GetParent()
+std::shared_ptr<Transform> Transform::GetParent()
 {
 	return parent;
 }
 
-Transform* Transform::GetChildByIndex(int index)
+std::shared_ptr<Transform> Transform::GetChildByIndex(int index)
 {
 	if ((size_t)index < children.size())
 		return children[index];
@@ -196,7 +196,7 @@ Transform* Transform::GetChildByIndex(int index)
 		return nullptr;
 }
 
-std::vector<Transform*> Transform::GetChildren()
+std::vector<std::shared_ptr<Transform>> Transform::GetChildren()
 {
 	return children;
 }

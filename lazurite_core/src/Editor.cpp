@@ -1,6 +1,8 @@
 #include "Editor.h"
 #include "subsystem/Input.h"
 #include <iostream>
+#include <imgui.h>
+#include <queue>
 
 /*
 #include <windows.h>
@@ -15,9 +17,8 @@ std::string workingdir()
 
 void Editor::Load()
 { 
-	auto modelPtr = testObj.AddComponent<Model>();
-	modelPtr.lock()->LoadModel("..\\..\\resources\\models\\woman\\PillarWoman.fbx");
-	testObj.GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(-90, -90, 0))));
+	object = Model::Load("..\\..\\resources\\models\\woman\\PillarWoman.fbx");
+	object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(-90, -90, 0))));
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 }
@@ -44,6 +45,14 @@ void Editor::Tick(float deltaTime)
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(camSpeed * deltaTime, 0, 0));
 	}
 
+	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_Q)) {
+		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, 0, -camSpeed * deltaTime));
+	}
+
+	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_E)) {
+		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, 0, camSpeed * deltaTime));
+	}
+
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_SHIFT)) {
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, -camSpeed * deltaTime));
 	}
@@ -55,14 +64,61 @@ void Editor::Tick(float deltaTime)
 	// testObj.GetComponent<Transform>().lock()->Rotate(0,0, 0.1 * deltaTime);
 }
 
+void RenderDebugOverlay()
+{
+	static bool windowVisible = true;
+	static bool showDemoWindow = false;
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			ImGui::MenuItem("Exit");
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Tools"))
+		{
+			ImGui::MenuItem("Demo Window", NULL, &showDemoWindow);
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+
+	if (showDemoWindow)
+		ImGui::ShowDemoWindow(&showDemoWindow);
+}
+
 void Editor::Draw(float deltaTime)
 {
+	RenderDebugOverlay();
+
 	auto camComponent = camera.GetComponent<Camera>().lock();
-	auto modelTransform = testObj.GetComponent<Transform>().lock();
+	auto modelTransform = object->GetComponent<Transform>().lock();
 	auto camTransform = camera.GetComponent<Transform>().lock();
-	testObj.GetComponent<Model>().lock()->Draw(*camComponent, *camTransform, *modelTransform);
+
+	std::queue<std::shared_ptr<GameObject>> renderQueue;
+	renderQueue.push(object);
+
+	while (renderQueue.size() != 0) 
+	{
+		std::shared_ptr<GameObject> obj = renderQueue.front();
+		renderQueue.pop();
+
+		if (obj->GetComponent<Mesh>().lock()) {
+			obj->GetComponent<Mesh>().lock()->Draw(*camComponent, *camTransform, *modelTransform);
+		}
+
+		auto children = obj->GetComponent<Transform>().lock()->GetChildren();
+		for (auto child : children) 
+		{
+			renderQueue.push(child->GetOwningObject());
+		}
+	}
+
+	
 }
 
 void Editor::Unload()
 {
+
 }

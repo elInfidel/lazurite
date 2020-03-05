@@ -47,6 +47,17 @@ public:
 		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(newComponent.second));
 	}
 
+	// Adds the existing component T to this game object if the component doesn't already exist.
+	template<class T>
+	std::weak_ptr<T> AddComponent(std::shared_ptr<T> existingComponent)
+	{
+		static_assert(std::is_base_of<AComponent, T>::value, "T not derived from AComponent");
+		auto newComponent = std::pair<ComponentID, StrongComponentPtr>(typeid(T), existingComponent);
+		newComponent.second->gameObject = this;
+		componentList.insert(newComponent);
+		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(newComponent.second));
+	}
+
 	// Removes the component T from this game object if it exists.
 	template<class T>
 	void RemoveComponent()

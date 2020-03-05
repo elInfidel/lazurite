@@ -1,9 +1,10 @@
-#include "Engine.h"
+﻿#include "Engine.h"
 #include "subsystem/Input.h"
 #include <iostream>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <chrono>
 
 Engine::Engine() : clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
@@ -26,8 +27,8 @@ bool Engine::Initialize()
 
 	// Create a new OpenGL window
 	window = glfwCreateWindow(
-		(int)(videoMode->width / 1.2f),
-		(int)(videoMode->height / 1.2f),
+		(int)(videoMode->width) / 1.2,
+		(int)(videoMode->height) / 1.2,
 		"Lazurite Framework",
 		nullptr,
 		nullptr);
@@ -62,6 +63,8 @@ bool Engine::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glEnable(GL_MULTISAMPLE);
+
 	// IMGUI Init
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -80,7 +83,6 @@ bool Engine::Initialize()
 	// Print system data
 	printf("***Lazurite Framework***\n");
 	int major, minor, rev = 0;
-	//printf(" OpenGL Version: %i.%i\n", major, minor);
 	glfwGetVersion(&major, &minor, &rev);
 	printf(" GLFW Version:   %i.%i\n", major, minor);
 
@@ -100,8 +102,6 @@ void Engine::Run()
 {
 	Load();
 
-	bool show_demo_window = true;
-
 	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -112,12 +112,18 @@ void Engine::Run()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
-
 		// Calling functions of Game class
 		Tick(deltaTime);
+
+		auto drawTimeStart = std::chrono::steady_clock::now();
 		Draw(deltaTime);
+		auto drawTimeEnd = std::chrono::steady_clock::now();
+
+		// Create a window called "My First Tool", with a menu bar.
+		ImGui::Begin("My First Tool");
+		ImGui::Text("FPS: %f", 1.0f / deltaTime);
+		ImGui::Text("Draw: %d ms", (int)std::chrono::duration_cast<std::chrono::milliseconds>(drawTimeEnd - drawTimeStart).count());
+		ImGui::End();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

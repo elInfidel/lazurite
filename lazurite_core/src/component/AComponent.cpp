@@ -8,3 +8,8 @@ bool AComponent::IsActive()
 {
 	return _isActive;
 }
+
+std::shared_ptr<GameObject> AComponent::GetOwningObject()
+{
+	return gameObject;
+}

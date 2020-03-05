@@ -6,29 +6,22 @@
 #include "assimp/postprocess.h"
 #include "rendering/ShaderProgram.h"
 #include "rendering/Mesh.h"
-#include "rendering/Material.h"
+#include "GameObject.h"
+#include "component\Camera.h"
+#include "component\Transform.h"
 #include <vector>
 #include <string>
-#include <component\Camera.h>
-#include <component\Transform.h>
 
-class Model : public AComponent
+class MaterialBase;
+
+// We should pull this code into some sort of Asset loading service
+class Model
 {
-	vector<Mesh> meshes;
-	string directory;
-
-	void ProcessNode(aiNode* node, const aiScene* scene);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-
-	MaterialBase* LoadMaterial(aiMaterial* mat);
-	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
+	static void ProcessNode(std::shared_ptr<GameObject> parent, aiNode* node, const aiScene* scene);
+	static std::shared_ptr<Mesh> ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	static MaterialBase* LoadMaterial(aiMaterial* mat);
+	static vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName);
 
 public:
-
-	Model();
-
-	virtual void Tick(float deltaTime) {};
-	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const;
-
-	void LoadModel(string path);
+	static std::shared_ptr<GameObject> Load(string path);
 };

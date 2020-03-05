@@ -20,8 +20,8 @@ class Transform : public AComponent
 	quat rotation;
 	bool isDirty;
 
-	Transform* parent;
-	std::vector<Transform*> children;
+	std::shared_ptr<Transform> parent;
+	std::vector<std::shared_ptr<Transform>> children;
 
 	void UpdateTransformations();
 
@@ -55,13 +55,13 @@ public:
 	mat4& GetLocalMatrix();
 	mat4& GetWorldMatrix();
 
-	void SetParent(Transform* transform);
-	void AddChild(Transform* transform);
+	void SetParent(std::shared_ptr<Transform> transform);
+	void AddChild(std::shared_ptr<Transform> transform);
 	void DetachChildren();
 
-	Transform* GetParent();
-	Transform* GetChildByIndex(int index);
-	std::vector<Transform *> GetChildren();
+	std::shared_ptr<Transform> GetParent();
+	std::shared_ptr<Transform> GetChildByIndex(int index);
+	std::vector<std::shared_ptr<Transform>> GetChildren();
 
 	virtual void Tick(float deltaTime);
 };

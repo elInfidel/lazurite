@@ -14,5 +14,5 @@ protected:
 	virtual void Unload();
 
 	GameObject camera;
-	GameObject testObj;
+	std::shared_ptr<GameObject> object;
 };
