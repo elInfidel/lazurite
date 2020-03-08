@@ -5,6 +5,8 @@
 #include <typeinfo>
 #include <functional>
 #include <map>
+#include <string>
+#include <iostream>
 
 class AComponent;
 
@@ -14,6 +16,7 @@ class GameObject final
 	typedef std::weak_ptr<AComponent> WeakComponentPtr;
     typedef std::reference_wrapper<const std::type_info> ComponentID;
 
+	std::string _name = "";
 	bool _isActive = true;
 	bool _isTicking = true;
 
@@ -33,8 +36,11 @@ public:
 	GameObject();
 	~GameObject();
 
-	void SetActive(bool active);
+	void SetActive(const bool active);
 	bool IsActive() const;
+
+	void SetName(const std::string name);
+	std::string GetName() const;
 
 	// Adds the component T to this game object if the component doesn't already exist.
 	template<class T>
@@ -47,7 +53,7 @@ public:
 		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(newComponent.second));
 	}
 
-	// Adds the existing component T to this game object if the component doesn't already exist.
+	// Adds the component T to this game object if the component doesn't already exist.
 	template<class T>
 	std::weak_ptr<T> AddComponent(std::shared_ptr<T> existingComponent)
 	{
@@ -73,6 +79,11 @@ public:
 	std::weak_ptr<T> GetComponent()
 	{
 		static_assert(std::is_base_of<AComponent, T>::value, "T not derived from AComponent");
+
+		if (componentList.empty()) {
+			return std::weak_ptr<T>();
+		}
+
 		auto it = componentList.find(typeid(T));
 		if (it != componentList.end())
 		{

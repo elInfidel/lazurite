@@ -96,22 +96,22 @@ void Editor::Draw(float deltaTime)
 	auto modelTransform = object->GetComponent<Transform>().lock();
 	auto camTransform = camera.GetComponent<Transform>().lock();
 
-	std::queue<std::shared_ptr<GameObject>> renderQueue;
-	renderQueue.push(object);
+	std::queue<GameObject*> renderQueue;
+	renderQueue.push(modelTransform->gameObject);
 
 	while (renderQueue.size() != 0) 
 	{
-		std::shared_ptr<GameObject> obj = renderQueue.front();
+		GameObject* obj = renderQueue.front();
 		renderQueue.pop();
-
-		if (obj->GetComponent<Mesh>().lock()) {
-			obj->GetComponent<Mesh>().lock()->Draw(*camComponent, *camTransform, *modelTransform);
+		auto mesh = obj->GetComponent<Mesh>();
+		if (mesh.lock()) {
+			mesh.lock()->Draw(*camComponent, *camTransform, *modelTransform);
 		}
 
 		auto children = obj->GetComponent<Transform>().lock()->GetChildren();
 		for (auto child : children) 
 		{
-			renderQueue.push(child->GetOwningObject());
+			renderQueue.push(child->gameObject);
 		}
 	}
 

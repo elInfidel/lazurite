@@ -22,6 +22,16 @@ bool GameObject::IsActive() const
 	return _isActive;
 }
 
+void  GameObject::SetName(const std::string name)
+{
+	_name = name;
+}
+
+std::string  GameObject::GetName() const
+{
+	return _name;
+}
+
 void GameObject::Tick(float deltaTime)
 {
 	for (const auto& component : componentList)

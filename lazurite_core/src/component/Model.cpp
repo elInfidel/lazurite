@@ -4,7 +4,6 @@
 
 std::shared_ptr<GameObject> Model::Load(string path)
 {
-	std::shared_ptr<GameObject> rootObj(new GameObject());
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(
 		path,
@@ -15,28 +14,35 @@ std::shared_ptr<GameObject> Model::Load(string path)
 		cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 		return std::shared_ptr<GameObject>(nullptr);
 	}
-	Model::ProcessNode(rootObj, scene->mRootNode, scene);
-	return rootObj;
+	return std::shared_ptr<GameObject>(Model::ProcessNode(path, scene->mRootNode, scene));
 }
 
-void Model::ProcessNode(std::shared_ptr<GameObject> parent, aiNode* node, const aiScene* scene)
+GameObject* Model::ProcessNode(string path, aiNode* node, const aiScene* scene)
 {
-	std::shared_ptr<GameObject> obj(new GameObject());
-	parent->GetComponent<Transform>().lock()->AddChild(obj->GetComponent<Transform>().lock());
+	auto obj = new GameObject();
+	auto transform = obj->GetComponent<Transform>().lock();
+
+	obj->SetName(node->mName.C_Str());
 
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		obj->AddComponent<Mesh>(Model::ProcessMesh(mesh, scene));
+		auto mesh = scene->mMeshes[node->mMeshes[i]];
+		auto newMesh = Model::ProcessMesh(path, mesh, scene);
+		obj->AddComponent<Mesh>(newMesh);
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)
 	{
-		Model::ProcessNode(obj, node->mChildren[i], scene);
+		auto childObject = Model::ProcessNode(path, node->mChildren[i], scene);
+		auto childTransform = childObject->GetComponent<Transform>().lock();
+		childTransform->SetParent(transform);
+		transform->AddChild(childTransform);
 	}
+
+	return obj;
 }
 
-std::shared_ptr<Mesh> Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+std::shared_ptr<Mesh> Model::ProcessMesh(string path, aiMesh* mesh, const aiScene* scene)
 {
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
@@ -109,13 +115,13 @@ std::shared_ptr<Mesh> Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	// TODO: Load texture data into some material class
 	if (mesh->mMaterialIndex >= 0)
 	{
-		material = LoadMaterial(scene->mMaterials[mesh->mMaterialIndex]);
+		material = LoadMaterial(path, scene->mMaterials[mesh->mMaterialIndex]);
 	}
 
 	return std::shared_ptr<Mesh>(new Mesh(vertices, indices, material));
 }
 
-MaterialBase* Model::LoadMaterial(aiMaterial* mat)
+MaterialBase* Model::LoadMaterial(string path, aiMaterial* mat)
 {
 	MaterialBase* material;
 
@@ -133,41 +139,41 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  however the albedo stores no lighting information and purely represents the surface color at some given position.
 	*
 	*/
-	vector<Texture> albedoMaps = Model::LoadMaterialTextures(mat, aiTextureType_BASE_COLOR, TextureType::Albedo);
+	vector<Texture> albedoMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_BASE_COLOR, TextureType::Albedo);
 	material->textures.insert(material->textures.end(), albedoMaps.begin(), albedoMaps.end());
 
-	vector<Texture> metallicMaps = Model::LoadMaterialTextures(mat, aiTextureType_METALNESS, TextureType::Metallic);
+	vector<Texture> metallicMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_METALNESS, TextureType::Metallic);
 	material->textures.insert(material->textures.end(), metallicMaps.begin(), metallicMaps.end());
 
-	vector<Texture> roughnessMaps = Model::LoadMaterialTextures(mat, aiTextureType_DIFFUSE_ROUGHNESS, TextureType::Roughness);
+	vector<Texture> roughnessMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_DIFFUSE_ROUGHNESS, TextureType::Roughness);
 	material->textures.insert(material->textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 
-	vector<Texture> aoMaps = Model::LoadMaterialTextures(mat, aiTextureType_AMBIENT_OCCLUSION, TextureType::AmbientOcclusion);
+	vector<Texture> aoMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_AMBIENT_OCCLUSION, TextureType::AmbientOcclusion);
 	material->textures.insert(material->textures.end(), aoMaps.begin(), aoMaps.end());
 
 	/* The texture is combined with the result of the diffuse
 	*  lighting equation.
 	*/
-	vector<Texture> diffuseMaps = Model::LoadMaterialTextures(mat, aiTextureType_DIFFUSE, TextureType::Diffuse);
+	vector<Texture> diffuseMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_DIFFUSE, TextureType::Diffuse);
 	material->textures.insert(material->textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 
 	/** The texture is combined with the result of the specular
 	*  lighting equation.
 	*/
-	vector<Texture> specularMaps = Model::LoadMaterialTextures(mat, aiTextureType_SPECULAR, TextureType::Specular);
+	vector<Texture> specularMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_SPECULAR, TextureType::Specular);
 	material->textures.insert(material->textures.end(), specularMaps.begin(), specularMaps.end());
 
 	/** The texture is combined with the result of the ambient
 	*  lighting equation.
 	*/
-	vector<Texture> ambientMaps = Model::LoadMaterialTextures(mat, aiTextureType_AMBIENT, TextureType::Ambient);
+	vector<Texture> ambientMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_AMBIENT, TextureType::Ambient);
 	material->textures.insert(material->textures.end(), ambientMaps.begin(), ambientMaps.end());
 
 	/** The texture is added to the result of the lighting
 	*  calculation. It isn't influenced by incoming light.
 	*/
-	vector<Texture> emissiveMaps = Model::LoadMaterialTextures(mat, aiTextureType_EMISSIVE, TextureType::Emissive);
+	vector<Texture> emissiveMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_EMISSIVE, TextureType::Emissive);
 	material->textures.insert(material->textures.end(), emissiveMaps.begin(), emissiveMaps.end());
 
 	/** The texture is a height map.
@@ -175,7 +181,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  By convention, higher gray-scale values stand for
 	*  higher elevations from the base height.
 	*/
-	vector<Texture> heightMaps = Model::LoadMaterialTextures(mat, aiTextureType_HEIGHT, TextureType::Height);
+	vector<Texture> heightMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_HEIGHT, TextureType::Height);
 	material->textures.insert(material->textures.end(), heightMaps.begin(), heightMaps.end());
 
 	/** The texture is a (tangent space) normal-map.
@@ -184,7 +190,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  normal maps. Assimp does (intentionally) not
 	*  distinguish here.
 	*/
-	vector<Texture> normalMaps = Model::LoadMaterialTextures(mat, aiTextureType_NORMALS, TextureType::Normal);
+	vector<Texture> normalMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_NORMALS, TextureType::Normal);
 	material->textures.insert(material->textures.end(), normalMaps.begin(), normalMaps.end());
 
 	/** The texture defines the glossiness of the material->
@@ -197,7 +203,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  NOTE: We treat these as roughness maps moving forward.
 	*
 	*/
-	vector<Texture> shininessMaps = Model::LoadMaterialTextures(mat, aiTextureType_SHININESS, TextureType::Roughness);
+	vector<Texture> shininessMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_SHININESS, TextureType::Roughness);
 	material->textures.insert(material->textures.end(), shininessMaps.begin(), shininessMaps.end());
 
 	/** The texture defines per-pixel opacity.
@@ -205,7 +211,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  Usually 'white' means opaque and 'black' means
 	*  'transparency'. Or quite the opposite. Have fun.
 	*/
-	vector<Texture> opacityMaps = Model::LoadMaterialTextures(mat, aiTextureType_OPACITY, TextureType::Opacity);
+	vector<Texture> opacityMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_OPACITY, TextureType::Opacity);
 	material->textures.insert(material->textures.end(), opacityMaps.begin(), opacityMaps.end());
 
 	/** Displacement texture
@@ -213,7 +219,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  The exact purpose and format is application-dependent.
 	*  Higher color values stand for higher vertex displacements.
 	*/
-	vector<Texture> displacementMaps = Model::LoadMaterialTextures(mat, aiTextureType_DISPLACEMENT, TextureType::Displacement);
+	vector<Texture> displacementMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_DISPLACEMENT, TextureType::Displacement);
 	material->textures.insert(material->textures.end(), displacementMaps.begin(), displacementMaps.end());
 
 	/** Lightmap texture (aka Ambient Occlusion)
@@ -223,7 +229,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  scaling value for the final color value of a pixel. Its
 	*  intensity is not affected by incoming light.
 	*/
-	vector<Texture> lightMaps = Model::LoadMaterialTextures(mat, aiTextureType_LIGHTMAP, TextureType::Lightmap);
+	vector<Texture> lightMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_LIGHTMAP, TextureType::Lightmap);
 	material->textures.insert(material->textures.end(), lightMaps.begin(), lightMaps.end());
 
 	/** Reflection texture
@@ -231,7 +237,7 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	* Contains the color of a perfect mirror reflection.
 	* Rarely used, almost never for real-time applications.
 	*/
-	vector<Texture> reflectionMaps = Model::LoadMaterialTextures(mat, aiTextureType_REFLECTION, TextureType::Reflection);
+	vector<Texture> reflectionMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_REFLECTION, TextureType::Reflection);
 	material->textures.insert(material->textures.end(), reflectionMaps.begin(), reflectionMaps.end());
 
 	/** Unknown texture
@@ -240,13 +246,13 @@ MaterialBase* Model::LoadMaterial(aiMaterial* mat)
 	*  above is considered to be 'unknown'. It is still imported,
 	*  but is excluded from any further postprocessing.
 	*/
-	vector<Texture> unknownMaps = Model::LoadMaterialTextures(mat, aiTextureType_UNKNOWN, TextureType::Unknown);
+	vector<Texture> unknownMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_UNKNOWN, TextureType::Unknown);
 	material->textures.insert(material->textures.end(), unknownMaps.begin(), unknownMaps.end());
 
 	return material;
 }
 
-vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType::Type typeName)
+vector<Texture> Model::LoadMaterialTextures(string path, aiMaterial* mat, aiTextureType type, TextureType::Type typeName)
 {
 	vector<Texture> textures;
 
@@ -255,8 +261,8 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		aiString string;
 		mat->GetTexture(type, (unsigned int)i, &string);
 		Texture texture;
-		// texture.LoadTexture(this->directory, string.C_Str(), typeName);
-		// textures.push_back(texture);
+		texture.LoadTexture(path.substr(0, path.find_last_of('/')), string.C_Str(), typeName);
+		textures.push_back(texture);
 	}
 
 	return textures;
