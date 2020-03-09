@@ -48,11 +48,12 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 
 		// Set any uniforms
 		program.SetUniform("model", gameObject->GetComponent<Transform>().lock()->GetWorldMatrix());
+
 		program.SetUniform("view", camera.GetViewMatrix());
 		program.SetUniform("projection", camera.GetProjectionMatrix());
 
 		vector<vec3> pointPositions = {
-			vec3(0, 0, 7)
+			vec3(0, 1, 3.5f)
 		};
 
 		vector<vec3> pointColors = {

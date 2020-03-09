@@ -32,6 +32,7 @@ class GameObject final
 
 public:
 	GameObject();
+	GameObject(const std::string name);
 	~GameObject();
 
 	void SetActive(const bool active);

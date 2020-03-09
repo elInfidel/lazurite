@@ -5,24 +5,36 @@
 std::shared_ptr<GameObject> Model::Load(string path)
 {
 	Assimp::Importer importer;
+
 	const aiScene* scene = importer.ReadFile(
 		path,
 		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_OptimizeMeshes
 	);
-	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-	{
+
+	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 		return std::shared_ptr<GameObject>(nullptr);
 	}
+
 	return std::shared_ptr<GameObject>(Model::ProcessNode(path, scene->mRootNode, scene));
 }
 
 GameObject* Model::ProcessNode(string path, aiNode* node, const aiScene* scene)
 {
+	auto nodeName = node->mName.C_Str();
+	aiVector3t<float> nodeScale;
+	aiQuaterniont<float> nodeRot;
+	aiVector3t<float> nodePos;
+	node->mTransformation.Decompose(nodeScale, nodeRot, nodePos);
+
 	auto obj = new GameObject();
 	auto transform = obj->GetComponent<Transform>().lock();
 
-	obj->SetName(node->mName.C_Str());
+	obj->SetName(nodeName);
+
+	transform->SetScale(glm::vec3(nodeScale.x, nodeScale.y, nodeScale.z));
+	transform->SetRotation(glm::quat(nodeRot.w, nodeRot.x, nodeRot.y, nodeRot.z));
+	transform->SetPosition(glm::vec3(nodePos.x, nodePos.y, nodePos.z));
 
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{

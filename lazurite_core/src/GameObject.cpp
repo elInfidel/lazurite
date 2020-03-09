@@ -3,7 +3,11 @@
 #include <type_traits>
 
 GameObject::GameObject() {
-	this->AddComponent<Transform>();
+	auto transformPtr = this->AddComponent<Transform>();
+}
+
+GameObject::GameObject(const std::string name) : _name(name) {
+	auto transformPtr = this->AddComponent<Transform>();
 }
 
 GameObject::~GameObject() {

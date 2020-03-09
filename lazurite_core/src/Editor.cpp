@@ -17,8 +17,8 @@ std::string workingdir()
 
 void Editor::Load()
 { 
-	object = Model::Load("..\\..\\resources\\models\\woman\\PillarWoman.fbx");
-	object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(-90, -90, 0))));
+	object = Model::Load("..\\..\\resources\\models\\woman\\PillarWoman.obj");
+	object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(90, -90, -90))));
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 }
@@ -46,11 +46,11 @@ void Editor::Tick(float deltaTime)
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_Q)) {
-		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, 0, -camSpeed * deltaTime));
+		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, -camSpeed * deltaTime, 0));
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_E)) {
-		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, 0, camSpeed * deltaTime));
+		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, camSpeed * deltaTime, 0));
 	}
 
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_SHIFT)) {
@@ -109,8 +109,7 @@ void Editor::Draw(float deltaTime)
 		}
 
 		auto children = obj->GetComponent<Transform>().lock()->GetChildren();
-		for (auto child : children) 
-		{
+		for (auto child : children) {
 			renderQueue.push(child->gameObject);
 		}
 	}
