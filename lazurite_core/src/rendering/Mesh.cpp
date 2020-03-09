@@ -1,6 +1,7 @@
 #include "rendering/Mesh.h"
 #include <iostream>
 #include <subsystem\Input.h>
+#include "GameObject.h"
 
 Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material) 
 	: vertices(vertices), indices(indices), material(material)
@@ -46,7 +47,7 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		program.Use();
 
 		// Set any uniforms
-		program.SetUniform("model", modelTransform.GetWorldMatrix());
+		program.SetUniform("model", gameObject->GetComponent<Transform>().lock()->GetWorldMatrix());
 		program.SetUniform("view", camera.GetViewMatrix());
 		program.SetUniform("projection", camera.GetProjectionMatrix());
 

@@ -61,7 +61,7 @@ void Editor::Tick(float deltaTime)
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, camSpeed * deltaTime));
 	}
 
-	// testObj.GetComponent<Transform>().lock()->Rotate(0,0, 0.1 * deltaTime);
+	object->Tick(deltaTime);
 }
 
 void RenderDebugOverlay()
@@ -114,7 +114,6 @@ void Editor::Draw(float deltaTime)
 			renderQueue.push(child->gameObject);
 		}
 	}
-
 	
 }
 

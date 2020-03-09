@@ -30,8 +30,6 @@ class GameObject final
 
 	std::map<ComponentID, StrongComponentPtr, TypeComparator> componentList;
 
-	void Tick(float deltaTime);
-
 public:
 	GameObject();
 	~GameObject();
@@ -41,6 +39,8 @@ public:
 
 	void SetName(const std::string name);
 	std::string GetName() const;
+
+	void Tick(float deltaTime);
 
 	// Adds the component T to this game object if the component doesn't already exist.
 	template<class T>

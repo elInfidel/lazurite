@@ -161,6 +161,7 @@ void Transform::SetParent(std::shared_ptr<Transform> transform)
 	}
 
 	parent = transform;
+	isDirty = true;
 }
 
 void Transform::AddChild(std::shared_ptr<Transform> transform)

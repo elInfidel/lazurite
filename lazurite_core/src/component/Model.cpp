@@ -26,9 +26,16 @@ GameObject* Model::ProcessNode(string path, aiNode* node, const aiScene* scene)
 
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
+		// FIXME: Currently only single component of type supported
+		// per game object. Find a way to allow multiple meshes per object in the future!
+		auto subMeshObj = new GameObject();
+		auto subMeshTransform = subMeshObj->GetComponent<Transform>().lock();
 		auto mesh = scene->mMeshes[node->mMeshes[i]];
+		subMeshObj->SetName(mesh->mName.C_Str());
 		auto newMesh = Model::ProcessMesh(path, mesh, scene);
-		obj->AddComponent<Mesh>(newMesh);
+		subMeshObj->AddComponent<Mesh>(newMesh);
+		subMeshTransform->SetParent(transform);
+		transform->AddChild(subMeshTransform);
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)

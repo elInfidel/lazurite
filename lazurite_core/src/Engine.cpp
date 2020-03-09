@@ -65,6 +65,9 @@ bool Engine::Initialize()
 
 	glEnable(GL_MULTISAMPLE);
 
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	glEnable(GL_SAMPLE_ALPHA_TO_ONE);
+
 	// IMGUI Init
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
