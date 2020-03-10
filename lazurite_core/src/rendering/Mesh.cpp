@@ -53,7 +53,7 @@ void Mesh::Draw(Camera& camera, Transform& camTransform, Transform& modelTransfo
 		program.SetUniform("projection", camera.GetProjectionMatrix());
 
 		vector<vec3> pointPositions = {
-			vec3(0, 1, 3.5f)
+			vec3(0, 1, 5.f)
 		};
 
 		vector<vec3> pointColors = {

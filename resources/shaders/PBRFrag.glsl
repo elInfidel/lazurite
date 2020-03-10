@@ -6,6 +6,7 @@ in vec3 Normal;
 
 // material parameters
 layout(binding=16)uniform sampler2D texture_diffuse;
+layout(binding=16)uniform sampler2D texture_opacity;
 layout(binding=16)uniform sampler2D texture_normal;
 layout(binding=16)uniform sampler2D texture_metallic;
 layout(binding=16)uniform sampler2D texture_roughness;
@@ -83,17 +84,12 @@ void main()
     float metallic=texture(texture_metallic,TexCoords).r;
     float roughness=texture(texture_roughness,TexCoords).r;
     float ao=texture(texture_ambientOcclusion,TexCoords).r;
+    float alpha=texture(texture_opacity,TexCoords).a;
     
     // For now we set the normal based on a normal texture being supplied.
     // To remove this branching condition moving forward, we should have a seperate shader
     // that uses vertex normals instead where no normal map was given.
-    vec3 N;
-    if(getNormalFromMap().r==0){
-        N=getNormalFromMap();
-    }else{
-        N=Normal.rgb;
-    }
-    
+    vec3 N=getNormalFromMap();
     vec3 V=normalize(camPos-WorldPos);
     
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
@@ -153,5 +149,5 @@ void main()
     // gamma correct
     color=pow(color,vec3(1./2.2));
     
-    FragColor=vec4(color,albedoRaw.a);
+    FragColor=vec4(color,alpha);
 }

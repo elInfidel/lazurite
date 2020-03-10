@@ -200,7 +200,7 @@ MaterialBase* Model::LoadMaterial(string path, aiMaterial* mat)
 	*  By convention, higher gray-scale values stand for
 	*  higher elevations from the base height.
 	*/
-	vector<Texture> heightMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_HEIGHT, TextureType::Height);
+	vector<Texture> heightMaps = Model::LoadMaterialTextures(path, mat, aiTextureType_HEIGHT, TextureType::Normal);
 	material->textures.insert(material->textures.end(), heightMaps.begin(), heightMaps.end());
 
 	/** The texture is a (tangent space) normal-map.
