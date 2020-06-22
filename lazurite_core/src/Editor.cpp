@@ -1,5 +1,6 @@
 #include "Editor.h"
 #include "subsystem/Input.h"
+#include "SceneLoader.h"
 #include <iostream>
 #include <imgui.h>
 #include <queue>
@@ -16,9 +17,11 @@ std::string workingdir()
 */
 
 void Editor::Load()
-{ 
-	object = Model::Load("..\\..\\resources\\models\\woman\\PillarWoman.obj");
-	object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(90, -90, -90))));
+{
+	SceneLoader loader;
+	this->object = loader.Load("..\\resources\\models\\pillarWoman.obj");
+	this->object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(90, -90, -90))));
+
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 }
@@ -45,14 +48,6 @@ void Editor::Tick(float deltaTime)
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(camSpeed * deltaTime, 0, 0));
 	}
 
-	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_Q)) {
-		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, -camSpeed * deltaTime, 0));
-	}
-
-	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_E)) {
-		object->GetComponent<Transform>().lock()->Rotate(glm::vec3(0, camSpeed * deltaTime, 0));
-	}
-
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_SHIFT)) {
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, -camSpeed * deltaTime));
 	}
@@ -60,8 +55,6 @@ void Editor::Tick(float deltaTime)
 	if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_CONTROL)) {
 		camera.GetComponent<Transform>().lock()->Translate(glm::vec3(0, 0, camSpeed * deltaTime));
 	}
-
-	object->Tick(deltaTime);
 }
 
 void RenderDebugOverlay()
@@ -97,6 +90,8 @@ void Editor::Draw(float deltaTime)
 	auto camTransform = camera.GetComponent<Transform>().lock();
 
 	std::queue<GameObject*> renderQueue;
+
+	std::queue<GameObject*> renderQueue;
 	renderQueue.push(modelTransform->gameObject);
 
 	while (renderQueue.size() != 0) 
@@ -104,8 +99,9 @@ void Editor::Draw(float deltaTime)
 		GameObject* obj = renderQueue.front();
 		renderQueue.pop();
 		auto mesh = obj->GetComponent<Mesh>();
+		auto transform = obj->GetComponent<Transform>().lock();
 		if (mesh.lock()) {
-			mesh.lock()->Draw(*camComponent, *camTransform, *modelTransform);
+			mesh.lock()->Draw(*camComponent, *camTransform, *transform);
 		}
 
 		auto children = obj->GetComponent<Transform>().lock()->GetChildren();

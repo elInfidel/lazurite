@@ -40,7 +40,7 @@ set(
     ${LZ_INCLUDE_DIR}/Engine.h
 	${LZ_INCLUDE_DIR}/Editor.h
     ${LZ_INCLUDE_DIR}/GameObject.h
-    ${LZ_INCLUDE_DIR}/GameObject.h
+	${LZ_INCLUDE_DIR}/SceneLoader.h
 
     ${LZ_INCLUDE_DIR}/subsystem/Input.h
 	${LZ_INCLUDE_DIR}/subsystem/Metrics.h
@@ -54,7 +54,7 @@ set(
 
     ${LZ_INCLUDE_DIR}/component/AComponent.h
     ${LZ_INCLUDE_DIR}/component/Camera.h
-    ${LZ_INCLUDE_DIR}/component/Model.h
+    
     ${LZ_INCLUDE_DIR}/component/Transform.h
 
 	${LZ_INCLUDE_DIR}/utility/FileIO.h
@@ -77,6 +77,7 @@ set(
 	${LZ_SRC_DIR}/Editor.cpp
     ${LZ_SRC_DIR}/EntryPoint.cpp
     ${LZ_SRC_DIR}/GameObject.cpp
+	${LZ_SRC_DIR}/SceneLoader.cpp
 
     ${LZ_SRC_DIR}/subsystem/Input.cpp
 	${LZ_SRC_DIR}/subsystem/Metrics.cpp
@@ -89,7 +90,6 @@ set(
 
     ${LZ_SRC_DIR}/component/AComponent.cpp
     ${LZ_SRC_DIR}/component/Camera.cpp
-    ${LZ_SRC_DIR}/component/Model.cpp
     ${LZ_SRC_DIR}/component/Transform.cpp
 
 	${LZ_SRC_DIR}/utility/FileIO.cpp
