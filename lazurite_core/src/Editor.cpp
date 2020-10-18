@@ -1,29 +1,17 @@
 #include "Editor.h"
 #include "subsystem/Input.h"
-#include "SceneLoader.h"
+#include "GLTFLoader.h"
 #include <iostream>
 #include <imgui.h>
 #include <queue>
 
-/*
-#include <windows.h>
-Hand little snippet for grabbing the working directory.
-std::string workingdir()
-{
-	char buf[256];
-	GetCurrentDirectoryA(256, buf);
-	return string(buf);
-}
-*/
-
 void Editor::Load()
 {
-	SceneLoader loader;
-	this->object = loader.Load("..\\resources\\models\\pillarWoman.obj");
-	this->object->GetComponent<Transform>().lock()->SetRotation((glm::radians(glm::vec3(90, -90, -90))));
-
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
+
+	GLTFLoader loader;
+	loader.Load("../../resources/models/box.gltf");
 }
 
 void Editor::Tick(float deltaTime)
@@ -84,32 +72,6 @@ void RenderDebugOverlay()
 void Editor::Draw(float deltaTime)
 {
 	RenderDebugOverlay();
-
-	auto camComponent = camera.GetComponent<Camera>().lock();
-	auto modelTransform = object->GetComponent<Transform>().lock();
-	auto camTransform = camera.GetComponent<Transform>().lock();
-
-	std::queue<GameObject*> renderQueue;
-
-	std::queue<GameObject*> renderQueue;
-	renderQueue.push(modelTransform->gameObject);
-
-	while (renderQueue.size() != 0) 
-	{
-		GameObject* obj = renderQueue.front();
-		renderQueue.pop();
-		auto mesh = obj->GetComponent<Mesh>();
-		auto transform = obj->GetComponent<Transform>().lock();
-		if (mesh.lock()) {
-			mesh.lock()->Draw(*camComponent, *camTransform, *transform);
-		}
-
-		auto children = obj->GetComponent<Transform>().lock()->GetChildren();
-		for (auto child : children) {
-			renderQueue.push(child->gameObject);
-		}
-	}
-	
 }
 
 void Editor::Unload()

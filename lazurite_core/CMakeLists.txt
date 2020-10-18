@@ -11,21 +11,12 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "")
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "")
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "")
 
-set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "")
-set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "")
-set(ASSIMP_NO_EXPORT ON CACHE BOOL "")
-set(ASSIMP_BUILD_SAMPLES OFF CACHE BOOL "")
-set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "")
-set(ASSIMP_BUILD_OBJ_IMPORTER  ON CACHE BOOL "")
-set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "")
-set(ASSIMP_BUILD_GLTF_IMPORTER ON CACHE BOOL "")
-
 include(FetchContent)
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw GIT_TAG 3.3.2)
-FetchContent_Declare(assimp GIT_REPOSITORY https://github.com/assimp/assimp GIT_TAG v5.0.1)
 FetchContent_Declare(glm GIT_REPOSITORY https://github.com/g-truc/glm GIT_TAG 0.9.9.7)
+FetchContent_Declare(json GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent GIT_TAG v3.7.3)
 FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb)
-FetchContent_MakeAvailable(glfw assimp glm stb)
+FetchContent_MakeAvailable(glfw glm stb json)
 
 set(LZ_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include") 
 set(LZ_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
@@ -40,7 +31,8 @@ set(
     ${LZ_INCLUDE_DIR}/Engine.h
 	${LZ_INCLUDE_DIR}/Editor.h
     ${LZ_INCLUDE_DIR}/GameObject.h
-	${LZ_INCLUDE_DIR}/SceneLoader.h
+	${LZ_INCLUDE_DIR}/GLTF.h
+	${LZ_INCLUDE_DIR}/GLTFLoader.h
 
     ${LZ_INCLUDE_DIR}/subsystem/Input.h
 	${LZ_INCLUDE_DIR}/subsystem/Metrics.h
@@ -77,7 +69,7 @@ set(
 	${LZ_SRC_DIR}/Editor.cpp
     ${LZ_SRC_DIR}/EntryPoint.cpp
     ${LZ_SRC_DIR}/GameObject.cpp
-	${LZ_SRC_DIR}/SceneLoader.cpp
+	${LZ_SRC_DIR}/GLTFLoader.cpp
 
     ${LZ_SRC_DIR}/subsystem/Input.cpp
 	${LZ_SRC_DIR}/subsystem/Metrics.cpp
@@ -113,15 +105,13 @@ target_include_directories(
 	PUBLIC
 	${LZ_INCLUDE_DIR}
 	${glfw_SOURCE_DIR}/include
-	${assimp_SOURCE_DIR}/include
-	${assimp_BINARY_DIR}/include
 	${glm_SOURCE_DIR}
 	${stb_SOURCE_DIR}
+	${json_SOURCE_DIR}
 )
 
 target_link_libraries(
 	lazurite_core
 	glfw
-	assimp
 	${OPENGL_gl_LIBRARY}
 )

@@ -27,8 +27,8 @@ bool Engine::Initialize()
 
 	// Create a new OpenGL window
 	window = glfwCreateWindow(
-		(int)(videoMode->width) / 1.2,
-		(int)(videoMode->height) / 1.2,
+		(int)videoMode->width,
+		(int)videoMode->height,
 		"Lazurite Framework",
 		nullptr,
 		nullptr);
@@ -64,9 +64,6 @@ bool Engine::Initialize()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_MULTISAMPLE);
-
-	// glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	// glEnable(GL_SAMPLE_ALPHA_TO_ONE);
 
 	// IMGUI Init
 	IMGUI_CHECKVERSION();
