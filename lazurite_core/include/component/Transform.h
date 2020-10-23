@@ -15,9 +15,6 @@ class Transform : public AComponent
 	mat4 localMatrix;
 	mat4 worldMatrix;
 
-	vec3 position;
-	vec3 scale;
-	quat rotation;
 	bool isDirty;
 
 	std::shared_ptr<Transform> parent;
@@ -29,16 +26,12 @@ public:
 	Transform();
 
 	void Translate(vec3 translation);
-	void Translate(float x, float y, float z);
-
 	void Rotate(vec3 eular);
-	void Rotate(float x, float y, float z);
-	void Rotate(quat rotation);
+	void Scale(vec3 scale);
 
 	void SetPosition(vec3 newPos);
 	void SetScale(vec3 newScale);
 	void SetRotation(vec3 eular);
-	void SetRotation(quat quaternion);
 
 	vec3 GetPosition() const;
 	vec3 GetScale() const;
@@ -54,6 +47,8 @@ public:
 
 	mat4& GetLocalMatrix();
 	mat4& GetWorldMatrix();
+
+	void SetLocalMatrix(mat4 localMatrix);
 
 	void SetParent(std::shared_ptr<Transform> transform);
 	void AddChild(std::shared_ptr<Transform> transform);

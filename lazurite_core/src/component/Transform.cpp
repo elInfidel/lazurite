@@ -1,6 +1,8 @@
 #include "component/Transform.h"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/string_cast.hpp"
+#include "glm/gtx/matrix_decompose.hpp"
+#include "glm/gtx/euler_angles.hpp"
 #include <iostream>
 
 Transform::Transform()
@@ -8,12 +10,9 @@ Transform::Transform()
 	parent = nullptr;
 
 	isDirty = true;
+
 	localMatrix = mat4(1);
 	worldMatrix = mat4(1);
-
-	position = vec3(0);
-	rotation = quat();
-	scale = vec3(1);
 
 	bool isDirty = true;
 	Transform* parent = nullptr;
@@ -21,69 +20,64 @@ Transform::Transform()
 
 void Transform::Translate(vec3 translation)
 {
-	position += translation;
+	this->localMatrix = glm::translate(this->localMatrix, translation);
 	isDirty = true;
-}
-
-void Transform::Translate(float x, float y, float z)
-{
-	Translate(vec3(x, y, z));
 }
 
 void Transform::Rotate(vec3 eular)
 {
-	rotation *= quat(eular);
+}
+
+
+void Transform::Scale(vec3 scale)
+{
+	this->localMatrix = glm::scale(this->localMatrix, scale);
 	isDirty = true;
 }
 
-void Transform::Rotate(float x, float y, float z)
+void Transform::SetPosition(vec3 position)
 {
-	Rotate(vec3(x, y, z));
-}
-
-void Transform::Rotate(quat rotation)
-{
-	this->rotation *= rotation;
+	this->localMatrix[3] = vec4(position, 1);
 	isDirty = true;
 }
 
-void Transform::SetPosition(vec3 newPos)
+void Transform::SetScale(vec3 scale)
 {
-	position = newPos;
+	this->localMatrix = glm::scale(this->localMatrix, scale);
 	isDirty = true;
 }
 
-void Transform::SetScale(vec3 newScale)
+void Transform::SetRotation(vec3 rotation)
 {
-	scale = newScale;
-	isDirty = true;
-}
-
-void Transform::SetRotation(vec3 newRot)
-{
-	rotation = quat(newRot);
-	isDirty = true;
-}
-
-void Transform::SetRotation(quat quaternion)
-{
-	rotation = quaternion;
+	this->localMatrix = this->localMatrix * glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
 	isDirty = true;
 }
 
 vec3 Transform::GetPosition() const
 {
-	return position;
+	return localMatrix[3];
 }
 
 vec3 Transform::GetScale() const
 {
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(this->localMatrix, scale, rotation, translation, skew, perspective);
 	return scale;
 }
 
 quat Transform::GetRotation() const
 {
-	return rotation;
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(this->localMatrix, scale, rotation, translation, skew, perspective);
+	return glm::conjugate(rotation);
 }
 
 void Transform::SetRight(vec3 newRight)
@@ -92,6 +86,7 @@ void Transform::SetRight(vec3 newRight)
 	localMatrix[0][0] = newRight.x;
 	localMatrix[0][1] = newRight.y;
 	localMatrix[0][2] = newRight.z;
+	isDirty = true;
 }
 
 void Transform::SetUp(vec3 newUp)
@@ -100,6 +95,7 @@ void Transform::SetUp(vec3 newUp)
 	localMatrix[1][0] = newUp.x;
 	localMatrix[1][1] = newUp.y;
 	localMatrix[1][2] = newUp.z;
+	isDirty = true;
 }
 
 void Transform::SetForward(vec3 newForward)
@@ -118,6 +114,8 @@ void Transform::SetForward(vec3 newForward)
 	localMatrix[1][0] = newUp.x;
 	localMatrix[1][1] = newUp.y;
 	localMatrix[1][2] = newUp.z;
+
+	isDirty = true;
 }
 
 vec3 Transform::GetRight()
@@ -149,6 +147,12 @@ mat4& Transform::GetWorldMatrix()
 		UpdateTransformations();
 
 	return worldMatrix;
+}
+
+void Transform::SetLocalMatrix(mat4 localMatrix)
+{
+	this->localMatrix = localMatrix;
+	isDirty = true;
 }
 
 void Transform::SetParent(std::shared_ptr<Transform> transform)
@@ -204,8 +208,6 @@ std::vector<std::shared_ptr<Transform>> Transform::GetChildren()
 
 void Transform::UpdateTransformations()
 {
-	localMatrix = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
-
 	if (parent != nullptr)
 		worldMatrix = localMatrix * parent->worldMatrix;
 	else

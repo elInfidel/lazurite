@@ -33,6 +33,7 @@ set(
     ${LZ_INCLUDE_DIR}/GameObject.h
 	${LZ_INCLUDE_DIR}/GLTF.h
 	${LZ_INCLUDE_DIR}/GLTFLoader.h
+	${LZ_INCLUDE_DIR}/Scene.h
 
     ${LZ_INCLUDE_DIR}/subsystem/Input.h
 	${LZ_INCLUDE_DIR}/subsystem/Metrics.h
@@ -70,6 +71,8 @@ set(
     ${LZ_SRC_DIR}/EntryPoint.cpp
     ${LZ_SRC_DIR}/GameObject.cpp
 	${LZ_SRC_DIR}/GLTFLoader.cpp
+	${LZ_SRC_DIR}/GLTF.cpp
+	${LZ_SRC_DIR}/Scene.cpp
 
     ${LZ_SRC_DIR}/subsystem/Input.cpp
 	${LZ_SRC_DIR}/subsystem/Metrics.cpp
