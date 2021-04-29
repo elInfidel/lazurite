@@ -14,10 +14,10 @@
 
 class GLTFLoader : public SceneLoader
 {
-	std::shared_ptr<Scene> ProcessScene(const GLTFFile& const file, const GLTFScene& const scene);
-	std::shared_ptr<GameObject> ProcessNode(const GLTFFile& constfile , const GLTFNode& const node);
-	std::shared_ptr<Mesh> ProcessMesh(const GLTFFile& const file, const GLTFMesh& const mesh);
-	std::shared_ptr<MaterialBase> ProcessMaterial(const GLTFFile& const file, const GLTFMaterial& const material);
+	std::shared_ptr<Scene> ProcessScene(const GLTFFile& file, const GLTFScene& scene);
+	std::shared_ptr<GameObject> ProcessNode(const GLTFFile& constfile , const GLTFNode& node);
+	std::shared_ptr<Mesh> ProcessMesh(const GLTFFile& file, const GLTFMesh& mesh);
+	std::shared_ptr<MaterialBase> ProcessMaterial(const GLTFFile& file, const GLTFMaterial& material);
 	vector<Texture> LoadMaterialTextures(string path, TextureType::Type typeName);
 public:
 	std::shared_ptr<Scene> Load(string path);

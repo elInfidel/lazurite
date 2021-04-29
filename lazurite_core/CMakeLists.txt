@@ -40,7 +40,8 @@ set(
 
     ${LZ_INCLUDE_DIR}/rendering/Cubemap.h
     ${LZ_INCLUDE_DIR}/rendering/Material.h
-    ${LZ_INCLUDE_DIR}/rendering/Mesh.h
+	${LZ_INCLUDE_DIR}/rendering/Mesh.h
+    ${LZ_INCLUDE_DIR}/rendering/Primitive.h
     ${LZ_INCLUDE_DIR}/rendering/ShaderProgram.h
     ${LZ_INCLUDE_DIR}/rendering/Texture.h
     ${LZ_INCLUDE_DIR}/rendering/Vertex.h
@@ -79,7 +80,8 @@ set(
 
     ${LZ_SRC_DIR}/rendering/Cubemap.cpp
     ${LZ_SRC_DIR}/rendering/Material.cpp
-    ${LZ_SRC_DIR}/rendering/Mesh.cpp
+	${LZ_SRC_DIR}/rendering/Mesh.cpp
+    ${LZ_SRC_DIR}/rendering/Primitive.cpp
     ${LZ_SRC_DIR}/rendering/ShaderProgram.cpp
     ${LZ_SRC_DIR}/rendering/Texture.cpp
 

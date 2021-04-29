@@ -44,9 +44,19 @@ void from_json(const nlohmann::json& j, GLTFMesh& mesh) {
 }
 
 void from_json(const nlohmann::json& j, GLTFNode& node) {
-	try { j.at("children").get_to(node.children); } catch (std::exception& e) { node.children = std::vector<int>(); };
-	try { j.at("matrix").get_to(node.matrix); } catch (std::exception& e) {};
-	try { j.at("mesh").get_to(node.mesh); } catch (std::exception& e) { node.mesh = -1; };
+	try { 
+		j.at("children").get_to(node.children); 
+	} catch (std::exception& e) {
+		node.children = std::vector<int>(); 
+	};
+	try { 
+		j.at("matrix").get_to(node.matrix); 
+	} catch (std::exception& e) {};
+	try { 
+		j.at("mesh").get_to(node.mesh); 
+	} catch (std::exception& e) { 
+		node.mesh = -1; 
+	};
 }
 
 void from_json(const nlohmann::json& j, GLTFScene& scene) {

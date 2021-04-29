@@ -63,6 +63,9 @@ struct GLTFMaterial {
 };
 
 struct GLTFBufferView {
+	/// <summary>
+	/// An index referencing the buffer this view relates to.
+	/// </summary>
 	unsigned int buffer;
 	unsigned int byteOffset;
 	unsigned int byteLength;
@@ -75,6 +78,9 @@ struct GLTFBuffer {
 };
 
 struct GLTFFile {
+	/// <summary>
+	/// Metadata related to the file.
+	/// </summary>
 	GLTFAsset asset;
 	unsigned int scene;
 	std::vector<GLTFScene> scenes;
@@ -82,8 +88,10 @@ struct GLTFFile {
 	std::vector<GLTFMesh> meshes;
 	std::vector<GLTFAccessor> accessors;
 	std::vector<GLTFMaterial> materials;
-	std::vector<GLTFBufferView> bufferViews;
+
+
 	std::vector<GLTFBuffer> buffers;
+	std::vector<GLTFBufferView> bufferViews;
 };
 
 void from_json(const nlohmann::json& j, GLTFMaterial& material);

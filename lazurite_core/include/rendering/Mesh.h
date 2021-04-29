@@ -1,28 +1,16 @@
 #pragma once
-#include "Texture.h"
-#include "Vertex.h"
-#include "glm/glm.hpp"
-#include "ShaderProgram.h"
-#include "Material.h"
-#include <vector>
-#include <component\Camera.h>
+#include "component/AComponent.h"
+#include "component\Camera.h"
+#include "rendering\Primitive.h"
 
-using namespace std;
+class Mesh : public AComponent {
+	std::vector<std::shared_ptr<Primitive>> primitives;
 
-class Mesh : public AComponent
-{
 public:
-	Mesh(vector<Vertex> vertices, vector<GLuint> indices, MaterialBase* material);
-	virtual ~Mesh();
-
-	vector<Vertex> vertices;
-	vector<GLuint> indices;
-	MaterialBase* material;
-
-	virtual void Tick(float deltaTime) {};
-	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform) const;
-
-private:
-	GLuint vao, vbo, ebo;
-	void SetupMesh();
+	Mesh();
+	Mesh(std::vector<std::shared_ptr<Primitive>> primitives);
+	~Mesh();
+	virtual void Tick(float deltaTime);
+	void Draw(Camera& camera, Transform& camTransform, Transform& modelTransform);
 };
+

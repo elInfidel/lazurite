@@ -20,18 +20,6 @@ namespace VertexOffset
 struct Vertex
 {
 	glm::vec4 position;
-	glm::vec3 color;
 	glm::vec3 normal;
-	glm::vec3 tangent;
-	glm::vec3 bitangent;
-	glm::vec3 indices;
-	glm::vec3 weights;
 	glm::vec2 texCoord1;
-	glm::vec2 texCoord2;
-};
-
-struct CPUParticleVertex
-{
-	glm::vec4 position;
-	glm::vec4 color;
 };
