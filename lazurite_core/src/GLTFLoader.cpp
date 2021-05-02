@@ -2,28 +2,10 @@
 #include "rendering/Material.h"
 #include "rendering/primitive.h"
 #include <iostream>
-#include <fstream>
 #include <json.hpp>
 #include "glm/gtc/type_ptr.hpp"
 
 using json = nlohmann::json;
-
-// TODO: We need to be much smarter about file reading.....
-// Preventing duplicate access of the same file etc. This will do for the concept though..
-void ReadFromBuffer(std::string path, char** data, unsigned int byteOffset, unsigned int size) {
-	ifstream file("../../resources/models/" + path, ios::in | ios::binary);
-	if (file.is_open()) {
-		size = file.tellg();
-		*data = new char[size];
-		file.seekg(byteOffset);
-		file.read(*data, size);
-		file.close();
-	}
-}
-
-void ReadFromAccessor(const GLTFFile& file, const GLTFAccessor& accessor) {
-
-}
 
 std::shared_ptr<Scene> GLTFLoader::Load(string path) {
 	std::ifstream fileStream (path);
@@ -75,28 +57,13 @@ std::shared_ptr<Mesh> GLTFLoader::ProcessMesh(const GLTFFile& file, const GLTFMe
 
 		auto vertexAttributes = primitive.attributes;
 		auto posAccessor = file.accessors[vertexAttributes.position];
-		auto posBufferView = file.bufferViews[posAccessor.bufferView];
-		auto posBuffer = file.buffers[posBufferView.buffer];
-		char* posData = nullptr;
-		ReadFromBuffer(posBuffer.uri, &posData, posBufferView.byteOffset, posBufferView.byteLength);
+		ReadAccessor(file, posAccessor);
 
 		auto normalAccessor = file.accessors[vertexAttributes.normal];
-		auto normalBufferView = file.bufferViews[normalAccessor.bufferView];
-		auto normalBuffer = file.buffers[normalBufferView.buffer];
-		char* normalData = nullptr;
-		ReadFromBuffer(normalBuffer.uri, &normalData, normalBufferView.byteOffset, normalBufferView.byteLength);
-		std::vector<Vertex> vertices;
+		ReadAccessor(file, normalAccessor);
 
 		auto indicesAccessor = file.accessors[primitive.indices];
-		auto indicesBufferView = file.bufferViews[indicesAccessor.bufferView];
-		auto indicesBuffer = file.buffers[indicesBufferView.buffer];
-		char* indicesData = nullptr;
-		ReadFromBuffer(indicesBuffer.uri, &indicesData, indicesBufferView.byteOffset, indicesBufferView.byteLength);
-		std::vector<GLuint> indices;
-
-		delete[] posData;
-		delete[] normalData;
-		delete[] indicesData;
+		ReadAccessor(file, indicesAccessor);
 
 		// Build Material
 		auto materialDescriptor = file.materials[primitive.material];
@@ -115,4 +82,23 @@ std::shared_ptr<MaterialBase> GLTFLoader::ProcessMaterial(const GLTFFile& file, 
 vector<Texture> GLTFLoader::LoadMaterialTextures(string path, TextureType::Type typeName) {
 	vector<Texture> textures;
 	return textures;
+}
+
+void GLTFLoader::ReadAccessor(const GLTFFile& file, const GLTFAccessor& accessor)
+{
+	auto bufferView = file.bufferViews[accessor.bufferView];
+	auto buffer = file.buffers[bufferView.buffer];
+	char* data = nullptr;
+	ReadBuffer(buffer.uri, &data, bufferView.byteOffset, bufferView.byteLength);
+}
+
+void GLTFLoader::ReadBuffer(std::string path, char** data, unsigned int byteOffset, unsigned int size) {
+	ifstream file("../../resources/models/" + path, ios::in | ios::binary);
+	if (file.is_open()) {
+		size = file.tellg();
+		*data = new char[size];
+		file.seekg(byteOffset);
+		file.read(*data, size);
+		file.close();
+	}
 }

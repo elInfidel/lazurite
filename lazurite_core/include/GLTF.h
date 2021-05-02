@@ -3,6 +3,8 @@
 #include <string>
 #include <json.hpp>
 
+using json = nlohmann::json;
+
 struct GLTFAsset {
 	std::string generator;
 	std::string version;
@@ -94,14 +96,14 @@ struct GLTFFile {
 	std::vector<GLTFBufferView> bufferViews;
 };
 
-void from_json(const nlohmann::json& j, GLTFMaterial& material);
-void from_json(const nlohmann::json& j, GLTFBufferView& bufferView);
-void from_json(const nlohmann::json& j, GLTFBuffer& buffer);
-void from_json(const nlohmann::json& j, GLTFAccessor& accessor);
-void from_json(const nlohmann::json& j, GLTFAttributes& attributes);
-void from_json(const nlohmann::json& j, GLTFPrimitive& primitive);
-void from_json(const nlohmann::json& j, GLTFMesh& mesh);
-void from_json(const nlohmann::json& j, GLTFNode& node);
-void from_json(const nlohmann::json& j, GLTFScene& scene);
-void from_json(const nlohmann::json& j, GLTFAsset& asset);
-void from_json(const nlohmann::json& j, GLTFFile& file);
+void from_json(const json& j, GLTFMaterial& material);
+void from_json(const json& j, GLTFBufferView& bufferView);
+void from_json(const json& j, GLTFBuffer& buffer);
+void from_json(const json& j, GLTFAccessor& accessor);
+void from_json(const json& j, GLTFAttributes& attributes);
+void from_json(const json& j, GLTFPrimitive& primitive);
+void from_json(const json& j, GLTFMesh& mesh);
+void from_json(const json& j, GLTFNode& node);
+void from_json(const json& j, GLTFScene& scene);
+void from_json(const json& j, GLTFAsset& asset);
+void from_json(const json& j, GLTFFile& file);

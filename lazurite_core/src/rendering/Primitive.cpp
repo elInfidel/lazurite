@@ -21,8 +21,8 @@ Primitive::Primitive(std::vector<Vertex> vertices, std::vector<GLuint> indices, 
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::PositionOffset);
 	glEnableVertexAttribArray(1); // Vertex normal
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)VertexOffset::NormalOffset);
-	glEnableVertexAttribArray(2); // Vertex texcoord1
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
+	// glEnableVertexAttribArray(2); // Vertex texcoord1
+	// glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)VertexOffset::TexCoord1Offset);
 
 	glBindVertexArray(0);
 }
@@ -41,7 +41,6 @@ void Primitive::Draw(Camera& camera, Transform& camTransform, Transform& modelTr
 
 		// Set any uniforms
 		program.SetUniform("model", modelTransform.GetWorldMatrix());
-
 		program.SetUniform("view", camera.GetViewMatrix());
 		program.SetUniform("projection", camera.GetProjectionMatrix());
 

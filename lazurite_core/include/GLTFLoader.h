@@ -11,6 +11,8 @@
 #include "Scene.h"
 #include "rendering/Material.h"
 #include <vector>
+#include <map>
+#include <fstream>
 
 class GLTFLoader : public SceneLoader
 {
@@ -19,6 +21,8 @@ class GLTFLoader : public SceneLoader
 	std::shared_ptr<Mesh> ProcessMesh(const GLTFFile& file, const GLTFMesh& mesh);
 	std::shared_ptr<MaterialBase> ProcessMaterial(const GLTFFile& file, const GLTFMaterial& material);
 	vector<Texture> LoadMaterialTextures(string path, TextureType::Type typeName);
+	void ReadAccessor(const GLTFFile& file, const GLTFAccessor& accessor);
+	void ReadBuffer(std::string path, char** data, unsigned int byteOffset, unsigned int size);
 public:
 	std::shared_ptr<Scene> Load(string path);
 };
