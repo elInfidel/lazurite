@@ -7,11 +7,23 @@
 
 void Editor::Load()
 {
+
 	auto cameraPtr = camera.AddComponent<Camera>();
 	camera.GetComponent<Transform>().lock()->SetPosition(glm::vec3(0,1.5f,1));
 
 	GLTFLoader loader;
-	loader.Load("../../resources/models/box.gltf");
+
+	try {
+		loader.Load("../../resources/models/Box.gltf");
+	} 
+	catch (std::exception e) 
+	{
+		std::cout << "helluh ";
+		std::cerr << e.what() << "\n";
+	}
+
+	
+	
 }
 
 void Editor::Tick(float deltaTime)

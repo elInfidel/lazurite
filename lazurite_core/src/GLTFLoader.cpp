@@ -10,6 +10,11 @@ using json = nlohmann::json;
 std::shared_ptr<Scene> GLTFLoader::Load(string path) {
 	std::ifstream fileStream (path);
 	json gltfJson;
+
+    if(fileStream.fail()) {
+		throw std::runtime_error(strerror(errno));
+	}
+
 	fileStream >> gltfJson;
 	auto file = gltfJson.get<GLTFFile>();
 	auto defaultScene = file.scenes[file.scene];
@@ -69,7 +74,7 @@ std::shared_ptr<Mesh> GLTFLoader::ProcessMesh(const GLTFFile& file, const GLTFMe
 		auto materialDescriptor = file.materials[primitive.material];
 		std::shared_ptr<MaterialBase> material = ProcessMaterial(file, materialDescriptor);
 
-		primitives.push_back(std::make_shared<Primitive>(vertices, indices, material));
+		//primitives.push_back(std::make_shared<Primitive>(vertices, indices, material));
 	}
 	return std::make_shared<Mesh>(primitives);
 }
