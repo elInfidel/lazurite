@@ -18,7 +18,6 @@ void Editor::Load()
 	} 
 	catch (std::exception e) 
 	{
-		std::cout << "helluh ";
 		std::cerr << e.what() << "\n";
 	}
 

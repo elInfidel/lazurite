@@ -60,6 +60,7 @@ std::shared_ptr<Mesh> GLTFLoader::ProcessMesh(const GLTFFile& file, const GLTFMe
 	std::vector<shared_ptr<Primitive>> primitives;
 	for (const auto& primitive : mesh.primitives) {
 
+		// Pull the accessors for all the data we want
 		auto vertexAttributes = primitive.attributes;
 		auto posAccessor = file.accessors[vertexAttributes.position];
 		ReadAccessor(file, posAccessor);
@@ -70,11 +71,14 @@ std::shared_ptr<Mesh> GLTFLoader::ProcessMesh(const GLTFFile& file, const GLTFMe
 		auto indicesAccessor = file.accessors[primitive.indices];
 		ReadAccessor(file, indicesAccessor);
 
-		// Build Material
+		// Pull data and store
+
+
+		// Build material
 		auto materialDescriptor = file.materials[primitive.material];
 		std::shared_ptr<MaterialBase> material = ProcessMaterial(file, materialDescriptor);
 
-		//primitives.push_back(std::make_shared<Primitive>(vertices, indices, material));
+		// primitives.push_back(std::make_shared<Primitive>(vertices, indices, material));
 	}
 	return std::make_shared<Mesh>(primitives);
 }

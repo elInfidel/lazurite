@@ -5,6 +5,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <chrono>
+#include <numeric>
 
 Engine::Engine() : clearColor(glm::vec3(30.0f / 255.0f, 30.0f / 255.0f, 30.0f / 255.0f)) { }
 Engine::~Engine() { }
@@ -27,8 +28,8 @@ bool Engine::Initialize()
 
 	// Create a new OpenGL window
 	window = glfwCreateWindow(
-		(int)videoMode->width,
-		(int)videoMode->height,
+		videoMode->width,
+		videoMode->height,
 		"Lazurite Framework",
 		nullptr,
 		nullptr);
@@ -78,6 +79,7 @@ bool Engine::Initialize()
 	endTime = 0.0;
 	deltaTime = 1.0f / 60.0f;
 
+	glfwSetWindowUserPointer(window, this);
 	glfwSetFramebufferSizeCallback(window, OnScreenSizeChange);
 
 	// Print system data
@@ -104,37 +106,22 @@ void Engine::Run()
 
 	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
 
-		// IMGUI Update
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
 		// Calling functions of Game class
+		auto tickTimeStart = std::chrono::steady_clock::now();
 		Tick(deltaTime);
+		auto tickTimeEnd = std::chrono::steady_clock::now();
 
-		auto drawTimeStart = std::chrono::steady_clock::now();
-		Draw(deltaTime);
-		auto drawTimeEnd = std::chrono::steady_clock::now();
+		DrawInternal(deltaTime);
 
-		// Create a window called "My First Tool", with a menu bar.
-		ImGui::Begin("My First Tool");
-		ImGui::Text("FPS: %f", 1.0f / deltaTime);
-		ImGui::Text("Draw: %d ms", (int)std::chrono::duration_cast<std::chrono::milliseconds>(drawTimeEnd - drawTimeStart).count());
-		ImGui::End();
-
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		glfwSwapBuffers(window);
 		Input::GetInstance()->EndFrame(deltaTime);
 
 		// Calculating deltaTime
 		endTime = glfwGetTime();
 		deltaTime = (float)(endTime - beginTime);
 		beginTime = endTime;
+
 		// If the deltaTime is too large we can assume we continued execution from a breakpoint
 		// and reset the deltaTime back to a optimal scenario of 16ms
 		if (deltaTime > 1.0f)
@@ -142,6 +129,53 @@ void Engine::Run()
 	}
 
 	Unload();
+}
+
+void Engine::DrawInternal(float deltaTime)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Imgui start frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	auto drawTimeStart = std::chrono::steady_clock::now();
+	Draw(deltaTime);
+	auto drawTimeEnd = std::chrono::steady_clock::now();
+
+	// Create a window to use for scene statistics
+	ImGui::Begin("Scene Statistics");
+
+	this->previousFpsValues.push_back(1.0f / deltaTime);
+	if (this->previousFpsValues.size() > 75) this->previousFpsValues.erase(this->previousFpsValues.begin());
+
+	char overlay[32];
+	auto const count = static_cast<float>(this->previousFpsValues.size());
+	auto average = std::accumulate(
+		this->previousFpsValues.begin(),
+		this->previousFpsValues.end(), 0.0
+	) / this->previousFpsValues.size();
+
+	sprintf(overlay, "%d", (int)average);
+	ImGui::PlotLines(
+		"Frame Rate",
+		this->previousFpsValues.data(),
+		this->previousFpsValues.size(),
+		0, overlay, 0.0f, 150.0f, ImVec2(0, 40.0f)
+	);
+
+	int millis = (int)std::chrono::duration_cast<std::chrono::milliseconds>(drawTimeEnd - drawTimeStart).count();
+	ImGui::Text("Tick: %5d ms", millis);
+
+	millis = (int)std::chrono::duration_cast<std::chrono::milliseconds>(drawTimeEnd - drawTimeStart).count();
+	ImGui::Text("Draw: %5d ms", millis);
+
+	ImGui::End();
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	glfwSwapBuffers(window);
 }
 
 void Engine::SetClearColor(vec4 color)
@@ -152,4 +186,6 @@ void Engine::SetClearColor(vec4 color)
 void Engine::OnScreenSizeChange(GLFWwindow* w, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	auto engine = (Engine*)glfwGetWindowUserPointer(w);
+	engine->DrawInternal(engine->deltaTime);
 }

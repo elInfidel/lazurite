@@ -28,8 +28,8 @@ class PBRMaterial: public MaterialBase
 public:
 	PBRMaterial() {
 		program = new ShaderProgram();
-		program->CompileShader("..\\resources\\shaders\\PBRVert.glsl", OpenGLShader::VERTEX);
-		program->CompileShader("..\\resources\\shaders\\PBRFrag.glsl", OpenGLShader::FRAGMENT);
+		program->CompileShader("./resources/shaders/PBRVert.glsl", OpenGLShader::VERTEX);
+		program->CompileShader("./resources/shaders/PBRFrag.glsl", OpenGLShader::FRAGMENT);
 		program->Link();
 		program->Validate();
 	};
