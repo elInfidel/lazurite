@@ -32,14 +32,9 @@ public:
 	// Certain functionality for rendering is handled at the engine level.
 	void DrawInternal(float deltaTime);
 
-	// Sets clear color
-	void SetClearColor(vec4 newColor);
-
 private:
 	// GLFW data pointers
 	GLFWwindow* window;
-	GLFWmonitor* monitor;
-	const GLFWvidmode* videoMode;
 
 	// Callback for screen size changes
 	static void OnScreenSizeChange(GLFWwindow* w,  int width, int height);
@@ -49,6 +44,6 @@ private:
 	double beginTime;
 	double endTime;
 	float deltaTime;
-	glm::vec3 clearColor;
+	glm::vec4 clearColor;
 };
 
